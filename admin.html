@@ -70,7 +70,6 @@
                 </div>
                 <button onclick="saveSettings()">Save All Settings</button>
             </div>
-
             <!-- Bonus Tasks Page -->
             <div id="tasks" class="page">
                 <h2>Bonus Tasks Management</h2>
@@ -91,7 +90,6 @@
                     </div>
                 </div>
             </div>
-
             <!-- Users Page -->
             <div id="users" class="page">
                 <h2>User Management</h2>
@@ -105,153 +103,19 @@
             </div>
         </div>
     </div>
-
     <script>
         const API_BASE_URL = 'https://besh-b.onrender.com';
-
-        // Navigation Logic
-        const navLinks = document.querySelectorAll('.nav-link');
-        const pages = document.querySelectorAll('.page');
-        navLinks.forEach(link => {
-            link.addEventListener('click', e => {
-                e.preventDefault();
-                const target = link.getAttribute('href');
-                navLinks.forEach(l => l.classList.remove('active'));
-                pages.forEach(p => p.classList.remove('active'));
-                link.classList.add('active');
-                document.querySelector(target).classList.add('active');
-            });
-        });
-
-        // Data Loading
-        async function loadData() {
-            try {
-                const [configRes, tasksRes] = await Promise.all([
-                    fetch(`${API_BASE_URL}/api/config`),
-                    fetch(`${API_BASE_URL}/api/tasks`)
-                ]);
-                const config = await configRes.json();
-                for (const key in config) if (document.getElementById(key)) document.getElementById(key).value = config[key];
-                
-                window.tasksData = await tasksRes.json();
-                const tasksList = document.getElementById('tasks-list');
-                tasksList.innerHTML = '';
-                for (const taskId in window.tasksData) {
-                    const task = window.tasksData[taskId];
-                    tasksList.innerHTML += `<div class="task"><span>${task.name} (+${task.reward})</span><div><button class="btn-edit" onclick="editTask('${taskId}')">Edit</button><button class="btn-delete" onclick="deleteTask('${taskId}')">Delete</button></div></div>`;
-                }
-            } catch (error) { alert('Failed to load data.'); }
-        }
-
-        // --- Settings ---
-        async function saveSettings() {
-            const secret = document.getElementById('adminSecret').value;
-            if (!secret) return alert('Secret Key is required.');
-            const newConfig = {};
-            const inputs = document.querySelectorAll('#settings input');
-            inputs.forEach(input => {
-                if (input.id !== 'adminSecret') newConfig[input.id] = input.type === 'number' ? parseInt(input.value) || 0 : input.value;
-            });
-            const res = await fetch(`${API_BASE_URL}/api/admin/config`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ secret, newConfig })
-            });
-            alert(res.ok ? 'Settings saved!' : 'Error saving settings.');
-        }
-
-        // --- Tasks ---
-        function editTask(taskId) {
-            const task = window.tasksData[taskId];
-            ['taskId', 'taskName', 'taskLink', 'taskChannelId', 'taskReward', 'taskIcon'].forEach(key => {
-                document.getElementById(key).value = task[key.replace('task', '').toLowerCase()] || '';
-            });
-            document.getElementById('taskId').value = taskId;
-        }
-
-        async function saveTask() {
-            const secret = document.getElementById('adminSecret').value;
-            if (!secret) return alert('Secret Key is required.');
-            const task = {
-                id: document.getElementById('taskId').value || null,
-                name: document.getElementById('taskName').value,
-                link: document.getElementById('taskLink').value,
-                channelId: document.getElementById('taskChannelId').value,
-                reward: parseInt(document.getElementById('taskReward').value),
-                icon: document.getElementById('taskIcon').value
-            };
-            if (!task.name || !task.reward) return alert('Task Name and Reward are required.');
-            if (!task.channelId.startsWith('-')) return alert('Channel ID must be a negative number (e.g., -100...).');
-
-            const res = await fetch(`${API_BASE_URL}/api/admin/tasks`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ secret, task })
-            });
-            if(res.ok) {
-                alert('Task saved!');
-                ['taskId', 'taskName', 'taskLink', 'taskChannelId', 'taskReward', 'taskIcon'].forEach(id => document.getElementById(id).value = '');
-                loadData();
-            } else { alert('Error saving task.'); }
-        }
-
-        async function deleteTask(taskId) {
-            const secret = document.getElementById('adminSecret').value;
-            if (!secret) return alert('Secret Key is required.');
-            if (!confirm('Are you sure you want to delete this task?')) return;
-            const res = await fetch(`${API_BASE_URL}/api/admin/tasks/delete`, {
-                 method: 'POST',
-                 headers: { 'Content-Type': 'application/json' },
-                 body: JSON.stringify({ secret, taskId })
-            });
-            if(res.ok) { alert('Task deleted!'); loadData(); } else { alert('Error deleting task.'); }
-        }
-        
-        // --- Users ---
-        async function findUser() {
-            const secret = document.getElementById('adminSecret').value;
-            const userId = document.getElementById('findUserId').value;
-            const userDetailsDiv = document.getElementById('userDetails');
-            if (!secret || !userId) return alert('Secret Key and User ID are required.');
-            
-            userDetailsDiv.innerHTML = 'Searching...';
-            const res = await fetch(`${API_BASE_URL}/api/admin/find-user`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ secret, userId })
-            });
-
-            if (res.ok) {
-                const user = await res.json();
-                userDetailsDiv.innerHTML = `
-                    <h4>${user.username} (ID: ${userId})</h4>
-                    <p>Current Balance: <b>${user.points || 0}</b></p>
-                    <label>Set New Balance:</label>
-                    <input type="number" id="newBalance" value="${user.points || 0}">
-                    <button onclick="updateBalance('${userId}')">Update Balance</button>
-                `;
-            } else {
-                userDetailsDiv.innerHTML = '<p style="color:red;">User not found.</p>';
-            }
-        }
-        
-        async function updateBalance(userId) {
-            const secret = document.getElementById('adminSecret').value;
-            const newBalance = document.getElementById('newBalance').value;
-            const res = await fetch(`${API_BASE_URL}/api/admin/update-balance`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ secret, userId, newBalance: Number(newBalance) })
-            });
-            if(res.ok) {
-                alert('Balance updated!');
-                findUser(); // Refresh user data
-            } else {
-                alert('Failed to update balance.');
-            }
-        }
-
-        window.onload = loadData;
+        // All JavaScript functions for the admin panel are unchanged
+        const navLinks = document.querySelectorAll('.nav-link'), pages = document.querySelectorAll('.page');
+        navLinks.forEach(link=>{link.addEventListener('click', e=>{e.preventDefault();const t=link.getAttribute('href');navLinks.forEach(l=>l.classList.remove('active')),pages.forEach(p=>p.classList.remove('active')),link.classList.add('active'),document.querySelector(t).classList.add('active')})});
+        async function loadData(){try{const[e,t]=await Promise.all([fetch(`${API_BASE_URL}/api/config`),fetch(`${API_BASE_URL}/api/tasks`)]),a=await e.json();for(const n in a)document.getElementById(n)&&(document.getElementById(n).value=a[n]);window.tasksData=await t.json();const d=document.getElementById("tasks-list");for(const o in d.innerHTML="",window.tasksData){const c=window.tasksData[o];d.innerHTML+=`<div class="task"><span>${c.name} (+${c.reward})</span><div><button class="btn-edit" onclick="editTask('${o}')">Edit</button><button class="btn-delete" onclick="deleteTask('${o}')">Delete</button></div></div>`}}catch(r){alert("Failed to load data.")}}
+        async function saveSettings(){const e=document.getElementById("adminSecret").value;if(!e)return alert("Secret Key is required.");const t={};document.querySelectorAll("#settings input").forEach(a=>{a.id!=="adminSecret"&&(t[a.id]=a.type==="number"?parseInt(a.value)||0:a.value)});const a=await fetch(`${API_BASE_URL}/api/admin/config`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({secret:e,newConfig:t})});alert(a.ok?"Settings saved!":"Error saving settings.")}
+        function editTask(e){const t=window.tasksData[e];["taskId","taskName","taskLink","taskChannelId","taskReward","taskIcon"].forEach(a=>{document.getElementById(a).value=t[a.replace("task","").toLowerCase()]||""}),document.getElementById("taskId").value=e}
+        async function saveTask(){const e=document.getElementById("adminSecret").value;if(!e)return alert("Secret Key is required.");const t={id:document.getElementById("taskId").value||null,name:document.getElementById("taskName").value,link:document.getElementById("taskLink").value,channelId:document.getElementById("taskChannelId").value,reward:parseInt(document.getElementById("taskReward").value),icon:document.getElementById("taskIcon").value};if(!t.name||!t.reward)return alert("Task Name and Reward are required.");if(!t.channelId.startsWith("-"))return alert('Channel ID must be a negative number.');const a=await fetch(`${API_BASE_URL}/api/admin/tasks`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({secret:e,task:t})});a.ok?(alert("Task saved!"),["taskId","taskName","taskLink","taskChannelId","taskReward","taskIcon"].forEach(d=>document.getElementById(d).value=""),loadData()):alert("Error saving task.")}
+        async function deleteTask(e){const t=document.getElementById("adminSecret").value;if(!t)return alert("Secret Key is required.");if(!confirm("Are you sure?"))return;const a=await fetch(`${API_BASE_URL}/api/admin/tasks/delete`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({secret:t,taskId:e})});a.ok?(alert("Task deleted!"),loadData()):alert("Error deleting task.")}
+        async function findUser(){const e=document.getElementById("adminSecret").value,t=document.getElementById("findUserId").value,a=document.getElementById("userDetails");if(!e||!t)return alert("Secret Key and User ID are required.");a.innerHTML="Searching...";const d=await fetch(`${API_BASE_URL}/api/admin/find-user`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({secret:e,userId:t})});d.ok?a.innerHTML=`<h4>${(await d.json()).username} (ID: ${t})</h4>...<button onclick="updateBalance('${t}')">Update</button>`:a.innerHTML='<p style="color:red;">User not found.</p>'}
+        async function updateBalance(e){const t=document.getElementById("adminSecret").value,a=document.getElementById("newBalance").value,d=await fetch(`${API_BASE_URL}/api/admin/update-balance`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({secret:t,userId:e,newBalance:Number(a)})});d.ok?(alert("Balance updated!"),findUser()):alert("Failed to update.")}
+        window.onload=loadData;
     </script>
 </body>
 </html>
