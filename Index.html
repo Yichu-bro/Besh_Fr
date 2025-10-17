@@ -58,11 +58,12 @@
         .channel-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border-color); }
         .channel-info { display: flex; align-items: center; gap: 10px; }
         .channel-icon { width: 38px; height: 38px; border-radius: 50%; background: rgba(74,144,226,0.1); display:flex; align-items:center; justify-content:center; color: var(--primary-color); }
+        .btn-claim-bonus { padding: 7px 14px; border-radius: var(--border-radius-sm); background: var(--primary-color); color: white; font-size: 0.8rem; font-weight: 600; text-decoration: none; border: none; cursor: pointer; }
+        .btn-claim-bonus[disabled] { background: var(--secondary-color); cursor: default; }
         .input-group { margin-bottom: 15px; } .input-label { display: block; margin-bottom: 6px; }
         .input-field, .select-field { width: 100%; padding: 10px 12px; border-radius: var(--border-radius-sm); border: 1px solid var(--input-border); background: var(--input-bg); color: var(--text-primary); }
-        .status-message { text-align: center; margin-top: 15px; font-size: 0.85rem; padding: 8px; border-radius: var(--border-radius-sm); }
-        .success-message { background: rgba(80, 227, 194, 0.1); color: #50E3C2; } .error-message { background: rgba(230, 74, 74, 0.1); color: #E64A4A; }
-        .referral-container, .referral-stats, .referred-users { /* Styles from original */ }
+        .status-message { text-align: center; margin-top: 15px; font-size: 0.85rem; padding: 8px; border-radius: var(--border-radius-sm); display: none; }
+        .success-message { background: rgba(80, 227, 194, 0.1); color: #50E3C2; display: block; } .error-message { background: rgba(230, 74, 74, 0.1); color: #E64A4A; display: block; }
         .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--card-bg); display: flex; justify-content: space-around; padding: 10px 0; box-shadow: 0 -3px 15px rgba(0, 0, 0, 0.08); z-index: 100; max-width: 480px; margin: 0 auto; border-top: 1px solid var(--border-color); border-radius: var(--border-radius) var(--border-radius) 0 0; }
         .nav-item { display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-secondary); text-decoration: none; font-size: 0.7rem; flex: 1; }
         .nav-item i { font-size: 1.3rem; margin-bottom: 3px; } .nav-item.active { color: var(--primary-color); }
@@ -70,14 +71,13 @@
         .toast.show { opacity: 1; bottom: 90px; }
         .developer-footer { text-align: center; padding: 12px; font-size: 0.75rem; color: var(--text-secondary); margin-top: 20px; }
         .developer-link { color: var(--primary-color); text-decoration: none; font-weight: 600; }
-        .ad-modal-overlay { /* styles from original */ }
     </style>
 </head>
 <body>
     <div class="app-container">
         <div class="header">
             <button class="theme-toggle" id="themeToggle"><i class="fas fa-sun"></i></button>
-            <h1 class="header-title"> MYFA </h1>
+            <h1 class="header-title"> 𝐓𝐚𝐠𝟐𝐂𝐚𝐬𝐡</h1>
         </div>
 
         <div class="profile-section">
@@ -193,7 +193,8 @@
             document.getElementById('profileNameDisplay').textContent = currentUser.username;
             document.getElementById('userPointsDisplay').innerHTML = `<i class="fas fa-coins"></i> ${currentUser.points || 0} Points`;
             document.getElementById('adsWatchedToday').textContent = currentUser.adsWatchedToday || 0;
-            document.getElementById('adsLeftToday').textContent = (AppConfig.adsPerDay || 0) - (currentUser.adsWatchedToday || 0);
+            const adsLeft = (AppConfig.adsPerDay || 0) - (currentUser.adsWatchedToday || 0);
+            document.getElementById('adsLeftToday').textContent = adsLeft < 0 ? 0 : adsLeft;
             document.getElementById('totalAdsWatched').textContent = currentUser.totalAdsWatchedLifetime || 0;
         }
 
@@ -220,7 +221,7 @@
         
         function renderTasksPage() {
             const adsLeft = (AppConfig.adsPerDay || 0) - (currentUser.adsWatchedToday || 0);
-            const progress = adsLeft > 0 ? ((currentUser.adsWatchedToday || 0) / AppConfig.adsPerDay) * 100 : 100;
+            const progress = adsLeft > 0 ? ((currentUser.adsWatchedToday || 0) / (AppConfig.adsPerDay || 1)) * 100 : 100;
 
             mainContent.innerHTML = `
                 <div class="task-card">
@@ -229,7 +230,7 @@
                     <div class="progress-container">
                         <div style="display:flex; justify-content:space-between; font-size: 0.8rem; margin-bottom: 5px;">
                             <span>${currentUser.adsWatchedToday || 0} / ${AppConfig.adsPerDay || 0} Watched</span>
-                            <span>${adsLeft} Left</span>
+                            <span>${adsLeft < 0 ? 0 : adsLeft} Left</span>
                         </div>
                         <div style="height: 6px; background: var(--border-color); border-radius: 3px; overflow:hidden;">
                             <div style="width: ${progress}%; height: 100%; background: var(--primary-color);"></div>
@@ -250,24 +251,22 @@
             const adFuncName = AppConfig.monetagAdFunction;
             if (adFuncName && typeof window[adFuncName] === 'function') {
                 try {
-                    window[adFuncName](); // Trigger the ad
-                    // Monetag doesn't have reliable callbacks, so we optimistically reward after a delay
+                    window[adFuncName]();
                     setTimeout(() => {
                         currentUser.points = (currentUser.points || 0) + (AppConfig.pointsPerAd || 0);
                         currentUser.adsWatchedToday = (currentUser.adsWatchedToday || 0) + 1;
                         currentUser.totalAdsWatchedLifetime = (currentUser.totalAdsWatchedLifetime || 0) + 1;
                         currentUser.lastAdWatchDate = new Date().toLocaleDateString();
-                        
                         saveUserState();
                         updateUI();
-                        renderTasksPage(); // Re-render to update button state
+                        renderTasksPage();
                         showToast(`+${AppConfig.pointsPerAd || 0} points earned!`);
-                    }, 8000); // Wait 8 seconds
+                    }, 8000);
                 } catch (error) {
                     showToast("Could not load ad. Please try again.");
                 }
             } else {
-                showToast("Ad service not configured.");
+                showToast("Ad service is not configured by the admin.");
             }
         }
 
@@ -277,7 +276,7 @@
                 return `
                     <li class="channel-item">
                         <div class="channel-info">
-                            <div class="channel-icon"><i class="${task.icon}"></i></div>
+                            <div class="channel-icon"><i class="${task.icon || 'fas fa-star'}"></i></div>
                             <div>
                                 <div>${task.name}</div>
                                 <div style="font-size:0.8rem; color: var(--accent-color);">+${task.reward} Points</div>
@@ -289,7 +288,7 @@
             mainContent.innerHTML = `
                 <div class="task-card">
                     <h2 class="section-title"><i class="fas fa-gift"></i> Bonus Rewards</h2>
-                    <ul class="channel-list">${channelsHtml || '<p>No bonus tasks available.</p>'}</ul>
+                    <ul class="channel-list">${channelsHtml || '<p>No bonus tasks available right now.</p>'}</ul>
                 </div>`;
             
             document.querySelectorAll('.btn-claim-bonus:not([disabled])').forEach(button => {
@@ -298,20 +297,27 @@
         }
 
         function handleBonusClaim(event) {
-            event.preventDefault();
             const button = event.currentTarget;
-            const taskId = button.dataset.taskId;
-            const reward = parseInt(button.dataset.reward);
-
-            if (!currentUser.claimedBonuses) currentUser.claimedBonuses = [];
-            currentUser.claimedBonuses.push(taskId);
-            currentUser.points = (currentUser.points || 0) + reward;
-
-            saveUserState();
-            updateUI();
-            showToast(`+${reward} bonus points claimed!`);
             window.open(button.href, '_blank');
-            renderBonusPage(); // Re-render to disable the button
+            
+            setTimeout(() => {
+                const taskId = button.dataset.taskId;
+                const reward = parseInt(button.dataset.reward);
+
+                if (!currentUser.claimedBonuses) currentUser.claimedBonuses = [];
+                if (currentUser.claimedBonuses.includes(taskId)) return;
+
+                currentUser.claimedBonuses.push(taskId);
+                currentUser.points = (currentUser.points || 0) + reward;
+
+                saveUserState();
+                updateUI();
+                showToast(`+${reward} bonus points claimed!`);
+                button.textContent = 'Claimed';
+                button.disabled = true;
+            }, 5000);
+
+            event.preventDefault();
         }
 
         function renderWithdrawPage() {
@@ -366,7 +372,9 @@
                 return;
             }
 
+            const originalPoints = currentUser.points;
             currentUser.points -= amount;
+            updateUI(); // Optimistically update UI
             
             try {
                 const response = await fetch(`${API_BASE_URL}/api/request-withdrawal`, {
@@ -380,21 +388,88 @@
                 if (!response.ok) throw new Error("Server failed to process request.");
                 
                 await saveUserState();
-                updateUI();
                 statusEl.textContent = "Withdrawal request submitted successfully!";
                 statusEl.classList.add('success-message');
                 ['withdrawAmount', 'withdrawMethod', 'withdrawAccount'].forEach(id => document.getElementById(id).value = '');
             } catch (error) {
-                currentUser.points += amount; // Revert points on failure
+                currentUser.points = originalPoints; // Revert points on failure
+                updateUI();
                 statusEl.textContent = "An error occurred. Please try again.";
                 statusEl.classList.add('error-message');
             }
         }
 
         async function renderReferralPage() {
-            // This function is already correct from the previous answer and can be reused here.
-            // For brevity, it's omitted but you can copy it from my previous full response.
-            mainContent.innerHTML = `<div class="task-card"><p>Loading referral data...</p></div>`; // Placeholder
+            mainContent.innerHTML = `<div class="task-card"><p>Loading referral data...</p></div>`;
+
+            const referralLink = `${AppConfig.botLink || 'https://t.me/YourBot'}/?start=ref${currentUser.referralCode}`;
+            const referredUsersCount = currentUser.referredUsers?.length || 0;
+            const earnedFromReferrals = referredUsersCount * (AppConfig.referralBonusReferrer || 0);
+
+            let referredByHtml = `<p class="task-description">You were not referred by anyone.</p>`;
+            if (currentUser.referredBy) {
+                try {
+                    const res = await fetch(`${API_BASE_URL}/api/referrer/${currentUser.referredBy}`);
+                    if (res.ok) {
+                        const referrer = await res.json();
+                        referredByHtml = `<p class="task-description">You were invited by: <b>${referrer.username}</b></p>`;
+                    } else {
+                        referredByHtml = `<p class="task-description">Invited by: <i>User not found</i></p>`;
+                    }
+                } catch (e) {
+                    referredByHtml = `<p class="task-description">Could not load referrer info.</p>`;
+                }
+            }
+            
+            let referredUsersListHtml = `<div style="text-align:center; padding: 20px 0;"><i class="fas fa-users" style="font-size:2rem; margin-bottom:10px; color: var(--text-secondary);"></i><p style="color: var(--text-secondary);">You haven't referred anyone yet.</p></div>`;
+            if (referredUsersCount > 0) {
+                referredUsersListHtml = `<h3 style="margin: 20px 0 10px; font-size: 1rem;">Your Referrals (${referredUsersCount})</h3><div class="referred-users">`;
+                
+                const userFetchPromises = currentUser.referredUsers.map(refId =>
+                    fetch(`${API_BASE_URL}/api/referrer/${refId}`)
+                        .then(res => res.ok ? res.json() : { username: `User (${refId})` })
+                        .catch(() => ({ username: `User (${refId})` }))
+                );
+
+                const referredUsersDetails = await Promise.all(userFetchPromises);
+
+                for (const userDetail of referredUsersDetails) {
+                    referredUsersListHtml += `
+                        <div style="display: flex; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border-color);">
+                           <div style="width: 36px; height: 36px; border-radius: 50%; background: rgba(74,144,226,0.1); display: flex; align-items: center; justify-content: center; margin-right: 10px; color: var(--primary-color);"><i class="fas fa-user"></i></div>
+                           <div><div class="user-name">${userDetail.username}</div></div>
+                        </div>`;
+                }
+                referredUsersListHtml += `</div>`;
+            }
+
+            mainContent.innerHTML = `
+                <div class="task-card">
+                    <h2 class="section-title"><i class="fas fa-share-alt"></i> Refer & Earn</h2>
+                    ${referredByHtml}
+                    <div style="background: var(--input-bg); border-radius: 8px; padding: 15px; margin: 20px 0; border: 1px dashed var(--border-color);">
+                        <label style="display:block; margin-bottom:8px;">Your Personal Referral Link</label>
+                        <div style="display:flex;">
+                            <input type="text" id="referralLinkDisplay" value="${referralLink}" readonly style="flex:1; padding:10px; border:1px solid var(--border-color); border-radius: 4px 0 0 4px; background: var(--card-bg); color: var(--text-primary);">
+                            <button id="copyLinkBtn" style="padding: 0 15px; border:none; background: var(--primary-color); color:white; border-radius: 0 4px 4px 0; cursor:pointer;">Copy</button>
+                        </div>
+                    </div>
+                    <div style="display:flex; justify-content:space-around; text-align:center; padding-top: 15px; border-top: 1px solid var(--border-color);">
+                        <div>
+                            <div style="font-size:1.5rem; font-weight:bold; color:var(--primary-color);">${referredUsersCount}</div>
+                            <div style="font-size:0.8rem; color:var(--text-secondary);">Referrals</div>
+                        </div>
+                        <div>
+                            <div style="font-size:1.5rem; font-weight:bold; color:var(--primary-color);">${earnedFromReferrals}</div>
+                            <div style="font-size:0.8rem; color:var(--text-secondary);">Points Earned</div>
+                        </div>
+                    </div>
+                    ${referredUsersListHtml}
+                </div>`;
+
+            document.getElementById('copyLinkBtn').addEventListener('click', () => {
+                navigator.clipboard.writeText(referralLink).then(() => showToast('Link copied to clipboard!'));
+            });
         }
         
         function applyTheme(theme) {
