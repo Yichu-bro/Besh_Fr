@@ -3,216 +3,255 @@
 <head>
     <meta charset="UTF-8">
     <title>Tag2Cash Admin Panel</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; background: #f0f2f5; color: #333; padding: 20px; }
-        .container { max-width: 800px; margin: auto; background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-        h1, h2 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; margin-bottom: 20px; }
-        .form-section { border: 1px solid #ddd; padding: 20px; margin-bottom: 20px; border-radius: 8px; }
+        body { font-family: 'Inter', sans-serif; background: #f0f2f5; color: #333; margin: 0; }
+        .admin-container { display: flex; min-height: 100vh; }
+        .sidebar { width: 220px; background: #2c3e50; color: white; padding-top: 20px; flex-shrink: 0; }
+        .sidebar h1 { font-size: 1.5rem; text-align: center; margin-bottom: 30px; }
+        .sidebar-nav a { display: block; padding: 15px 20px; color: #ecf0f1; text-decoration: none; transition: background 0.3s; border-left: 3px solid transparent; }
+        .sidebar-nav a:hover { background: #34495e; }
+        .sidebar-nav a.active { background: #3498db; border-left-color: #ecf0f1; }
+        .content { flex-grow: 1; padding: 30px; }
+        .page { display: none; }
+        .page.active { display: block; }
+        h2 { border-bottom: 2px solid #3498db; padding-bottom: 10px; margin-top: 0; }
+        .form-section { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 25px; }
         label { display: block; font-weight: 500; margin-bottom: 8px; color: #555; }
-        input[type="text"], input[type="number"], input[type="password"] { width: 100%; padding: 12px; margin-bottom: 15px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; font-size: 1rem; }
+        input { width: 100%; padding: 12px; margin-bottom: 15px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; font-size: 1rem; }
         button { background-color: #3498db; color: white; border: none; cursor: pointer; padding: 12px 20px; font-size: 1rem; border-radius: 4px; transition: background-color 0.3s; }
         button:hover { background-color: #2980b9; }
-        #tasks-list .task { display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid #eee; }
-        #tasks-list .task div { display: flex; gap: 10px; }
-        #tasks-list .task button { padding: 8px 12px; font-size: 0.9rem; }
-        .btn-edit { background-color: #f39c12; } .btn-edit:hover { background-color: #e67e22; }
-        .btn-delete { background-color: #e74c3c; } .btn-delete:hover { background-color: #c0392b; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .task { display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid #eee; }
+        .btn-delete { background-color: #e74c3c; } .btn-edit { background-color: #f39c12; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Tag2Cash Admin Panel</h1>
-
-        <div class="form-section">
-            <h2>Authentication</h2>
-            <label for="adminSecret">Admin Secret Key</label>
-            <input type="password" id="adminSecret" placeholder="Enter your secret key to make changes">
+    <div class="admin-container">
+        <div class="sidebar">
+            <h1>Tag2Cash</h1>
+            <nav class="sidebar-nav">
+                <a href="#settings" class="nav-link active">Settings</a>
+                <a href="#tasks" class="nav-link">Bonus Tasks</a>
+                <a href="#users" class="nav-link">Users</a>
+            </nav>
         </div>
+        <div class="content">
+            <!-- Settings Page -->
+            <div id="settings" class="page active">
+                <h2>App Settings</h2>
+                <div class="form-section">
+                    <h3>Authentication</h3>
+                    <label for="adminSecret">Admin Secret Key (Required for all changes)</label>
+                    <input type="password" id="adminSecret" placeholder="Enter secret key">
+                </div>
+                <div class="form-section">
+                    <h3>Core Configuration</h3>
+                    <div class="grid">
+                        <div><label for="currencyName">Currency Name</label><input type="text" id="currencyName" placeholder="e.g., Points, Coins, Gems"></div>
+                        <div><label for="adsPerDay">Ads Per Day Limit</label><input type="number" id="adsPerDay"></div>
+                        <div><label for="pointsPerAd">Reward per Ad</label><input type="number" id="pointsPerAd"></div>
+                        <div><label for="minWithdraw">Minimum Withdraw</label><input type="number" id="minWithdraw"></div>
+                        <div><label for="referralBonusReferrer">Referrer Bonus</label><input type="number" id="referralBonusReferrer"></div>
+                        <div><label for="referralBonusReferee">Referee Bonus</label><input type="number" id="referralBonusReferee"></div>
+                        <div><label for="monetagAdFunction">Monetag Function Name</label><input type="text" id="monetagAdFunction" placeholder="e.g., show_10024038"></div>
+                    </div>
+                </div>
+                <div class="form-section">
+                    <h3>Links & IDs</h3>
+                    <div class="grid">
+                        <div><label for="telegramChatId">Admin Chat ID (for notifications)</label><input type="text" id="telegramChatId" placeholder="e.g., -100..."></div>
+                        <div><label for="botLink">Your Bot Link</label><input type="text" id="botLink"></div>
+                        <div><label for="webAppUrl">Mini App URL</label><input type="text" id="webAppUrl"></div>
+                        <div><label for="developerLink">Developer Telegram Link</label><input type="text" id="developerLink"></div>
+                        <div><label for="officialChannel">Official Channel Link</label><input type="text" id="officialChannel"></div>
+                        <div><label for="supportGroup">Support Group Link</label><input type="text" id="supportGroup"></div>
+                    </div>
+                </div>
+                <button onclick="saveSettings()">Save All Settings</button>
+            </div>
 
-        <div class="form-section">
-            <h2>Core Configuration</h2>
-            <label for="adsPerDay">Ads Per Day Limit</label>
-            <input type="number" id="adsPerDay" placeholder="e.g., 50">
-            <label for="pointsPerAd">Points per Ad Watch</label>
-            <input type="number" id="pointsPerAd" placeholder="e.g., 10">
-            <label for="minWithdraw">Minimum Withdraw Points</label>
-            <input type="number" id="minWithdraw" placeholder="e.g., 2000">
-            <label for="referralBonusReferrer">Referral Bonus (for Referrer)</label>
-            <input type="number" id="referralBonusReferrer" placeholder="e.g., 400">
-            <label for="referralBonusReferee">Referral Bonus (for New User)</label>
-            <input type="number" id="referralBonusReferee" placeholder="e.g., 500">
-            <label for="monetagAdFunction">Monetag Ad Function Name</label>
-            <input type="text" id="monetagAdFunction" placeholder="e.g., show_9832391">
-            <button onclick="saveSettings()">Save Core Settings</button>
-        </div>
-        
-        <div class="form-section">
-            <h2>Links & IDs</h2>
-            <label for="telegramChatId">Admin Telegram Chat ID (for notifications)</label>
-            <input type="text" id="telegramChatId" placeholder="e.g., -1002695845028">
-            <label for="developerLink">Developer Telegram Profile Link</label>
-            <input type="text" id="developerLink" placeholder="e.g., https://t.me/username">
-            <label for="botLink">Your Bot Link</label>
-            <input type="text" id="botLink" placeholder="e.g., https://t.me/YourBotName_bot">
-            <label for="webAppUrl">Mini App URL</label>
-            <input type="text" id="webAppUrl" placeholder="e.g., https://your-domain.com/Tag2Cash.html">
-            <label for="officialChannel">Official Channel Link</label>
-            <input type="text" id="officialChannel" placeholder="e.g., https://t.me/yourchannel">
-            <label for="supportGroup">Support Group Link</label>
-            <input type="text" id="supportGroup" placeholder="e.g., https://t.me/yourgroup">
-            <button onclick="saveSettings()">Save Links & IDs</button>
-        </div>
+            <!-- Bonus Tasks Page -->
+            <div id="tasks" class="page">
+                <h2>Bonus Tasks Management</h2>
+                <div class="grid">
+                    <div class="form-section">
+                        <h3>Add / Edit Task</h3>
+                        <input type="hidden" id="taskId">
+                        <label for="taskName">Task Name</label><input type="text" id="taskName">
+                        <label for="taskLink">Task Join Link</label><input type="text" id="taskLink">
+                        <label for="taskChannelId">Channel ID (for membership check, e.g., -100...)</label><input type="text" id="taskChannelId">
+                        <label for="taskReward">Reward Amount</label><input type="number" id="taskReward">
+                        <label for="taskIcon">FontAwesome Icon Class</label><input type="text" id="taskIcon">
+                        <button onclick="saveTask()">Save Task</button>
+                    </div>
+                    <div class="form-section">
+                        <h3>Existing Tasks</h3>
+                        <div id="tasks-list"></div>
+                    </div>
+                </div>
+            </div>
 
-        <div class="form-section">
-            <h2>Bonus Tasks Management</h2>
-            <div id="tasks-list"></div>
-            <hr style="margin: 20px 0;">
-            <h3>Add / Edit Bonus Task</h3>
-            <input type="hidden" id="taskId">
-            <label for="taskName">Task Name</label>
-            <input type="text" id="taskName" placeholder="e.g., YouTube Community">
-            <label for="taskLink">Task Link</label>
-            <input type="text" id="taskLink" placeholder="e.g., https://youtube.com/@channel">
-            <label for="taskReward">Reward Points</label>
-            <input type="number" id="taskReward" placeholder="e.g., 400">
-            <label for="taskIcon">FontAwesome Icon Class</label>
-            <input type="text" id="taskIcon" placeholder="e.g., fab fa-youtube">
-            <button onclick="saveTask()">Save Bonus Task</button>
+            <!-- Users Page -->
+            <div id="users" class="page">
+                <h2>User Management</h2>
+                <div class="form-section">
+                    <h3>Find User</h3>
+                    <label for="findUserId">Enter User's Telegram ID</label>
+                    <input type="text" id="findUserId" placeholder="e.g., 123456789">
+                    <button onclick="findUser()">Find User</button>
+                    <div id="userDetails" style="margin-top:20px;"></div>
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
-        // ⚠️ IMPORTANT: Replace with your backend server's URL
         const API_BASE_URL = 'https://besh-b.onrender.com';
 
-        let currentConfig = {};
+        // Navigation Logic
+        const navLinks = document.querySelectorAll('.nav-link');
+        const pages = document.querySelectorAll('.page');
+        navLinks.forEach(link => {
+            link.addEventListener('click', e => {
+                e.preventDefault();
+                const target = link.getAttribute('href');
+                navLinks.forEach(l => l.classList.remove('active'));
+                pages.forEach(p => p.classList.remove('active'));
+                link.classList.add('active');
+                document.querySelector(target).classList.add('active');
+            });
+        });
 
+        // Data Loading
         async function loadData() {
             try {
                 const [configRes, tasksRes] = await Promise.all([
                     fetch(`${API_BASE_URL}/api/config`),
                     fetch(`${API_BASE_URL}/api/tasks`)
                 ]);
-
-                currentConfig = await configRes.json();
-                for (const key in currentConfig) {
-                    if (document.getElementById(key)) {
-                        document.getElementById(key).value = currentConfig[key];
-                    }
-                }
-
+                const config = await configRes.json();
+                for (const key in config) if (document.getElementById(key)) document.getElementById(key).value = config[key];
+                
                 window.tasksData = await tasksRes.json();
                 const tasksList = document.getElementById('tasks-list');
-                tasksList.innerHTML = '<h3>Existing Bonus Tasks</h3>';
-                if (Object.keys(window.tasksData).length === 0) {
-                    tasksList.innerHTML += '<p>No bonus tasks found.</p>';
-                }
+                tasksList.innerHTML = '';
                 for (const taskId in window.tasksData) {
                     const task = window.tasksData[taskId];
-                    tasksList.innerHTML += `
-                        <div class="task">
-                            <span>${task.name} (+${task.reward})</span>
-                            <div>
-                                <button class="btn-edit" onclick="editTask('${taskId}')">Edit</button>
-                                <button class="btn-delete" onclick="deleteTask('${taskId}')">Delete</button>
-                            </div>
-                        </div>`;
+                    tasksList.innerHTML += `<div class="task"><span>${task.name} (+${task.reward})</span><div><button class="btn-edit" onclick="editTask('${taskId}')">Edit</button><button class="btn-delete" onclick="deleteTask('${taskId}')">Delete</button></div></div>`;
                 }
-            } catch (error) {
-                alert('Failed to load data from the server.');
-            }
+            } catch (error) { alert('Failed to load data.'); }
         }
 
+        // --- Settings ---
         async function saveSettings() {
             const secret = document.getElementById('adminSecret').value;
-            if (!secret) return alert('Secret Key is required to save settings.');
-
-            const newConfig = {
-                adsPerDay: parseInt(document.getElementById('adsPerDay').value) || 0,
-                pointsPerAd: parseInt(document.getElementById('pointsPerAd').value) || 0,
-                minWithdraw: parseInt(document.getElementById('minWithdraw').value) || 0,
-                referralBonusReferrer: parseInt(document.getElementById('referralBonusReferrer').value) || 0,
-                referralBonusReferee: parseInt(document.getElementById('referralBonusReferee').value) || 0,
-                monetagAdFunction: document.getElementById('monetagAdFunction').value,
-                telegramChatId: document.getElementById('telegramChatId').value,
-                developerLink: document.getElementById('developerLink').value,
-                botLink: document.getElementById('botLink').value,
-                webAppUrl: document.getElementById('webAppUrl').value,
-                officialChannel: document.getElementById('officialChannel').value,
-                supportGroup: document.getElementById('supportGroup').value,
-            };
-
-            const response = await fetch(`${API_BASE_URL}/api/config`, {
+            if (!secret) return alert('Secret Key is required.');
+            const newConfig = {};
+            const inputs = document.querySelectorAll('#settings input');
+            inputs.forEach(input => {
+                if (input.id !== 'adminSecret') newConfig[input.id] = input.type === 'number' ? parseInt(input.value) || 0 : input.value;
+            });
+            const res = await fetch(`${API_BASE_URL}/api/admin/config`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ secret, newConfig })
             });
-
-            alert(response.ok ? 'Settings saved successfully!' : 'Error: Could not save settings.');
+            alert(res.ok ? 'Settings saved!' : 'Error saving settings.');
         }
-        
+
+        // --- Tasks ---
         function editTask(taskId) {
             const task = window.tasksData[taskId];
-            document.getElementById('taskId').value = task.id;
-            document.getElementById('taskName').value = task.name;
-            document.getElementById('taskLink').value = task.link;
-            document.getElementById('taskReward').value = task.reward;
-            document.getElementById('taskIcon').value = task.icon;
-            document.getElementById('taskName').focus();
+            ['taskId', 'taskName', 'taskLink', 'taskChannelId', 'taskReward', 'taskIcon'].forEach(key => {
+                document.getElementById(key).value = task[key.replace('task', '').toLowerCase()] || '';
+            });
+            document.getElementById('taskId').value = taskId;
         }
 
         async function saveTask() {
-             const secret = document.getElementById('adminSecret').value;
-             if (!secret) return alert('Secret Key is required to save a task.');
-
-             const task = {
+            const secret = document.getElementById('adminSecret').value;
+            if (!secret) return alert('Secret Key is required.');
+            const task = {
                 id: document.getElementById('taskId').value || null,
                 name: document.getElementById('taskName').value,
                 link: document.getElementById('taskLink').value,
+                channelId: document.getElementById('taskChannelId').value,
                 reward: parseInt(document.getElementById('taskReward').value),
                 icon: document.getElementById('taskIcon').value
-             };
-             
-             if (!task.name || !task.reward) return alert('Task Name and Reward are required.');
+            };
+            if (!task.name || !task.reward) return alert('Task Name and Reward are required.');
+            if (!task.channelId.startsWith('-')) return alert('Channel ID must be a negative number (e.g., -100...).');
 
-             const response = await fetch(`${API_BASE_URL}/api/tasks`, {
+            const res = await fetch(`${API_BASE_URL}/api/admin/tasks`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ secret, task })
-             });
-
-             if (response.ok) {
-                alert('Task saved successfully!');
-                ['taskId', 'taskName', 'taskLink', 'taskReward', 'taskIcon'].forEach(id => document.getElementById(id).value = '');
+            });
+            if(res.ok) {
+                alert('Task saved!');
+                ['taskId', 'taskName', 'taskLink', 'taskChannelId', 'taskReward', 'taskIcon'].forEach(id => document.getElementById(id).value = '');
                 loadData();
-             } else {
-                alert('Error saving task.');
-             }
+            } else { alert('Error saving task.'); }
         }
-        
+
         async function deleteTask(taskId) {
             const secret = document.getElementById('adminSecret').value;
-            if (!secret) return alert('Secret Key is required to delete a task.');
+            if (!secret) return alert('Secret Key is required.');
             if (!confirm('Are you sure you want to delete this task?')) return;
-
-            const response = await fetch(`${API_BASE_URL}/api/tasks/delete`, {
+            const res = await fetch(`${API_BASE_URL}/api/admin/tasks/delete`, {
                  method: 'POST',
                  headers: { 'Content-Type': 'application/json' },
                  body: JSON.stringify({ secret, taskId })
             });
+            if(res.ok) { alert('Task deleted!'); loadData(); } else { alert('Error deleting task.'); }
+        }
+        
+        // --- Users ---
+        async function findUser() {
+            const secret = document.getElementById('adminSecret').value;
+            const userId = document.getElementById('findUserId').value;
+            const userDetailsDiv = document.getElementById('userDetails');
+            if (!secret || !userId) return alert('Secret Key and User ID are required.');
             
-            if(response.ok) {
-                alert('Task deleted successfully!');
-                loadData();
+            userDetailsDiv.innerHTML = 'Searching...';
+            const res = await fetch(`${API_BASE_URL}/api/admin/find-user`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ secret, userId })
+            });
+
+            if (res.ok) {
+                const user = await res.json();
+                userDetailsDiv.innerHTML = `
+                    <h4>${user.username} (ID: ${userId})</h4>
+                    <p>Current Balance: <b>${user.points || 0}</b></p>
+                    <label>Set New Balance:</label>
+                    <input type="number" id="newBalance" value="${user.points || 0}">
+                    <button onclick="updateBalance('${userId}')">Update Balance</button>
+                `;
             } else {
-                alert('Error deleting task.');
+                userDetailsDiv.innerHTML = '<p style="color:red;">User not found.</p>';
+            }
+        }
+        
+        async function updateBalance(userId) {
+            const secret = document.getElementById('adminSecret').value;
+            const newBalance = document.getElementById('newBalance').value;
+            const res = await fetch(`${API_BASE_URL}/api/admin/update-balance`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ secret, userId, newBalance: Number(newBalance) })
+            });
+            if(res.ok) {
+                alert('Balance updated!');
+                findUser(); // Refresh user data
+            } else {
+                alert('Failed to update balance.');
             }
         }
 
         window.onload = loadData;
     </script>
 </body>
-  </html>
+</html>
