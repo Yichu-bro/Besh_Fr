@@ -32,14 +32,12 @@
         body { font-family: 'Inter', sans-serif; min-height: 100vh; overflow-x: hidden; transition: background-color 0.3s, color 0.3s; }
         .app-container { max-width: 480px; margin: 0 auto; position: relative; }
         
-        /* Loading Overlay */
         #loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-light); z-index: 1002; display: flex; align-items: center; justify-content: center; flex-direction: column; transition: opacity 0.3s; }
         body.dark-mode #loading-overlay { background: var(--bg-dark); }
         .spinner { width: 40px; height: 40px; border: 4px solid var(--border-color); border-top-color: var(--primary-color); border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
         #loading-overlay p { margin-top: 15px; color: var(--text-secondary); }
 
-        /* Headers */
         .home-header { height: 180px; background: linear-gradient(135deg, var(--primary-color), var(--primary-dark)); position: relative; display: flex; align-items: center; justify-content: center; flex-direction: column; color: white; border-bottom-left-radius: var(--border-radius); border-bottom-right-radius: var(--border-radius); }
         .page-header { display: none; align-items: center; padding: 10px 15px; background: var(--card-bg); border-bottom: 1px solid var(--border-color); }
         .page-header .user-info { display: flex; align-items: center; gap: 10px; }
@@ -51,7 +49,7 @@
         
         .profile-section { padding: 0 20px; position: relative; z-index: 2; margin-top: -50px; }
         .profile-card { background: var(--card-bg); border-radius: var(--border-radius); padding: 70px 20px 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.1); border: 1px solid var(--border-color); text-align: center; }
-        .profile-pic { position: absolute; top: -45px; left: 50%; transform: translateX(-50%); width: 90px; height: 90px; border-radius: 50%; border: 3px solid var(--card-bg); object-fit: cover; background: var(--primary-color); }
+        .profile-pic { position: absolute; top: -45px; left: 50%; transform: translateX(-50%); width: 90px; height: 90px; border-radius: 50%; border: 3px solid var(--card-bg); object-fit: cover; background: var(--input-bg); }
         .points-display { display: inline-flex; align-items: center; background: rgba(74, 144, 226, 0.1); padding: 8px 18px; border-radius: 50px; margin-top: 8px; font-weight: 600; font-size: 1.1rem; color: var(--primary-color); }
         .home-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; text-align: left; }
         .home-stat { background: var(--input-bg); padding: 12px; border-radius: 8px; }
@@ -217,7 +215,16 @@
             if (currentUser.lastAdWatchDate !== today) currentUser.adsWatchedToday = 0;
         }
         
-        async function saveUserState() { /* No changes */ }
+        async function saveUserState() {
+            if (!currentUser) return;
+            try {
+                await fetch(`${API_BASE_URL}/api/user/${userId}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(currentUser)
+                });
+            } catch (error) { showToast("Error saving progress."); }
+        }
         
         // --- 3. UI MANAGEMENT ---
         function updateUI() {
