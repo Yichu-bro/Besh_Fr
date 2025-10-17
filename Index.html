@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script type="text/javascript" src="//data156.click/6ddcc744499b4ed493bc/06c762f6ea/?placementName=default"></script>
+    <script src='//libtl.com/sdk.js' data-zone='9832391' data-sdk='show_9832391'></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Tag2Cash</title>
-    <!-- UPDATED Monetag Ad SDK -->
-    <script src='//libtl.com/sdk.js' data-zone='10024038' data-sdk='show_10024038'></script>
+    <title>𝐓𝐚𝐠𝟐𝐂𝐚𝐬𝐡</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -14,89 +14,102 @@
     <style>
         :root {
             --primary-color: #4A90E2; --primary-dark: #357ABD; --secondary-color: #50E3C2; --accent-color: #F5A623;
-            --bg-light: #F7F7F7; --bg-dark: #1E2732; --card-bg-light: #FFFFFF; --card-bg-dark: #2C3E50;
+            --bg-light: #F7F7F7; --bg-dark: #2C3E50; --card-bg-light: #FFFFFF; --card-bg-dark: #34495E;
             --text-dark: #333333; --text-light: #F7F7F7; --border-color-light: #E0E0E0; --border-color-dark: #4A657D;
             --border-radius: 12px; --border-radius-sm: 8px; --transition: all 0.3s ease-in-out;
         }
         body.dark-mode {
-            background-color: var(--bg-dark); color: var(--text-light);
+            background-color: var(--bg-dark); color: var(--text-light); --header-bg: linear-gradient(135deg, var(--bg-dark), #1A2530);
             --card-bg: var(--card-bg-dark); --text-primary: var(--text-light); --text-secondary: #B0B0B0;
-            --border-color: var(--border-color-dark); --input-bg: #4A657D;
+            --border-color: var(--border-color-dark); --input-bg: #4A657D; --input-border: #5A7E9C;
+            --button-bg-secondary: #4A657D; --button-text-secondary: var(--secondary-color); --toggle-bg: #4A657D;
         }
         body:not(.dark-mode) {
-            background-color: var(--bg-light); color: var(--text-dark);
+            background-color: var(--bg-light); color: var(--text-dark); --header-bg: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
             --card-bg: var(--card-bg-light); --text-primary: var(--text-dark); --text-secondary: #666666;
-            --border-color: var(--border-color-light); --input-bg: #F0F0F0;
+            --border-color: var(--border-color-light); --input-bg: #F0F0F0; --input-border: #E0E0E0;
+            --button-bg-secondary: #E9ECEF; --button-text-secondary: var(--primary-color); --toggle-bg: #E0E0E0;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; min-height: 100vh; overflow-x: hidden; background: var(--bg-light); color: var(--text-primary); transition: background-color var(--transition), color var(--transition); }
-        .app-container { max-width: 480px; margin: 0 auto; padding-bottom: 80px; }
-        .page-header { display: flex; align-items: center; justify-content: space-between; padding: 15px 20px; background: var(--card-bg); border-bottom: 1px solid var(--border-color); }
-        .page-header .user-info { display: flex; align-items: center; gap: 12px; }
-        .page-header .avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--primary-color); border: 2px solid var(--primary-dark); }
-        .page-header .balance { font-weight: 600; font-size: 1.1rem; }
-        .page-header .currency { font-size: 0.8rem; color: var(--text-secondary); }
-        .theme-toggle { width: 40px; height: 40px; border-radius: 50%; background: var(--input-bg); display: flex; align-items: center; justify-content: center; cursor: pointer; border: 1px solid var(--border-color); color: var(--text-primary); }
-        .home-welcome-card { background: var(--card-bg); padding: 20px; border-bottom: 1px solid var(--border-color); display:flex; align-items:center; gap:12px; }
-        .home-welcome-card .avatar { width:50px; height:50px; border-radius:50%; background:var(--primary-color); border:2px solid var(--primary-dark); }
-        .home-welcome-card .username { font-weight:bold; font-size:1.2rem; }
-        .home-welcome-card .welcome-text { font-size:0.9rem; color:var(--text-secondary); }
-        .home-stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px; }
-        .stat-card { background: var(--card-bg); padding: 15px; border-radius: var(--border-radius); text-align: center; border: 1px solid var(--border-color); }
-        .stat-card-value { font-size: 1.5rem; font-weight: 600; color: var(--primary-color); }
-        .stat-card-label { font-size: 0.8rem; color: var(--text-secondary); margin-top: 5px; }
-        .content-section { padding: 20px; }
-        .task-card { background: var(--card-bg); border-radius: var(--border-radius); padding: 20px; margin-bottom: 20px; border: 1px solid var(--border-color); }
+        body { font-family: 'Inter', sans-serif; min-height: 100vh; overflow-x: hidden; transition: background-color var(--transition), color var(--transition); }
+        .app-container { max-width: 480px; margin: 0 auto; }
+        .header { height: 180px; background: var(--header-bg); position: relative; display: flex; align-items: center; justify-content: center; flex-direction: column; color: var(--text-light); border-bottom-left-radius: var(--border-radius); border-bottom-right-radius: var(--border-radius); }
+        .header-title { font-size: 1.6rem; font-weight: 700; z-index: 2; }
+        .theme-toggle { position: absolute; top: 20px; right: 20px; width: 40px; height: 40px; border-radius: 50%; background: var(--toggle-bg); display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10; border: 1px solid var(--border-color); }
+        .profile-section { padding: 0 20px; position: relative; z-index: 2; margin-top: -50px; }
+        .profile-card { background: var(--card-bg); border-radius: var(--border-radius); padding: 70px 20px 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.1); border: 1px solid var(--border-color); text-align: center; }
+        .profile-pic { position: absolute; top: -45px; left: 50%; transform: translateX(-50%); width: 90px; height: 90px; border-radius: 50%; border: 3px solid var(--card-bg); object-fit: cover; background: var(--primary-color); }
+        .profile-name { font-size: 1.3rem; font-weight: 600; margin-bottom: 5px; color: var(--text-primary); }
+        .points-display { display: inline-flex; align-items: center; background: rgba(74, 144, 226, 0.1); padding: 6px 15px; border-radius: 50px; margin-top: 8px; font-weight: 600; color: var(--primary-color); }
+        .stats-display { display: flex; justify-content: center; gap: 12px; margin-top: 18px; }
+        .stat-item { background: var(--input-bg); padding: 8px 12px; border-radius: var(--border-radius-sm); border: 1px solid var(--border-color); min-width: 70px; }
+        .stat-value { font-weight: 600; color: var(--text-primary); }
+        .stat-label { font-size: 0.7rem; color: var(--text-secondary); }
+        .content-section { padding: 20px; margin-bottom: 80px; }
+        .task-card { background: var(--card-bg); border-radius: var(--border-radius); padding: 20px; margin-bottom: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); border: 1px solid var(--border-color); }
         .section-title { font-size: 1.2rem; font-weight: 600; margin-bottom: 15px; }
-        .btn { display: block; width: 100%; padding: 12px; border-radius: var(--border-radius-sm); border: none; font-weight: 600; cursor: pointer; text-align: center; text-decoration: none; font-size: 1rem; }
+        .btn { display: block; width: 100%; padding: 12px; border-radius: var(--border-radius-sm); border: none; font-weight: 600; cursor: pointer; text-align: center; text-decoration: none; }
         .btn-primary { background: var(--primary-color); color: white; }
+        .btn-secondary { background: var(--button-bg-secondary); color: var(--button-text-secondary); border: 1px solid var(--border-color); }
         .btn-disabled { background: var(--border-color); color: var(--text-secondary); cursor: not-allowed; opacity: 0.7; }
         .channel-list { list-style: none; padding: 0; }
         .channel-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border-color); }
-        .channel-item:last-child { border-bottom: none; }
         .channel-info { display: flex; align-items: center; gap: 10px; }
         .channel-icon { width: 38px; height: 38px; border-radius: 50%; background: rgba(74,144,226,0.1); display:flex; align-items:center; justify-content:center; color: var(--primary-color); }
         .btn-claim-bonus { padding: 7px 14px; border-radius: var(--border-radius-sm); background: var(--primary-color); color: white; font-size: 0.8rem; font-weight: 600; text-decoration: none; border: none; cursor: pointer; }
         .btn-claim-bonus[disabled] { background: var(--secondary-color); cursor: default; }
         .input-group, .select-field { margin-bottom: 15px; } .input-label { display: block; margin-bottom: 6px; }
-        .input-field, .select-field { width: 100%; padding: 10px 12px; border-radius: var(--border-radius-sm); border: 1px solid var(--border-color); background: var(--input-bg); color: var(--text-primary); }
+        .input-field, .select-field { width: 100%; padding: 10px 12px; border-radius: var(--border-radius-sm); border: 1px solid var(--input-border); background: var(--input-bg); color: var(--text-primary); }
         .status-message { text-align: center; margin-top: 15px; font-size: 0.85rem; padding: 8px; border-radius: var(--border-radius-sm); display: none; }
         .success-message { background: rgba(80, 227, 194, 0.1); color: #50E3C2; display: block; } .error-message { background: rgba(230, 74, 74, 0.1); color: #E64A4A; display: block; }
         .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--card-bg); display: flex; justify-content: space-around; padding: 5px 0; box-shadow: 0 -3px 15px rgba(0,0,0,0.08); z-index: 100; max-width: 480px; margin: 0 auto; border-top: 1px solid var(--border-color); border-radius: 12px 12px 0 0; }
         .nav-item { display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-secondary); text-decoration: none; font-size: 0.7rem; flex: 1; padding: 5px 0; }
         .nav-item i { font-size: 1.3rem; margin-bottom: 3px; } .nav-item.active { color: var(--primary-color); }
+        .toast { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); background: rgba(0, 0, 0, 0.8); color: white; padding: 10px 20px; border-radius: 30px; z-index: 1001; opacity: 0; transition: all 0.3s ease; }
+        .toast.show { opacity: 1; bottom: 90px; }
+        .developer-footer { text-align: center; padding: 12px; font-size: 0.75rem; color: var(--text-secondary); margin-top: 20px; }
+        .developer-link { color: var(--primary-color); text-decoration: none; font-weight: 600; }
         .leaderboard-tabs { display: flex; margin-bottom: 20px; border-radius: 8px; background: var(--input-bg); padding: 5px; }
         .leaderboard-tab { flex: 1; padding: 10px; text-align: center; cursor: pointer; border-radius: 6px; font-weight: 500; }
         .leaderboard-tab.active { background: var(--primary-color); color: white; }
-        .leaderboard-top3 { display: flex; justify-content: space-around; align-items: flex-end; margin-bottom: 30px; }
-        .rank-user { text-align: center; }
-        .rank-user .avatar-container { position: relative; margin-bottom: 10px; }
-        .rank-user .avatar { width: 70px; height: 70px; border-radius: 50%; background: var(--input-bg); display:flex; align-items:center; justify-content:center; font-size:1.5rem; border: 3px solid #C0C0C0; color: var(--text-primary); }
-        .rank-user .rank-badge { position: absolute; bottom: -5px; right: -5px; width: 25px; height: 25px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; }
-        .rank-1 .avatar { border-color: #FFD700; width: 80px; height: 80px; } .rank-1 .rank-badge { background: #FFD700; }
-        .rank-2 .avatar { border-color: #C0C0C0; } .rank-2 .rank-badge { background: #C0C0C0; }
-        .rank-3 .avatar { border-color: #CD7F32; } .rank-3 .rank-badge { background: #CD7F32; }
         .leaderboard-list .user-item { display: flex; align-items: center; padding: 10px; border-bottom: 1px solid var(--border-color); }
-        .leaderboard-list .user-item:last-child { border: none; }
-        .user-item .rank { font-weight: bold; width: 40px; color: var(--text-secondary); }
+        .user-item .rank { font-weight: bold; width: 30px; font-size: 1.1rem; color: var(--text-secondary); }
         .user-item .username { flex: 1; font-weight: 500; }
         .user-item .score { font-weight: bold; color: var(--primary-color); }
-        .toast { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); background: rgba(0, 0, 0, 0.85); color: white; padding: 12px 22px; border-radius: 30px; z-index: 1001; opacity: 0; transition: all 0.3s ease; font-size: 0.9rem; }
-        .toast.show { opacity: 1; bottom: 90px; }
     </style>
 </head>
 <body>
     <div class="app-container">
-        <div id="pageHeader" style="display: none;"></div>
-        <div id="mainContent"><p style="text-align:center; padding: 20px;">Loading...</p></div>
+        <div class="header">
+            <h1 class="header-title"> 𝐓𝐚𝐠𝟐𝐂𝐚𝐬𝐡</h1>
+            <button class="theme-toggle" id="themeToggle"><i class="fas fa-sun"></i></button>
+        </div>
+
+        <!-- This profile section will only show on the Home page -->
+        <div id="profileSection" class="profile-section">
+            <div class="profile-card">
+                <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" alt="Profile" class="profile-pic" id="profilePic">
+                <h1 class="profile-name" id="profileNameDisplay">Loading...</h1>
+                <div class="points-display" id="userPointsDisplay"><i class="fas fa-coins"></i> 0 Points</div>
+                <div class="stats-display">
+                    <div class="stat-item"><div class="stat-value" id="adsWatchedToday">0</div><div class="stat-label">Today</div></div>
+                    <div class="stat-item"><div class="stat-value" id="adsLeftToday">0</div><div class="stat-label">Left</div></div>
+                    <div class="stat-item"><div class="stat-value" id="totalAdsWatched">0</div><div class="stat-label">Total</div></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section" id="mainContent"><p>Loading...</p></div>
+
         <div class="bottom-nav">
             <a href="#" class="nav-item active" data-page="home"><i class="fas fa-home"></i><span>Home</span></a>
             <a href="#" class="nav-item" data-page="tasks"><i class="fas fa-tasks"></i><span>Tasks</span></a>
+            <a href="#" class="nav-item" data-page="bonus"><i class="fas fa-gift"></i><span>Bonus</span></a>
             <a href="#" class="nav-item" data-page="leaderboard"><i class="fas fa-trophy"></i><span>Leaders</span></a>
             <a href="#" class="nav-item" data-page="referral"><i class="fas fa-share-alt"></i><span>Referral</span></a>
-            <a href="#" class="nav-item" data-page="withdraw"><i class="fas fa-wallet"></i><span>Withdraw</span></a>
         </div>
-        <div id="toast" class="toast"></div>
+        
+        <div class="toast" id="toast"></div>
     </div>
 
     <script>
@@ -104,182 +117,149 @@
         let AppConfig = {}, BonusTasks = [], currentUser = null, userId = null;
         
         const mainContent = document.getElementById('mainContent');
-        const pageHeader = document.getElementById('pageHeader');
+        const profileSection = document.getElementById('profileSection');
         const toast = document.getElementById('toast');
 
         document.addEventListener('DOMContentLoaded', async () => {
             const tg = window.Telegram.WebApp;
             tg.expand();
+
             const urlParams = new URLSearchParams(window.location.search);
             userId = tg.initDataUnsafe?.user?.id?.toString() || urlParams.get('userId');
+
             if (!userId) {
                 mainContent.innerHTML = `<div class="task-card"><h2>Error</h2><p>User ID not found. Please launch this app from the Telegram bot.</p></div>`;
                 return;
             }
+
             await loadAppConfig();
             await loadUserState();
+            
             applyTheme(localStorage.getItem('theme') || 'light');
             navigateTo('home');
-            document.querySelectorAll('.nav-item').forEach(item => item.addEventListener('click', e => { e.preventDefault(); navigateTo(item.dataset.page); }));
+            
+            document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.addEventListener('click', e => {
+                    e.preventDefault();
+                    navigateTo(item.dataset.page);
+                });
+            });
         });
 
-        // --- DATA & STATE ---
         async function loadAppConfig() {
             try {
-                const [configRes, tasksRes] = await Promise.all([ fetch(`${API_BASE_URL}/api/config`), fetch(`${API_BASE_URL}/api/tasks`) ]);
+                const [configRes, tasksRes] = await Promise.all([
+                    fetch(`${API_BASE_URL}/api/config`),
+                    fetch(`${API_BASE_URL}/api/tasks`)
+                ]);
                 AppConfig = await configRes.json();
-                BonusTasks = Object.values(await tasksRes.json() || {});
-            } catch (error) { showToast("Error loading app settings."); }
+                const tasksData = await tasksRes.json();
+                BonusTasks = tasksData ? Object.values(tasksData) : [];
+            } catch (error) {
+                showToast("Error loading app settings.");
+            }
         }
+
         async function loadUserState() {
             try {
                 const response = await fetch(`${API_BASE_URL}/api/user/${userId}`);
                 if (!response.ok) throw new Error((await response.json()).error);
                 currentUser = await response.json();
-                if (currentUser.lastAdWatchDate !== new Date().toLocaleDateString()) currentUser.adsWatchedToday = 0;
-            } catch (error) { mainContent.innerHTML = `<div class="task-card"><h2>Error</h2><p>${error.message}</p></div>`; }
+                
+                const today = new Date().toLocaleDateString();
+                if (currentUser.lastAdWatchDate !== today) {
+                    currentUser.adsWatchedToday = 0;
+                }
+                updateUI();
+            } catch (error) {
+                mainContent.innerHTML = `<div class="task-card"><h2>Error</h2><p>${error.message}</p></div>`;
+            }
         }
+        
         async function saveUserState() {
             if (!currentUser) return;
-            try { await fetch(`${API_BASE_URL}/api/user/${userId}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(currentUser) });
-            } catch (error) { showToast("Error saving progress."); }
+            try {
+                await fetch(`${API_BASE_URL}/api/user/${userId}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(currentUser)
+                });
+            } catch (error) {
+                showToast("Error saving progress.");
+            }
+        }
+        
+        function updateUI() {
+            if (!currentUser) return;
+            document.getElementById('profileNameDisplay').textContent = currentUser.username;
+            const currency = AppConfig.currencyName || 'Points';
+            document.getElementById('userPointsDisplay').innerHTML = `<i class="fas fa-coins"></i> ${currentUser.points || 0} ${currency}`;
+            document.getElementById('adsWatchedToday').textContent = currentUser.adsWatchedToday || 0;
+            const adsLeft = (AppConfig.adsPerDay || 0) - (currentUser.adsWatchedToday || 0);
+            document.getElementById('adsLeftToday').textContent = adsLeft < 0 ? 0 : adsLeft;
+            document.getElementById('totalAdsWatched').textContent = currentUser.totalAdsWatchedLifetime || 0;
         }
 
-        // --- UI & NAVIGATION ---
         function navigateTo(page) {
             document.querySelector('.nav-item.active')?.classList.remove('active');
             document.querySelector(`.nav-item[data-page="${page}"]`)?.classList.add('active');
-            pageHeader.style.display = (page === 'home') ? 'none' : 'flex';
-            const renderFunc = { 'home': renderHomePage, 'tasks': renderTasksPage, 'leaderboard': renderLeaderboardPage, 'referral': renderReferralPage, 'withdraw': renderWithdrawPage }[page];
-            if (renderFunc) { renderHeader(page); renderFunc(); }
-        }
-        function renderHeader(page) {
-            if (page === 'home' || !currentUser) return;
-            const currency = AppConfig.currencyName || 'Points';
-            pageHeader.innerHTML = `
-                <div class="user-info">
-                    <div class="avatar"></div>
-                    <div>
-                        <div class="balance">${currentUser.points || 0}</div>
-                        <div class="currency">${currency}</div>
-                    </div>
-                </div>
-                <div class="theme-toggle" id="themeToggleHeader"><i class="fas fa-sun"></i></div>`;
-            document.getElementById('themeToggleHeader').addEventListener('click', toggleTheme);
-            applyTheme(localStorage.getItem('theme') || 'light', true);
+
+            // Show profile section only on the home page
+            profileSection.style.display = (page === 'home') ? 'block' : 'none';
+
+            const renderFunc = {
+                'home': renderHomePage, 'tasks': renderTasksPage,
+                'bonus': renderBonusPage, 'leaderboard': renderLeaderboardPage,
+                'referral': renderReferralPage,
+            }[page];
+            if (renderFunc) renderFunc();
         }
 
-        // --- PAGE RENDERERS ---
         function renderHomePage() {
-            if (!currentUser) return;
             mainContent.innerHTML = `
-                <div class="home-welcome-card">
-                    <div class="avatar"></div>
-                    <div>
-                        <div class="username">${currentUser.name || 'User'}</div>
-                        <div class="welcome-text">Welcome to the Earning App!</div>
-                    </div>
-                </div>
-                <div class="home-stats-grid">
-                    <div class="stat-card"><div class="stat-card-value">${currentUser.referredUsers?.length || 0}</div><div class="stat-card-label">Total Referred</div></div>
-                    <div class="stat-card"><div class="stat-card-value">--</div><div class="stat-card-label">Global Rank</div></div>
-                    <div class="stat-card"><div class="stat-card-value">${currentUser.totalAdsWatchedLifetime || 0}</div><div class="stat-card-label">Ads Watched</div></div>
-                    <div class="stat-card"><div class="stat-card-value">${Math.max(0, (AppConfig.adsPerDay || 0) - (currentUser.adsWatchedToday || 0))}</div><div class="stat-card-label">Ads Left</div></div>
-                    <div class="stat-card"><div class="stat-card-value">${currentUser.claimedBonuses?.length || 0}</div><div class="stat-card-label">Tasks Done</div></div>
-                    <div class="stat-card"><div class="stat-card-value">${currentUser.totalWithdrawn || 0}</div><div class="stat-card-label">Total Withdrawn</div></div>
-                </div>`;
-        }
-        function renderTasksPage() {
-            const adsLeft = Math.max(0, (AppConfig.adsPerDay || 0) - (currentUser.adsWatchedToday || 0));
-            const progress = adsLeft > 0 ? ((currentUser.adsWatchedToday || 0) / (AppConfig.adsPerDay || 1)) * 100 : 100;
-            const currency = AppConfig.currencyName || 'Points';
-            let bonusTasksHtml = BonusTasks.map(task => {
-                const isClaimed = currentUser.claimedBonuses?.includes(task.id);
-                return `<li class="channel-item">
-                    <div class="channel-info">
-                        <div class="channel-icon"><i class="${task.icon || 'fas fa-star'}"></i></div>
-                        <div><div>${task.name}</div><div style="font-size:0.8rem; color:var(--accent-color);">+${task.reward} ${currency}</div></div>
-                    </div>
-                    <button class="btn-claim-bonus" data-link="${task.link}" data-task-id="${task.id}" data-channel-id="${task.channelId}" data-reward="${task.reward}" ${isClaimed ? 'disabled' : ''}>${isClaimed ? 'Claimed' : 'Verify'}</button>
-                </li>`;
-            }).join('');
-            
-            mainContent.innerHTML = `<div class="content-section">
                 <div class="task-card">
-                    <h2 class="section-title">Watch Ads</h2>
-                    <div style="margin:20px 0;"><div style="display:flex;justify-content:space-between;font-size:0.8rem;margin-bottom:5px;"><span>${currentUser.adsWatchedToday||0}/${AppConfig.adsPerDay||0} Watched</span><span>${adsLeft} Left</span></div><div style="height:6px;background:var(--input-bg);border-radius:3px;overflow:hidden;"><div style="width:${progress}%;height:100%;background:var(--primary-color);"></div></div></div>
-                    <button id="watchAdBtn" class="btn btn-primary" ${adsLeft<=0 ? 'disabled' : ''}><i class="fas fa-play"></i> Watch Ad & Earn ${AppConfig.pointsPerAd||0} ${currency}</button>
+                    <h2 class="section-title">Welcome, ${currentUser.username}!</h2>
+                    <p>Earn ${AppConfig.currencyName || 'Points'} by watching ads, completing bonus tasks, and inviting friends.</p>
+                    <button id="withdrawBtn" class="btn btn-primary" style="margin-top: 20px;">
+                        <i class="fas fa-wallet"></i> Withdraw
+                    </button>
                 </div>
-                <div class="task-card">
-                    <h2 class="section-title">Bonus Tasks</h2>
-                    <ul class="channel-list">${bonusTasksHtml || '<p>No bonus tasks available.</p>'}</ul>
-                </div>
-            </div>`;
-            if (adsLeft > 0) document.getElementById('watchAdBtn').addEventListener('click', handleWatchDailyAd);
-            document.querySelectorAll('.btn-claim-bonus:not([disabled])').forEach(b => b.addEventListener('click', handleBonusClaim));
-        }
-        async function renderLeaderboardPage() {
-            mainContent.innerHTML = `<div class="content-section"><p>Loading leaderboard...</p></div>`;
-            try {
-                const res = await fetch(`${API_BASE_URL}/api/leaderboard`);
-                const data = await res.json();
-                const currency = AppConfig.currencyName || 'Points';
-                const renderTop3 = (users, unit) => `<div class="leaderboard-top3">${[2, 1, 3].map(rank => { const user = users[rank-1]; return user ? `<div class="rank-user rank-${rank}"><div class="avatar-container"><div class="avatar">${(user.name||'?').charAt(0)}</div><div class="rank-badge">${rank}</div></div><div>${user.name}</div><div style="font-size:0.8rem;color:var(--text-secondary);">${user[unit]}</div></div>` : '' }).join('')}</div>`;
-                const renderList = (users, unit, unitName='') => users.length <= 3 ? '' : users.slice(3).map((user, i) => `<div class="user-item"><div class="rank">${i+4}</div><div class="username">${user.name}</div><div class="score">${user[unit]} ${unitName}</div></div>`).join('');
-                
-                mainContent.innerHTML = `<div class="content-section">
-                    <div class="leaderboard-tabs"><div class="leaderboard-tab active" data-board="points">By ${currency}</div><div class="leaderboard-tab" data-board="referrals">By Referrals</div></div>
-                    <div id="points-board">${renderTop3(data.byPoints, 'points')}<div class="leaderboard-list">${renderList(data.byPoints, 'points', currency)}</div></div>
-                    <div id="referrals-board" style="display:none;">${renderTop3(data.byReferrals, 'referrals')}<div class="leaderboard-list">${renderList(data.byReferrals, 'referrals')}</div></div>
-                </div>`;
-                document.querySelectorAll('.leaderboard-tab').forEach(tab => tab.addEventListener('click', () => {
-                    document.querySelector('.leaderboard-tab.active').classList.remove('active');
-                    tab.classList.add('active');
-                    document.querySelectorAll('.leaderboard-list, .leaderboard-top3').forEach(el => el.parentElement.style.display = 'none');
-                    document.getElementById(`${tab.dataset.board}-board`).style.display = 'block';
-                }));
-            } catch (error) { mainContent.innerHTML = `<div class="content-section"><p>Could not load leaderboard.</p></div>`; }
-        }
-        async function renderReferralPage() {
-            mainContent.innerHTML = `<div class="content-section"><p>Loading referral data...</p></div>`;
-            const currency = AppConfig.currencyName || 'Points';
-            const referralLink = `${AppConfig.botLink || ''}/?start=ref${currentUser.referralCode}`;
-            const referredUsersCount = currentUser.referredUsers?.length || 0;
-            const earnedFromReferrals = referredUsersCount * (AppConfig.referralBonusReferrer || 0);
-            let referredByHtml = `<p>You were not referred by anyone.</p>`;
-            if (currentUser.referredBy) { try { const res = await fetch(`${API_BASE_URL}/api/user/${currentUser.referredBy}`); referredByHtml = res.ok ? `<p>Invited by: <b>${(await res.json()).name}</b></p>` : `<p>Invited by: <i>User not found</i></p>`; } catch (e) { referredByHtml = `<p>Could not load referrer info.</p>`; } }
+                <div class="developer-footer">Developed by <a href="${AppConfig.developerLink || '#'}" target="_blank" class="developer-link">Developer</a></div>`;
             
-            let referredUsersListHtml = `<div style="text-align:center; padding: 20px 0;"><p>You haven't referred anyone yet.</p></div>`;
-            if (referredUsersCount > 0) {
-                referredUsersListHtml = `<h3 style="margin: 20px 0 10px; font-size: 1rem;">Your Referrals (${referredUsersCount})</h3><div class="leaderboard-list">`;
-                const userPromises = currentUser.referredUsers.map(id => fetch(`${API_BASE_URL}/api/user/${id}`).then(r => r.ok ? r.json() : {name:`User`,username:`(${id})`}).catch(() => ({name:`User`,username:`(${id})`})));
-                const userDetails = await Promise.all(userPromises);
-                referredUsersListHtml += userDetails.map(user => `<div class="user-item"><div class="username">${user.name} <span style="color:var(--text-secondary);font-size:0.8rem;">${user.username||''}</span></div></div>`).join('');
-                referredUsersListHtml += `</div>`;
-            }
-
-            mainContent.innerHTML = `<div class="content-section"><div class="task-card">
-                <h2 class="section-title">Refer & Earn</h2>${referredByHtml}
-                <div style="background:var(--input-bg);border-radius:8px;padding:15px;margin:20px 0;border:1px dashed var(--border-color);"><label style="display:block;margin-bottom:8px;">Your Personal Referral Link</label><div style="display:flex;"><input type="text" id="referralLinkDisplay" value="${referralLink}" readonly style="flex:1;padding:10px;border-radius:4px 0 0 4px;background:var(--card-bg);color:var(--text-primary);border:1px solid var(--border-color);"><button id="copyLinkBtn" style="padding:0 15px;border:none;background:var(--primary-color);color:white;border-radius:0 4px 4px 0;cursor:pointer;">Copy</button></div></div>
-                <div style="display:flex;justify-content:space-around;text-align:center;padding-top:15px;border-top:1px solid var(--border-color);"><div><div style="font-size:1.5rem;font-weight:bold;">${referredUsersCount}</div><div style="font-size:0.8rem;">Referrals</div></div><div><div style="font-size:1.5rem;font-weight:bold;">${earnedFromReferrals}</div><div style="font-size:0.8rem;">Earned</div></div></div>
-                ${referredUsersListHtml}
-            </div></div>`;
-            document.getElementById('copyLinkBtn').addEventListener('click', () => { navigator.clipboard.writeText(referralLink).then(() => showToast('Link copied!')); });
-        }
-        function renderWithdrawPage() {
-            mainContent.innerHTML = `<div class="content-section"><div class="task-card">
-                <h2 class="section-title">Withdraw</h2><p>Minimum: ${AppConfig.minWithdraw||0} ${AppConfig.currencyName||'Points'}.</p>
-                <div class="input-group" style="margin-top:20px;"><label class="input-label">Amount</label><input type="number" id="withdrawAmount" class="input-field"></div>
-                <div class="input-group"><label class="input-label">Method</label><select id="withdrawMethod" class="select-field"><option value="">Select...</option><option>Recharge</option><option>Bkash</option><option>Nagad</option><option>Binance (USDT)</option></select></div>
-                <div class="input-group"><label class="input-label">Account</label><input type="text" id="withdrawAccount" class="input-field"></div>
-                <button id="submitWithdrawalBtn" class="btn btn-primary">Submit Request</button><p class="status-message" id="withdrawStatus"></p>
-            </div></div>`;
-            document.getElementById('submitWithdrawalBtn').addEventListener('click', handleSubmitWithdrawal);
+            document.getElementById('withdrawBtn').addEventListener('click', renderWithdrawPage);
         }
         
-        // --- HANDLERS & UTILS ---
+        function renderTasksPage() {
+            const adsLeft = (AppConfig.adsPerDay || 0) - (currentUser.adsWatchedToday || 0);
+            const progress = adsLeft > 0 ? ((currentUser.adsWatchedToday || 0) / (AppConfig.adsPerDay || 1)) * 100 : 100;
+
+            mainContent.innerHTML = `
+                <div class="task-card">
+                    <h2 class="section-title">Watch Ads</h2>
+                    <p>You can watch up to ${AppConfig.adsPerDay || 0} ads per day.</p>
+                    <div class="progress-container" style="margin: 20px 0;">
+                        <div style="display:flex; justify-content:space-between; font-size: 0.8rem; margin-bottom: 5px;">
+                            <span>${currentUser.adsWatchedToday || 0} / ${AppConfig.adsPerDay || 0} Watched</span>
+                            <span>${adsLeft < 0 ? 0 : adsLeft} Left</span>
+                        </div>
+                        <div style="height: 6px; background: var(--border-color); border-radius: 3px; overflow:hidden;">
+                            <div style="width: ${progress}%; height: 100%; background: var(--primary-color);"></div>
+                        </div>
+                    </div>
+                    <button id="watchAdBtn" class="btn btn-primary" ${adsLeft <= 0 ? 'disabled' : ''}>
+                        <i class="fas fa-play"></i> Watch Ad & Earn ${AppConfig.pointsPerAd || 0} ${AppConfig.currencyName || 'Points'}
+                    </button>
+                </div>`;
+
+            if (adsLeft > 0) {
+                document.getElementById('watchAdBtn').addEventListener('click', handleWatchDailyAd);
+            }
+        }
+
         function handleWatchDailyAd() {
             const adFuncName = AppConfig.monetagAdFunction;
+            // Robust check for the ad function
             if (adFuncName && typeof adFuncName === 'string' && adFuncName.trim() !== "" && typeof window[adFuncName] === 'function') {
                 showToast("Loading ad...");
                 try {
@@ -289,63 +269,272 @@
                         currentUser.adsWatchedToday = (currentUser.adsWatchedToday || 0) + 1;
                         currentUser.totalAdsWatchedLifetime = (currentUser.totalAdsWatchedLifetime || 0) + 1;
                         currentUser.lastAdWatchDate = new Date().toLocaleDateString();
-                        saveUserState(); navigateTo('tasks');
+                        saveUserState();
+                        updateUI();
+                        renderTasksPage();
                         showToast(`+${AppConfig.pointsPerAd || 0} ${AppConfig.currencyName || 'Points'} earned!`);
                     }, 8000);
-                } catch (error) { showToast("Could not load ad."); }
-            } else { showToast("Ad service is not configured."); }
+                } catch (error) {
+                    showToast("Could not load ad. Please try again.");
+                }
+            } else {
+                showToast("Ad service is not configured by the admin.");
+            }
         }
+
+        function renderBonusPage() {
+            let channelsHtml = BonusTasks.map(task => {
+                const isClaimed = currentUser.claimedBonuses?.includes(task.id);
+                return `
+                    <li class="channel-item">
+                        <div class="channel-info">
+                            <div class="channel-icon"><i class="${task.icon || 'fas fa-star'}"></i></div>
+                            <div>
+                                <div>${task.name}</div>
+                                <div style="font-size:0.8rem; color: var(--accent-color);">+${task.reward} ${AppConfig.currencyName || 'Points'}</div>
+                            </div>
+                        </div>
+                        <button class="btn-claim-bonus" data-link="${task.link}" data-task-id="${task.id}" data-channel-id="${task.channelId}" data-reward="${task.reward}" ${isClaimed ? 'disabled' : ''}>
+                            ${isClaimed ? 'Claimed' : 'Verify & Claim'}
+                        </button>
+                    </li>`;
+            }).join('');
+            mainContent.innerHTML = `
+                <div class="task-card">
+                    <h2 class="section-title">Bonus Rewards</h2>
+                    <ul class="channel-list">${channelsHtml || '<p>No bonus tasks available right now.</p>'}</ul>
+                </div>`;
+            
+            document.querySelectorAll('.btn-claim-bonus:not([disabled])').forEach(button => {
+                button.addEventListener('click', handleBonusClaim);
+            });
+        }
+
         async function handleBonusClaim(event) {
             const button = event.currentTarget;
             const { taskId, channelId, reward, link } = button.dataset;
-            if (!channelId || channelId === 'undefined') return showToast("Admin has not set Channel ID for this task.");
+
+            if (!channelId || channelId === 'undefined') {
+                return showToast("Admin has not set a Channel ID for this task.");
+            }
+            
+            // First, open the link for the user to join
             window.open(link, '_blank');
-            button.disabled = true; button.textContent = 'Verifying...';
+
+            button.disabled = true;
+            button.textContent = 'Verifying...';
+
+            // Give user time to join before checking
             setTimeout(async () => {
                 try {
-                    const res = await fetch(`${API_BASE_URL}/api/verify-membership`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ userId, taskId, channelId, reward: parseInt(reward) }) });
+                    const res = await fetch(`${API_BASE_URL}/api/verify-membership`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ userId, taskId, channelId, reward: parseInt(reward) })
+                    });
+                    
                     const data = await res.json();
                     if (!res.ok) throw new Error(data.error);
+                    
                     currentUser.points = data.points;
-                    currentUser.claimedBonuses = [...(currentUser.claimedBonuses || []), taskId];
-                    await saveUserState(); navigateTo('tasks');
-                    showToast(`+${reward} ${AppConfig.currencyName || 'Points'}!`);
-                } catch (error) { showToast(error.message); button.disabled = false; button.textContent = 'Verify'; }
-            }, 7000);
+                    if (!currentUser.claimedBonuses) currentUser.claimedBonuses = [];
+                    currentUser.claimedBonuses.push(taskId);
+                    
+                    await saveUserState();
+                    updateUI();
+                    showToast(`+${reward} ${AppConfig.currencyName || 'Points'} claimed!`);
+                    button.textContent = 'Claimed';
+
+                } catch (error) {
+                    showToast(error.message);
+                    button.disabled = false;
+                    button.textContent = 'Verify & Claim';
+                }
+            }, 7000); // 7-second delay for verification
         }
+        
+        function renderWithdrawPage() {
+            mainContent.innerHTML = `
+                <div class="task-card">
+                    <h2 class="section-title">Withdraw</h2>
+                    <p>Minimum withdrawal is ${AppConfig.minWithdraw || 0} ${AppConfig.currencyName || 'Points'}.</p>
+                    <div class="input-group">
+                        <label class="input-label">Amount</label>
+                        <input type="number" id="withdrawAmount" class="input-field" placeholder="Enter amount">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Payment Method</label>
+                        <select id="withdrawMethod" class="select-field">
+                            <option value="">Select method</option>
+                            <option>Recharge</option><option>Bkash</option><option>Nagad</option><option>Binance (USDT)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Account Number / Address</label>
+                        <input type="text" id="withdrawAccount" class="input-field" placeholder="Enter your account details">
+                    </div>
+                    <button id="submitWithdrawalBtn" class="btn btn-primary">Submit Request</button>
+                    <p class="status-message" id="withdrawStatus"></p>
+                </div>`;
+            
+            document.getElementById('submitWithdrawalBtn').addEventListener('click', handleSubmitWithdrawal);
+        }
+
         async function handleSubmitWithdrawal() {
             const amount = parseInt(document.getElementById('withdrawAmount').value);
             const method = document.getElementById('withdrawMethod').value;
             const account = document.getElementById('withdrawAccount').value.trim();
             const statusEl = document.getElementById('withdrawStatus');
-            statusEl.textContent = ''; statusEl.className = 'status-message';
-            if (isNaN(amount) || amount <= 0 || !method || !account) { statusEl.textContent = "Please fill all fields."; statusEl.classList.add('error-message'); return; }
-            if (amount < (AppConfig.minWithdraw || 0)) { statusEl.textContent = `Minimum is ${AppConfig.minWithdraw || 0}.`; statusEl.classList.add('error-message'); return; }
-            if (amount > (currentUser.points || 0)) { statusEl.textContent = "Insufficient funds."; statusEl.classList.add('error-message'); return; }
-            
-            const btn = document.getElementById('submitWithdrawalBtn');
-            btn.disabled = true; btn.textContent = 'Processing...';
 
+            statusEl.textContent = '';
+            statusEl.className = 'status-message';
+
+            if (isNaN(amount) || amount <= 0 || !method || !account) {
+                statusEl.textContent = "Please fill all fields correctly.";
+                statusEl.classList.add('error-message');
+                return;
+            }
+            if (amount < (AppConfig.minWithdraw || 0)) {
+                statusEl.textContent = `Minimum withdrawal is ${AppConfig.minWithdraw || 0}.`;
+                statusEl.classList.add('error-message');
+                return;
+            }
+            if (amount > (currentUser.points || 0)) {
+                statusEl.textContent = "You don't have enough funds.";
+                statusEl.classList.add('error-message');
+                return;
+            }
+
+            const originalPoints = currentUser.points;
+            currentUser.points -= amount;
+            updateUI();
+            
             try {
-                const response = await fetch(`${API_BASE_URL}/api/request-withdrawal`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ userId, amount, method, account }) });
-                if (!response.ok) throw new Error((await response.json()).error);
-                await loadUserState(); // Re-fetch user state from server
-                statusEl.textContent = "Request submitted successfully!"; statusEl.classList.add('success-message');
-                ['withdrawAmount', 'withdrawAccount'].forEach(id => document.getElementById(id).value = '');
+                const response = await fetch(`${API_BASE_URL}/api/request-withdrawal`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        userId, amount, method, account,
+                        userPoints: currentUser.points, totalAds: currentUser.totalAdsWatchedLifetime
+                    })
+                });
+                if (!response.ok) throw new Error("Server failed to process request.");
+                
+                await saveUserState();
+                statusEl.textContent = "Withdrawal request submitted successfully!";
+                statusEl.classList.add('success-message');
+                ['withdrawAmount', 'withdrawMethod', 'withdrawAccount'].forEach(id => document.getElementById(id).value = '');
             } catch (error) {
-                statusEl.textContent = `Error: ${error.message}`; statusEl.classList.add('error-message');
-            } finally {
-                btn.disabled = false; btn.textContent = 'Submit Request';
+                currentUser.points = originalPoints;
+                updateUI();
+                statusEl.textContent = "An error occurred. Please try again.";
+                statusEl.classList.add('error-message');
             }
         }
-        function applyTheme(theme, headerOnly = false) {
-            const target = headerOnly ? document.getElementById('themeToggleHeader') : document.querySelector('.theme-toggle');
-            if (!headerOnly) document.body.classList.toggle('dark-mode', theme === 'dark');
-            if (target) target.innerHTML = document.body.classList.contains('dark-mode') ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
-            if (!headerOnly) localStorage.setItem('theme', theme);
+
+        async function renderLeaderboardPage() {
+            mainContent.innerHTML = `<div class="task-card"><p>Loading leaderboard...</p></div>`;
+            try {
+                const res = await fetch(`${API_BASE_URL}/api/leaderboard`);
+                const data = await res.json();
+                const currency = AppConfig.currencyName || 'Points';
+                mainContent.innerHTML = `
+                    <div class="task-card">
+                        <h2 class="section-title">Leaderboard</h2>
+                        <div class="leaderboard-tabs">
+                            <div class="leaderboard-tab active" data-board="points">By ${currency}</div>
+                            <div class="leaderboard-tab" data-board="referrals">By Referrals</div>
+                        </div>
+                        <div id="points-board" class="leaderboard-list"></div>
+                        <div id="referrals-board" class="leaderboard-list" style="display:none;"></div>
+                    </div>`;
+
+                const renderBoard = (board, users, unit, unitName = '') => {
+                    if (users.length === 0) return board.innerHTML = '<p>No data yet.</p>';
+                    board.innerHTML = users.map((user, i) => `
+                        <div class="user-item">
+                            <div class="rank">${i + 1}</div>
+                            <div class="username">${user.username}</div>
+                            <div class="score">${user[unit]} ${unitName}</div>
+                        </div>`).join('');
+                };
+
+                renderBoard(document.getElementById('points-board'), data.byPoints, 'points', currency);
+                renderBoard(document.getElementById('referrals-board'), data.byReferrals, 'referrals');
+                
+                document.querySelectorAll('.leaderboard-tab').forEach(tab => {
+                    tab.addEventListener('click', () => {
+                        document.querySelector('.leaderboard-tab.active').classList.remove('active');
+                        tab.classList.add('active');
+                        document.querySelectorAll('.leaderboard-list').forEach(l => l.style.display = 'none');
+                        document.getElementById(`${tab.dataset.board}-board`).style.display = 'block';
+                    });
+                });
+            } catch (error) {
+                mainContent.innerHTML = `<div class="task-card"><p>Could not load leaderboard.</p></div>`;
+            }
         }
-        function toggleTheme() { applyTheme(document.body.classList.contains('dark-mode') ? 'light' : 'dark'); }
-        function showToast(message) { toast.textContent = message; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 3000); }
+
+        async function renderReferralPage() {
+            mainContent.innerHTML = `<div class="task-card"><p>Loading referral data...</p></div>`;
+            const referralLink = `${AppConfig.botLink || 'https://t.me/YourBot'}/?start=ref${currentUser.referralCode}`;
+            const referredUsersCount = currentUser.referredUsers?.length || 0;
+            const earnedFromReferrals = referredUsersCount * (AppConfig.referralBonusReferrer || 0);
+
+            let referredByHtml = `<p>You were not referred by anyone.</p>`;
+            if (currentUser.referredBy) {
+                try {
+                    const res = await fetch(`${API_BASE_URL}/api/referrer/${currentUser.referredBy}`);
+                    if (res.ok) referredByHtml = `<p>You were invited by: <b>${(await res.json()).username}</b></p>`;
+                    else referredByHtml = `<p>Invited by: <i>User not found</i></p>`;
+                } catch (e) { referredByHtml = `<p>Could not load referrer info.</p>`; }
+            }
+            
+            let referredUsersListHtml = `<div style="text-align:center; padding: 20px 0;"><p>You haven't referred anyone yet.</p></div>`;
+            if (referredUsersCount > 0) {
+                referredUsersListHtml = `<h3 style="margin: 20px 0 10px; font-size: 1rem;">Your Referrals (${referredUsersCount})</h3><div class="leaderboard-list">`;
+                const userPromises = currentUser.referredUsers.map(id => fetch(`${API_BASE_URL}/api/referrer/${id}`).then(r => r.ok ? r.json() : {username: `User (${id})`}).catch(() => ({username: `User (${id})`})));
+                const userDetails = await Promise.all(userPromises);
+                referredUsersListHtml += userDetails.map(user => `<div class="user-item"><div class="username">${user.username}</div></div>`).join('');
+                referredUsersListHtml += `</div>`;
+            }
+
+            mainContent.innerHTML = `
+                <div class="task-card">
+                    <h2 class="section-title">Refer & Earn</h2>
+                    ${referredByHtml}
+                    <div style="background: var(--input-bg); border-radius: 8px; padding: 15px; margin: 20px 0; border: 1px dashed var(--border-color);">
+                        <label style="display:block; margin-bottom:8px;">Your Personal Referral Link</label>
+                        <div style="display:flex;">
+                            <input type="text" id="referralLinkDisplay" value="${referralLink}" readonly style="flex:1; padding:10px; border-radius: 4px 0 0 4px; background: var(--card-bg); color: var(--text-primary); border: 1px solid var(--border-color);">
+                            <button id="copyLinkBtn" style="padding: 0 15px; border:none; background: var(--primary-color); color:white; border-radius: 0 4px 4px 0; cursor:pointer;">Copy</button>
+                        </div>
+                    </div>
+                    <div style="display:flex; justify-content:space-around; text-align:center; padding-top: 15px; border-top: 1px solid var(--border-color);">
+                        <div><div style="font-size:1.5rem; font-weight:bold;">${referredUsersCount}</div><div style="font-size:0.8rem;">Referrals</div></div>
+                        <div><div style="font-size:1.5rem; font-weight:bold;">${earnedFromReferrals}</div><div style="font-size:0.8rem;">Earned</div></div>
+                    </div>
+                    ${referredUsersListHtml}
+                </div>`;
+
+            document.getElementById('copyLinkBtn').addEventListener('click', () => {
+                navigator.clipboard.writeText(referralLink).then(() => showToast('Link copied to clipboard!'));
+            });
+        }
+        
+        function applyTheme(theme) {
+            document.body.classList.toggle('dark-mode', theme === 'dark');
+            document.getElementById('themeToggle').innerHTML = theme === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+            localStorage.setItem('theme', theme);
+        }
+        function toggleTheme() {
+            applyTheme(document.body.classList.contains('dark-mode') ? 'light' : 'dark');
+        }
+        function showToast(message) {
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
     </script>
 </body>
 </html>
