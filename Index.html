@@ -32,17 +32,15 @@
         body { font-family: 'Inter', sans-serif; min-height: 100vh; overflow-x: hidden; transition: background-color 0.3s, color 0.3s; }
         .app-container { max-width: 480px; margin: 0 auto; }
         
-        /* Headers */
         .home-header { height: 180px; background: linear-gradient(135deg, var(--primary-color), var(--primary-dark)); position: relative; display: flex; align-items: center; justify-content: center; flex-direction: column; color: white; border-bottom-left-radius: var(--border-radius); border-bottom-right-radius: var(--border-radius); }
         .page-header { display: none; align-items: center; padding: 10px 15px; background: var(--card-bg); border-bottom: 1px solid var(--border-color); }
         .page-header .user-info { display: flex; align-items: center; gap: 10px; }
-        .page-header .pfp { width: 40px; height: 40px; border-radius: 50%; background: #ccc; border: 2px solid var(--primary-color); }
+        .page-header .pfp { width: 40px; height: 40px; border-radius: 50%; background: var(--input-bg); border: 2px solid var(--primary-color); }
         .page-header .name { font-weight: 600; font-size: 1rem; color: var(--text-primary); }
         .page-header .welcome { font-size: 0.8rem; color: var(--text-secondary); }
         .page-header .balance { flex: 1; text-align: center; font-weight: 600; font-size: 1.1rem; color: var(--primary-color); }
         .theme-toggle { width: 40px; height: 40px; border-radius: 50%; background: var(--input-bg); display: flex; align-items: center; justify-content: center; cursor: pointer; border: 1px solid var(--border-color); color: var(--text-primary); flex-shrink: 0; }
         
-        /* Profile & Home */
         .profile-section { padding: 0 20px; position: relative; z-index: 2; margin-top: -50px; }
         .profile-card { background: var(--card-bg); border-radius: var(--border-radius); padding: 70px 20px 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.1); border: 1px solid var(--border-color); text-align: center; }
         .profile-pic { position: absolute; top: -45px; left: 50%; transform: translateX(-50%); width: 90px; height: 90px; border-radius: 50%; border: 3px solid var(--card-bg); object-fit: cover; background: var(--primary-color); }
@@ -52,12 +50,12 @@
         .home-stat .label { font-size: 0.8rem; color: var(--text-secondary); }
         .home-stat .value { font-size: 1.2rem; font-weight: 600; color: var(--text-primary); }
 
-        /* General Content */
         .content-section { padding: 20px; margin-bottom: 80px; }
         .card { background: var(--card-bg); border-radius: var(--border-radius); padding: 20px; margin-bottom: 20px; border: 1px solid var(--border-color); }
         .section-title { font-size: 1.2rem; font-weight: 600; margin-bottom: 15px; color: var(--text-primary); }
         .btn { display: block; width: 100%; padding: 12px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; text-align: center; text-decoration: none; }
         .btn-primary { background: var(--primary-color); color: white; }
+        .btn[disabled] { background-color: var(--border-color); color: var(--text-secondary); cursor: not-allowed; }
         .channel-list { list-style: none; padding: 0; }
         .channel-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border-color); }
         .channel-item:last-child { border-bottom: none; }
@@ -70,13 +68,12 @@
         .status-message { text-align: center; margin-top: 15px; font-size: 0.85rem; padding: 8px; border-radius: 8px; display: none; }
         .success-message { background: rgba(80, 227, 194, 0.1); color: #50E3C2; display: block; } .error-message { background: rgba(230, 74, 74, 0.1); color: #E64A4A; display: block; }
 
-        /* Leaderboard */
         .leaderboard-tabs { display: flex; margin-bottom: 20px; border-radius: 8px; background: var(--input-bg); padding: 5px; }
         .leaderboard-tab { flex: 1; padding: 10px; text-align: center; cursor: pointer; border-radius: 6px; font-weight: 500; }
         .leaderboard-tab.active { background: var(--primary-color); color: white; }
         .top-3 { display: flex; justify-content: center; align-items: flex-end; gap: 15px; margin-bottom: 30px; }
         .rank-circle { text-align: center; }
-        .rank-circle .pfp { width: 60px; height: 60px; border-radius: 50%; background: #ccc; border: 3px solid #cd7f32; margin: 0 auto 5px; }
+        .rank-circle .pfp { width: 60px; height: 60px; border-radius: 50%; background: var(--input-bg); border: 3px solid #cd7f32; margin: 0 auto 5px; }
         .rank-circle .name { font-weight: 600; font-size: 0.9rem; }
         .rank-circle .score { font-size: 0.8rem; color: var(--text-secondary); }
         .rank-1 .pfp { width: 80px; height: 80px; border-color: #ffd700; }
@@ -86,7 +83,6 @@
         .user-item .username { flex: 1; font-weight: 500; }
         .user-item .score { font-weight: bold; color: var(--primary-color); }
 
-        /* Bottom Nav */
         .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--card-bg); display: flex; justify-content: space-around; padding: 5px 0; box-shadow: 0 -3px 15px rgba(0,0,0,0.08); z-index: 100; max-width: 480px; margin: 0 auto; border-top: 1px solid var(--border-color); border-radius: 12px 12px 0 0; }
         .nav-item { display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-secondary); text-decoration: none; font-size: 0.7rem; flex: 1; padding: 5px 0; }
         .nav-item i { font-size: 1.3rem; margin-bottom: 3px; } .nav-item.active { color: var(--primary-color); }
@@ -121,7 +117,7 @@
             </div>
         </div>
 
-        <div class="content-section" id="mainContent"><p style="text-align:center;">Loading...</p></div>
+        <div class="content-section" id="mainContent"><p style="text-align:center;">Initializing App...</p></div>
 
         <div class="bottom-nav">
             <a href="#" class="nav-item active" data-page="home"><i class="fas fa-home"></i><span>Home</span></a>
@@ -144,10 +140,11 @@
         const profileSection = document.getElementById('profileSection');
         const toast = document.getElementById('toast');
 
+        // --- 1. INITIALIZATION ---
         document.addEventListener('DOMContentLoaded', async () => {
             const tg = window.Telegram.WebApp;
             tg.expand();
-
+            
             const urlParams = new URLSearchParams(window.location.search);
             userId = tg.initDataUnsafe?.user?.id?.toString() || urlParams.get('userId');
 
@@ -156,12 +153,20 @@
                 return;
             }
 
-            await loadAppConfig();
-            await loadUserState();
-            
-            applyTheme(localStorage.getItem('theme') || 'light');
-            navigateTo('home');
-            
+            try {
+                // Wait for all essential data to be fetched before proceeding
+                await Promise.all([loadAppConfig(), loadUserState()]);
+                
+                // Now that data is loaded, set up the UI and event listeners
+                applyTheme(localStorage.getItem('theme') || 'light');
+                setupEventListeners();
+                navigateTo('home');
+            } catch (error) {
+                mainContent.innerHTML = `<div class="card"><h2 class="section-title">Initialization Failed</h2><p>${error.message}</p></div>`;
+            }
+        });
+
+        function setupEventListeners() {
             document.getElementById('themeToggle').addEventListener('click', toggleTheme);
             document.querySelectorAll('.nav-item').forEach(item => {
                 item.addEventListener('click', e => {
@@ -169,31 +174,26 @@
                     navigateTo(item.dataset.page);
                 });
             });
-        });
+        }
 
+        // --- 2. DATA FETCHING & SAVING ---
         async function loadAppConfig() {
-            try {
-                const [configRes, tasksRes] = await Promise.all([
-                    fetch(`${API_BASE_URL}/api/config`),
-                    fetch(`${API_BASE_URL}/api/tasks`)
-                ]);
-                AppConfig = await configRes.json();
-                const tasksData = await tasksRes.json();
-                BonusTasks = tasksData ? Object.values(tasksData) : [];
-            } catch (error) { showToast("Error loading app settings."); }
+            const [configRes, tasksRes] = await Promise.all([
+                fetch(`${API_BASE_URL}/api/config`),
+                fetch(`${API_BASE_URL}/api/tasks`)
+            ]);
+            if (!configRes.ok || !tasksRes.ok) throw new Error("Could not connect to server. Please try again later.");
+            AppConfig = await configRes.json();
+            const tasksData = await tasksRes.json();
+            BonusTasks = tasksData ? Object.values(tasksData) : [];
         }
 
         async function loadUserState() {
-            try {
-                const response = await fetch(`${API_BASE_URL}/api/user/${userId}`);
-                if (!response.ok) throw new Error((await response.json()).error);
-                currentUser = await response.json();
-                const today = new Date().toLocaleDateString();
-                if (currentUser.lastAdWatchDate !== today) currentUser.adsWatchedToday = 0;
-                updateUI();
-            } catch (error) {
-                mainContent.innerHTML = `<div class="card"><h2 class="section-title">Error</h2><p>${error.message}</p></div>`;
-            }
+            const response = await fetch(`${API_BASE_URL}/api/user/${userId}`);
+            if (!response.ok) throw new Error((await response.json()).error);
+            currentUser = await response.json();
+            const today = new Date().toLocaleDateString();
+            if (currentUser.lastAdWatchDate !== today) currentUser.adsWatchedToday = 0;
         }
         
         async function saveUserState() {
@@ -207,6 +207,7 @@
             } catch (error) { showToast("Error saving progress."); }
         }
         
+        // --- 3. UI MANAGEMENT ---
         function updateUI() {
             if (!currentUser) return;
             const currency = AppConfig.currencyName || 'Points';
@@ -218,7 +219,8 @@
 
         function navigateTo(page) {
             document.querySelector('.nav-item.active')?.classList.remove('active');
-            document.querySelector(`.nav-item[data-page="${page}"]`)?.classList.add('active');
+            const newActive = document.querySelector(`.nav-item[data-page="${page}"]`);
+            if (newActive) newActive.classList.add('active');
             
             const isHome = (page === 'home');
             homeHeader.style.display = isHome ? 'flex' : 'none';
@@ -230,9 +232,14 @@
                 'leaderboard': renderLeaderboardPage, 'referral': renderReferralPage,
                 'withdraw': renderWithdrawPage
             }[page];
-            if (renderFunc) renderFunc();
+
+            if (renderFunc) {
+                updateUI(); // Ensure header balance is updated on every page change
+                renderFunc();
+            }
         }
 
+        // --- 4. PAGE RENDERERS ---
         async function renderHomePage() {
             if (!LeaderboardData) {
                 try {
@@ -257,7 +264,6 @@
         function renderTasksPage() {
             const currency = AppConfig.currencyName || 'Points';
             const adsLeft = (AppConfig.adsPerDay || 0) - (currentUser.adsWatchedToday || 0);
-            const progress = adsLeft > 0 ? ((currentUser.adsWatchedToday || 0) / (AppConfig.adsPerDay || 1)) * 100 : 100;
             
             let bonusTasksHtml = BonusTasks.map(task => {
                 const isClaimed = currentUser.claimedBonuses?.includes(task.id);
@@ -298,8 +304,7 @@
             if (!LeaderboardData) {
                 try {
                     const res = await fetch(`${API_BASE_URL}/api/leaderboard/${userId}`);
-                    if(res.ok) LeaderboardData = await res.json();
-                    else throw new Error("Failed to fetch");
+                    if(res.ok) LeaderboardData = await res.json(); else throw new Error("Failed to fetch");
                 } catch (e) {
                     mainContent.innerHTML = `<div class="card"><p>Could not load leaderboard.</p></div>`;
                     return;
@@ -308,7 +313,7 @@
 
             const renderTop3 = (users, unit) => {
                 let html = '<div class="top-3">';
-                const podiumOrder = [users[1], users[0], users[2]].filter(Boolean); // Reorder for visual layout [2nd, 1st, 3rd]
+                const podiumOrder = [users[1], users[0], users[2]].filter(Boolean);
                 const rankClasses = { 0: 'rank-2', 1: 'rank-1', 2: 'rank-3' };
                 podiumOrder.forEach((user, i) => {
                     html += `<div class="rank-circle ${rankClasses[i]}">
@@ -389,18 +394,137 @@
                 </div>`;
 
             document.getElementById('copyLinkBtn').addEventListener('click', () => {
-                navigator.clipboard.writeText(referralLink).then(() => showToast('Link copied to clipboard!'));
+                navigator.clipboard.writeText(referralLink).then(() => showToast('Link copied!'));
             });
         }
         
-        function renderWithdrawPage() { /* ... Same as previous version, fully functional ... */ }
+        function renderWithdrawPage() {
+            mainContent.innerHTML = `
+                <div class="card">
+                    <h2 class="section-title">Withdraw</h2>
+                    <p>Minimum withdrawal is ${AppConfig.minWithdraw || 0} ${AppConfig.currencyName || 'Points'}.</p>
+                    <div class="input-group">
+                        <label class="input-label">Amount</label>
+                        <input type="number" id="withdrawAmount" class="input-field" placeholder="Enter amount">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Payment Method</label>
+                        <select id="withdrawMethod" class="select-field">
+                            <option value="">Select method</option>
+                            <option>Recharge</option><option>Bkash</option><option>Nagad</option><option>Binance (USDT)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Account Number / Address</label>
+                        <input type="text" id="withdrawAccount" class="input-field" placeholder="Enter your account details">
+                    </div>
+                    <button id="submitWithdrawalBtn" class="btn btn-primary">Submit Request</button>
+                    <p class="status-message" id="withdrawStatus"></p>
+                </div>`;
+            document.getElementById('submitWithdrawalBtn').addEventListener('click', handleSubmitWithdrawal);
+        }
 
-        // --- HANDLER FUNCTIONS ---
-        function handleWatchDailyAd() { /* ... Same as previous version, fully functional ... */ }
-        async function handleBonusClaim(event) { /* ... Same as previous version, fully functional ... */ }
-        async function handleSubmitWithdrawal() { /* ... Same as previous version, fully functional ... */ }
+        // --- 5. HANDLER FUNCTIONS ---
+        function handleWatchDailyAd() {
+            const adFuncName = AppConfig.monetagAdFunction;
+            if (adFuncName && typeof adFuncName === 'string' && adFuncName.trim() !== "" && typeof window[adFuncName] === 'function') {
+                showToast("Loading ad...");
+                try {
+                    window[adFuncName]();
+                    setTimeout(() => {
+                        currentUser.points = (currentUser.points || 0) + (AppConfig.pointsPerAd || 0);
+                        currentUser.adsWatchedToday = (currentUser.adsWatchedToday || 0) + 1;
+                        currentUser.totalAdsWatchedLifetime = (currentUser.totalAdsWatchedLifetime || 0) + 1;
+                        currentUser.lastAdWatchDate = new Date().toLocaleDateString();
+                        saveUserState();
+                        updateUI();
+                        navigateTo('tasks'); // Refresh the tasks page
+                        showToast(`+${AppConfig.pointsPerAd || 0} ${AppConfig.currencyName || 'Points'} earned!`);
+                    }, 8000);
+                } catch (error) { showToast("Could not load ad. Please try again."); }
+            } else { showToast("Ad service is not configured by the admin."); }
+        }
 
-        // --- UTILITY FUNCTIONS ---
+        async function handleBonusClaim(event) {
+            const button = event.currentTarget;
+            const { taskId, channelId, reward, link } = button.dataset;
+            if (!channelId || channelId === 'undefined' || channelId.trim() === '') return showToast("Admin has not set a Channel ID for this task.");
+            
+            window.open(link, '_blank');
+            button.disabled = true;
+            button.textContent = 'Verifying...';
+
+            setTimeout(async () => {
+                try {
+                    const res = await fetch(`${API_BASE_URL}/api/verify-membership`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ userId, taskId, channelId, reward: parseInt(reward) })
+                    });
+                    const data = await res.json();
+                    if (!res.ok) throw new Error(data.error);
+                    
+                    currentUser.points = data.points;
+                    if (!currentUser.claimedBonuses) currentUser.claimedBonuses = [];
+                    currentUser.claimedBonuses.push(taskId);
+                    
+                    await saveUserState();
+                    updateUI();
+                    showToast(`+${reward} ${AppConfig.currencyName || 'Points'} claimed!`);
+                    button.textContent = 'Claimed';
+                } catch (error) {
+                    showToast(error.message);
+                    button.disabled = false;
+                    button.textContent = 'Verify & Claim';
+                }
+            }, 7000);
+        }
+        
+        async function handleSubmitWithdrawal() {
+            const amount = parseInt(document.getElementById('withdrawAmount').value);
+            const method = document.getElementById('withdrawMethod').value;
+            const account = document.getElementById('withdrawAccount').value.trim();
+            const statusEl = document.getElementById('withdrawStatus');
+
+            statusEl.textContent = ''; statusEl.className = 'status-message';
+
+            if (isNaN(amount) || amount <= 0 || !method || !account) {
+                statusEl.textContent = "Please fill all fields correctly.";
+                statusEl.classList.add('error-message'); return;
+            }
+            if (amount < (AppConfig.minWithdraw || 0)) {
+                statusEl.textContent = `Minimum withdrawal is ${AppConfig.minWithdraw || 0}.`;
+                statusEl.classList.add('error-message'); return;
+            }
+            if (amount > (currentUser.points || 0)) {
+                statusEl.textContent = "You don't have enough funds.";
+                statusEl.classList.add('error-message'); return;
+            }
+
+            const originalPoints = currentUser.points;
+            currentUser.points -= amount;
+            updateUI();
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/request-withdrawal`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ userId, amount, method, account })
+                });
+                if (!response.ok) throw new Error("Server failed to process request.");
+                
+                await saveUserState();
+                statusEl.textContent = "Withdrawal request submitted successfully!";
+                statusEl.classList.add('success-message');
+                ['withdrawAmount', 'withdrawMethod', 'withdrawAccount'].forEach(id => document.getElementById(id).value = '');
+            } catch (error) {
+                currentUser.points = originalPoints;
+                updateUI();
+                statusEl.textContent = "An error occurred. Please try again.";
+                statusEl.classList.add('error-message');
+            }
+        }
+
+        // --- 6. UTILITY FUNCTIONS ---
         function applyTheme(theme) {
             document.body.classList.toggle('dark-mode', theme === 'dark');
             document.getElementById('themeToggle').innerHTML = theme === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
