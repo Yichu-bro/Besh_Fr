@@ -14,7 +14,6 @@
     <style>
         :root {
             --primary-color: #4A90E2; --primary-dark: #357ABD; --secondary-color: #50E3C2; --accent-color: #F5A623;
-            --leaderboard-red: #e54646;
             --bg-light: #F7F7F7; --bg-dark: #2C3E50; --card-bg-light: #FFFFFF; --card-bg-dark: #34495E;
             --text-dark: #333333; --text-light: #ECF0F1; --text-secondary-light: #667; --text-secondary-dark: #95a5a6;
             --border-color-light: #E0E0E0; --border-color-dark: #4A657D; --border-radius: 12px;
@@ -81,21 +80,21 @@
         .status-message { text-align: center; margin-top: 15px; font-size: 0.85rem; padding: 8px; border-radius: 8px; display: none; }
         .success-message { background: rgba(80, 227, 194, 0.1); color: #50E3C2; display: block; } .error-message { background: rgba(230, 74, 74, 0.1); color: #E64A4A; display: block; }
 
-        .leaderboard-tabs { display: flex; margin-bottom: 20px; border-radius: 8px; background: var(--input-bg); padding: 5px; }
+        .leaderboard-tabs, .top-3, .leaderboard-list { margin-bottom: 20px; }
         .leaderboard-tab { flex: 1; padding: 10px; text-align: center; cursor: pointer; border-radius: 6px; font-weight: 500; }
         .leaderboard-tab.active { background: var(--primary-color); color: white; }
-        .top-3 { display: flex; justify-content: center; align-items: flex-end; gap: 15px; margin-bottom: 30px; }
-        .rank-circle { text-align: center; }
-        .rank-circle .pfp { width: 60px; height: 60px; border-radius: 50%; background: var(--input-bg); border: 3px solid #cd7f32; margin: 0 auto 5px; background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.5rem; color: var(--text-primary); }
-        .rank-circle .name { font-weight: 600; font-size: 0.9rem; }
-        .rank-circle .score { font-size: 0.8rem; color: var(--text-secondary); }
-        .rank-1 .pfp { width: 80px; height: 80px; border-color: #ffd700; font-size: 2rem; }
-        .rank-2 .pfp { width: 70px; height: 70px; border-color: #c0c0c0; }
+        .top-3 { display: flex; justify-content: center; align-items: flex-end; gap: 15px; }
+        .rank-circle .pfp { display: flex; align-items: center; justify-content: center; font-weight: bold; }
+        .leaderboard-list .user-item, .referral-list .user-item { display: flex; align-items: center; padding: 12px 5px; border-bottom: 1px solid var(--border-color); }
+        .user-item .rank { font-weight: bold; width: 40px; color: var(--text-secondary); text-align: center; }
+        .user-item .username { flex: 1; font-weight: 500; color: var(--text-primary); }
+        .user-item .score { font-weight: bold; color: var(--primary-color); }
         
-        .leaderboard-list-item { display: flex; align-items: center; background-color: var(--leaderboard-red); border-radius: 12px; padding: 5px; margin-bottom: 10px; }
-        .leaderboard-list-item .rank { background-color: white; color: black; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.1rem; flex-shrink: 0; z-index: 2; }
-        .leaderboard-list-item .username { background-color: white; color: black; flex-grow: 1; padding: 10px 15px 10px 25px; font-weight: 600; margin-left: -15px; border-radius: 0 4px 4px 0; }
-        .leaderboard-list-item .score { background-color: white; color: black; font-weight: 700; padding: 10px 15px; border-radius: 8px; margin-left: 5px; flex-shrink: 0; }
+        .referral-list-item { display: flex; align-items: center; padding: 12px; border-radius: 10px; margin-bottom: 10px; background: linear-gradient(90deg, #4b6cb7, #182848); color: white; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        body.dark-mode .referral-list-item { background: linear-gradient(90deg, #3a506b, #1c2541); }
+        .referral-list-item i { font-size: 1.2rem; margin-right: 15px; }
+        .referral-list-item .username { font-weight: 500; flex-grow: 1; }
+        .referral-list-item .id { font-size: 0.8rem; opacity: 0.7; }
         
         .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--card-bg); display: flex; justify-content: space-around; padding: 5px 0; box-shadow: 0 -3px 15px rgba(0,0,0,0.08); z-index: 100; max-width: 480px; margin: 0 auto; border-top: 1px solid var(--border-color); border-radius: 12px 12px 0 0; }
         .nav-item { display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-secondary); text-decoration: none; font-size: 0.7rem; flex: 1; padding: 5px 0; }
@@ -106,10 +105,9 @@
 
         .requirements-list { list-style: none; padding: 0; margin-top: 20px; }
         .requirements-list li { background: var(--input-bg); padding: 15px; border-radius: 8px; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; }
-        .requirements-list .status { font-size: 1.5rem; }
+        .requirements-list .status { font-weight: bold; font-size: 1.2rem; }
         .requirements-list .status.met { color: #50E3C2; }
         .requirements-list .status.not-met { color: #E64A4A; }
-
     </style>
 </head>
 <body>
@@ -433,10 +431,10 @@
             
             let usersListHtml = `<p style="text-align:center; color: var(--text-secondary); padding: 20px 0;">You haven't referred anyone yet.</p>`;
             if (referredUsersCount > 0) {
-                usersListHtml = `<div class="leaderboard-list">`;
-                const userPromises = currentUser.referredUsers.map(id => fetch(`${API_BASE_URL}/api/referrer/${id}`).then(r => r.ok ? r.json() : {username: `User (ID: ${id})`}).catch(() => ({username: `User (${id})`})));
+                usersListHtml = `<div class="referral-list">`;
+                const userPromises = currentUser.referredUsers.map(id => fetch(`${API_BASE_URL}/api/referrer/${id}`).then(r => r.ok ? r.json().then(u => ({...u, id})) : {username: `User`, id}) );
                 const userDetails = await Promise.all(userPromises);
-                usersListHtml += userDetails.map(u => `<div class="user-item"><div class="username">${u.username}</div></div>`).join('');
+                usersListHtml += userDetails.map(u => `<div class="referral-list-item"><i class="fas fa-user-circle"></i><div class="username">${u.username}</div><div class="id">ID: ${u.id}</div></div>`).join('');
                 usersListHtml += `</div>`;
             }
 
@@ -471,24 +469,24 @@
                 bonuses: BonusTasks.length,
                 story: 1
             };
+            
             const progress = {
-                referrals: currentUser.referredUsers?.length || 0,
-                ads: currentUser.totalAdsWatchedLifetime || 0,
-                bonuses: currentUser.claimedBonuses?.length || 0,
-                story: currentUser.storyPosted ? 1 : 0
+                referrals: (currentUser.referredUsers?.length || 0) - (currentUser.lastWithdrawalReferralCount || 0),
+                ads: (currentUser.totalAdsWatchedLifetime || 0) - (currentUser.lastWithdrawalAdCount || 0),
+                bonuses: (currentUser.claimedBonuses?.length || 0) - (currentUser.lastWithdrawalBonusCount || 0),
+                story: currentUser.storyPostedSinceLastWithdrawal ? 1 : 0
             };
 
-            const bonusTasksMet = currentUser.bonusTasksRequirementMet || (reqs.bonuses > 0 && progress.bonuses >= reqs.bonuses);
             const canWithdraw = progress.referrals >= reqs.referrals &&
                                 progress.ads >= reqs.ads &&
-                                bonusTasksMet &&
+                                progress.bonuses >= reqs.bonuses &&
                                 progress.story >= reqs.story;
 
             let contentHtml = '';
             if (canWithdraw) {
                 contentHtml = `
                     <h2 class="section-title">Withdraw</h2>
-                    <p>Congratulations! You can now withdraw. Minimum: ${AppConfig.minWithdraw || 0} ${AppConfig.currencyName || 'Points'}.</p>
+                    <p>Congratulations! You can now make one withdrawal. Minimum: ${AppConfig.minWithdraw || 0} ${AppConfig.currencyName || 'Points'}.</p>
                     <div class="input-group" style="margin-top: 20px;">
                         <label class="input-label">Amount</label>
                         <input type="number" id="withdrawAmount" class="input-field" placeholder="Enter amount">
@@ -513,23 +511,23 @@
                 `;
             } else {
                 contentHtml = `
-                    <h2 class="section-title">Unlock Withdrawals</h2>
-                    <p>Complete the following tasks to enable the withdrawal option.</p>
+                    <h2 class="section-title">Unlock Next Withdrawal</h2>
+                    <p>Complete the following tasks to enable your next withdrawal.</p>
                     <ul class="requirements-list">
                         <li>
-                            <div>Invite ${reqs.referrals} Friends <small>(${progress.referrals}/${reqs.referrals})</small></div>
+                            <div>Invite ${reqs.referrals} More Friends <small>(${progress.referrals}/${reqs.referrals})</small></div>
                             <div class="status ${progress.referrals >= reqs.referrals ? 'met' : 'not-met'}">${progress.referrals >= reqs.referrals ? '✔️' : '❌'}</div>
                         </li>
                         <li>
-                            <div>Watch ${reqs.ads} Ads <small>(${progress.ads}/${reqs.ads})</small></div>
+                            <div>Watch ${reqs.ads} More Ads <small>(${progress.ads}/${reqs.ads})</small></div>
                             <div class="status ${progress.ads >= reqs.ads ? 'met' : 'not-met'}">${progress.ads >= reqs.ads ? '✔️' : '❌'}</div>
                         </li>
                         <li>
-                            <div>Complete All Bonus Tasks <small>(${progress.bonuses}/${reqs.bonuses})</small></div>
-                            <div class="status ${bonusTasksMet ? 'met' : 'not-met'}">${bonusTasksMet ? '✔️' : '❌'}</div>
+                            <div>Complete ${reqs.bonuses} New Bonus Tasks <small>(${progress.bonuses}/${reqs.bonuses})</small></div>
+                            <div class="status ${progress.bonuses >= reqs.bonuses ? 'met' : 'not-met'}">${progress.bonuses >= reqs.bonuses ? '✔️' : '❌'}</div>
                         </li>
                         <li>
-                            <div>Post 1 Story <small>(${progress.story}/1)</small></div>
+                            <div>Post 1 New Story <small>(${progress.story}/1)</small></div>
                             <div class="status ${progress.story >= 1 ? 'met' : 'not-met'}">${progress.story >= 1 ? '✔️' : '❌'}</div>
                         </li>
                     </ul>`;
@@ -616,11 +614,19 @@
                     body: JSON.stringify({ userId, amount, method, account, accountName })
                 });
                 if (!response.ok) throw new Error("Server failed to process request.");
+                
+                // Reset progress for next withdrawal cycle
+                currentUser.lastWithdrawalReferralCount = currentUser.referredUsers?.length || 0;
+                currentUser.lastWithdrawalAdCount = currentUser.totalAdsWatchedLifetime || 0;
+                currentUser.lastWithdrawalBonusCount = currentUser.claimedBonuses?.length || 0;
+                currentUser.storyPostedSinceLastWithdrawal = false;
                 currentUser.totalWithdrawn = (currentUser.totalWithdrawn || 0) + amount;
+                
                 await saveUserState();
-                statusEl.textContent = "Withdrawal request submitted successfully!";
+                statusEl.textContent = "Withdrawal request submitted! Your requirements have been reset for the next cycle.";
                 statusEl.classList.add('success-message');
                 ['withdrawAmount', 'withdrawMethod', 'withdrawAccountName', 'withdrawAccount'].forEach(id => document.getElementById(id).value = '');
+                setTimeout(() => navigateTo('withdraw'), 3000); // Refresh the page to show the locked state
             } catch (error) {
                 currentUser.points = originalPoints; updateUI();
                 statusEl.textContent = "An error occurred. Please try again.";
@@ -642,18 +648,17 @@
                 const referralLink = `${AppConfig.botLink || ''}/?start=ref${currentUser.referralCode}`;
                 const storyParams = { text: `I'm earning on Besh Besh! 💸 Join me and earn too!\n\n${referralLink}` };
                 const media_url = 'https://i.postimg.cc/4y5QtkSx/cropped-image.png';
-                tg.shareToStory(media_url, storyParams);
-                
-                if (!currentUser.storyPosted) {
-                    try {
-                        await fetch(`${API_BASE_URL}/api/user/${userId}/story-posted`, { method: 'POST' });
-                        currentUser.storyPosted = true;
-                        await saveUserState();
-                        showToast("Thanks for sharing!");
-                    } catch (error) {
-                        showToast("Could not confirm story post with server.");
+                tg.shareToStory(media_url, storyParams, async (isPosted) => {
+                    if (isPosted && !currentUser.storyPostedSinceLastWithdrawal) {
+                        try {
+                            currentUser.storyPostedSinceLastWithdrawal = true;
+                            await saveUserState();
+                            showToast("Thanks for sharing!");
+                        } catch (error) {
+                            showToast("Could not confirm story post with server.");
+                        }
                     }
-                }
+                });
             } else {
                 tg.showAlert('Story sharing is not available on your version of Telegram. Please update your app.');
             }
