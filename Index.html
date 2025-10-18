@@ -79,10 +79,10 @@
         .leaderboard-tab.active { background: var(--primary-color); color: white; }
         .top-3 { display: flex; justify-content: center; align-items: flex-end; gap: 15px; margin-bottom: 30px; }
         .rank-circle { text-align: center; }
-        .rank-circle .pfp { width: 60px; height: 60px; border-radius: 50%; background: var(--input-bg); border: 3px solid #cd7f32; margin: 0 auto 5px; background-size: cover; background-position: center;}
+        .rank-circle .pfp { width: 60px; height: 60px; border-radius: 50%; background: var(--input-bg); border: 3px solid #cd7f32; margin: 0 auto 5px; background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.5rem; }
         .rank-circle .name { font-weight: 600; font-size: 0.9rem; }
         .rank-circle .score { font-size: 0.8rem; color: var(--text-secondary); }
-        .rank-1 .pfp { width: 80px; height: 80px; border-color: #ffd700; }
+        .rank-1 .pfp { width: 80px; height: 80px; border-color: #ffd700; font-size: 2rem; }
         .rank-2 .pfp { width: 70px; height: 70px; border-color: #c0c0c0; }
         .leaderboard-list .user-item { display: flex; align-items: center; padding: 12px 5px; border-bottom: 1px solid var(--border-color); }
         .user-item .rank { font-weight: bold; width: 40px; color: var(--text-secondary); text-align: center; }
@@ -280,7 +280,14 @@
                     <div class="home-stat"><div class="label">Ads Watched (Total)</div><div class="value">${currentUser.totalAdsWatchedLifetime || 0}</div></div>
                     <div class="home-stat"><div class="label">Ads Left (Today)</div><div class="value">${adsLeft < 0 ? 0 : adsLeft}</div></div>
                     <div class="home-stat"><div class="label">Total Withdrawn</div><div class="value">${currentUser.totalWithdrawn || 0} ${currency}</div></div>
+                </div>
+                <div class="card">
+                    <h2 class="section-title">Promote Us</h2>
+                    <p style="font-size:0.9rem; color:var(--text-secondary); margin-bottom: 20px;">Share a story about our app to your profile to help us grow!</p>
+                    <button id="postStoryBtn" class="btn btn-primary"><i class="fas fa-camera"></i> Post Story</button>
                 </div>`;
+            
+            document.getElementById('postStoryBtn').addEventListener('click', handlePostStory);
         }
         
         function renderTasksPage() {
@@ -535,7 +542,9 @@
                 });
                 if (!response.ok) throw new Error("Server failed to process request.");
                 
+                currentUser.totalWithdrawn = (currentUser.totalWithdrawn || 0) + amount;
                 await saveUserState();
+
                 statusEl.textContent = "Withdrawal request submitted successfully!";
                 statusEl.classList.add('success-message');
                 ['withdrawAmount', 'withdrawMethod', 'withdrawAccountName', 'withdrawAccount'].forEach(id => document.getElementById(id).value = '');
@@ -547,21 +556,40 @@
             }
         }
         
-        async function handleShare() {
+        function handleShare() {
             const referralLink = `${AppConfig.botLink || ''}/?start=ref${currentUser.referralCode}`;
             const shareData = {
                 title: 'Join Tag2Cash!',
-                text: `Join me on Tag2Cash and earn rewards! Use my link to get a startup bonus. 🎉`,
+                text: `Join me on Tag2Cash and earn real rewards! 💸 Use my link to get a startup bonus.`,
                 url: referralLink
             };
             try {
                 if (navigator.share) {
-                    await navigator.share(shareData);
+                    navigator.share(shareData);
                 } else {
-                    throw new Error('Share not supported');
+                    throw new Error('Share not supported on this device.');
                 }
             } catch (err) {
                 navigator.clipboard.writeText(referralLink).then(() => showToast('Share failed, link copied instead!'));
+            }
+        }
+
+        function handlePostStory() {
+            const tg = window.Telegram.WebApp;
+            const referralLink = `${AppConfig.botLink || ''}/?start=ref${currentUser.referralCode}`;
+            const currency = AppConfig.currencyName || 'currency';
+            const lastWithdrawal = currentUser.totalWithdrawn > 0 ? currentUser.totalWithdrawn : 10; // Use a default if no withdrawal
+            
+            const storyParams = {
+                text: `Below friend I withdrawed ${lastWithdrawal} ${currency} you join me and earn ${referralLink}`,
+            };
+            
+            const media_url = 'https://i.postimg.cc/4y5QtkSx/cropped-image.png';
+
+            if (tg.isVersionAtLeast && tg.isVersionAtLeast("9.0") && tg.shareToStory) {
+                tg.shareToStory(media_url, storyParams);
+            } else {
+                tg.showAlert('Story sharing is not available on your version of Telegram.');
             }
         }
 
