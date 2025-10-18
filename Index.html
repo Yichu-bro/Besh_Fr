@@ -602,7 +602,7 @@
         function handleShare() {
             const tg = window.Telegram.WebApp;
             const referralLink = `${AppConfig.botLink || ''}/?start=ref${currentUser.referralCode}`;
-            const text = `Join me on Besh Besh and earn real rewards! 💸 Use my link to get a startup bonus.`;
+            const text = `ቤሽ ቤሽ ላይ ተቀላቀለኝ እና ሽልማቶች አገኝ! 💸 የኔን ሊንክ ተጠጠቅመክ ስትጀምር የመጀመርያ ቦነስ ታገኛለክ። ፍጠን እንጅ ምንድ ነዉ ምትጠብቀው ❤.`;
             const shareUrl = `https://t.me/share/url?url=${encodeURIComponent(referralLink)}&text=${encodeURIComponent(text)}`;
             tg.openTelegramLink(shareUrl);
         }
@@ -611,7 +611,7 @@
             const tg = window.Telegram.WebApp;
             if (tg.isVersionAtLeast && tg.isVersionAtLeast("9.0") && tg.shareToStory) {
                 const referralLink = `${AppConfig.botLink || ''}/?start=ref${currentUser.referralCode}`;
-                const storyParams = { text: `I'm earning on Besh Besh! 💸 Join me and earn too!\n\n${referralLink}` };
+                const storyParams = { text: `I'm earning on Besh Besh! 💸 ተቀላቀለኝ እና አንተም ገንዘብ አግኝ！ \n\n${referralLink}` };
                 const media_url = 'https://i.postimg.cc/B6Mhm3wz/wmremove-transformed.jpg';
                 tg.shareToStory(media_url, storyParams);
 
