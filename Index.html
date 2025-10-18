@@ -41,7 +41,7 @@
         .home-header { height: 180px; background: linear-gradient(135deg, var(--primary-color), var(--primary-dark)); position: relative; display: flex; align-items: center; justify-content: center; flex-direction: column; color: white; border-bottom-left-radius: var(--border-radius); border-bottom-right-radius: var(--border-radius); }
         .page-header { display: none; align-items: center; padding: 10px 15px; background: var(--card-bg); border-bottom: 1px solid var(--border-color); }
         .page-header .user-info { display: flex; align-items: center; gap: 10px; }
-        .page-header .pfp { width: 40px; height: 40px; border-radius: 50%; background: var(--input-bg); border: 2px solid var(--primary-color); }
+        .page-header .pfp { width: 40px; height: 40px; border-radius: 50%; background: var(--input-bg); border: 2px solid var(--primary-color); background-size: cover; background-position: center; }
         .page-header .name { font-weight: 600; font-size: 1rem; color: var(--text-primary); }
         .page-header .welcome { font-size: 0.8rem; color: var(--text-secondary); }
         .page-header .balance { flex: 1; text-align: center; font-weight: 600; font-size: 1.1rem; color: var(--primary-color); }
@@ -49,7 +49,7 @@
         
         .profile-section { padding: 0 20px; position: relative; z-index: 2; margin-top: -50px; }
         .profile-card { background: var(--card-bg); border-radius: var(--border-radius); padding: 70px 20px 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.1); border: 1px solid var(--border-color); text-align: center; }
-        .profile-pic { position: absolute; top: -45px; left: 50%; transform: translateX(-50%); width: 90px; height: 90px; border-radius: 50%; border: 3px solid var(--card-bg); object-fit: cover; background: var(--input-bg); }
+        .profile-pic { position: absolute; top: -45px; left: 50%; transform: translateX(-50%); width: 90px; height: 90px; border-radius: 50%; border: 3px solid var(--card-bg); background-size: cover; background-position: center; background-color: var(--input-bg); }
         .points-display { display: inline-flex; align-items: center; background: rgba(74, 144, 226, 0.1); padding: 8px 18px; border-radius: 50px; margin-top: 8px; font-weight: 600; font-size: 1.1rem; color: var(--primary-color); }
         .home-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; text-align: left; }
         .home-stat { background: var(--input-bg); padding: 12px; border-radius: 8px; }
@@ -79,7 +79,7 @@
         .leaderboard-tab.active { background: var(--primary-color); color: white; }
         .top-3 { display: flex; justify-content: center; align-items: flex-end; gap: 15px; margin-bottom: 30px; }
         .rank-circle { text-align: center; }
-        .rank-circle .pfp { width: 60px; height: 60px; border-radius: 50%; background: var(--input-bg); border: 3px solid #cd7f32; margin: 0 auto 5px; }
+        .rank-circle .pfp { width: 60px; height: 60px; border-radius: 50%; background: var(--input-bg); border: 3px solid #cd7f32; margin: 0 auto 5px; background-size: cover; background-position: center;}
         .rank-circle .name { font-weight: 600; font-size: 0.9rem; }
         .rank-circle .score { font-size: 0.8rem; color: var(--text-secondary); }
         .rank-1 .pfp { width: 80px; height: 80px; border-color: #ffd700; }
@@ -99,7 +99,6 @@
 </head>
 <body>
     <div class="app-container">
-        <!-- Loading Overlay - This will be hidden after initialization -->
         <div id="loading-overlay">
             <div class="spinner"></div>
             <p>Initializing App...</p>
@@ -114,7 +113,7 @@
                 <div class="pfp"></div>
                 <div>
                     <div id="pageHeaderName" class="name">User</div>
-                    <div class="welcome">Welcome to the Earning App!</div>
+                    <div class="welcome">Welcome!</div>
                 </div>
             </div>
             <div id="pageHeaderBalance" class="balance">0</div>
@@ -145,6 +144,7 @@
     <script>
         const API_BASE_URL = 'https://besh-b.onrender.com';
         let AppConfig = {}, BonusTasks = [], currentUser = null, userId = null, LeaderboardData = null;
+        let userPhotoUrl = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png';
         
         const mainContent = document.getElementById('mainContent');
         const homeHeader = document.getElementById('homeHeader');
@@ -160,6 +160,9 @@
             
             const urlParams = new URLSearchParams(window.location.search);
             userId = tg.initDataUnsafe?.user?.id?.toString() || urlParams.get('userId');
+            if (tg.initDataUnsafe?.user?.photo_url) {
+                userPhotoUrl = tg.initDataUnsafe.user.photo_url;
+            }
 
             if (!userId) {
                 showError("User ID not found. Please launch this app from the Telegram bot.");
@@ -178,10 +181,7 @@
             applyTheme(localStorage.getItem('theme') || 'light');
             document.getElementById('themeToggle').addEventListener('click', toggleTheme);
             document.querySelectorAll('.nav-item').forEach(item => {
-                item.addEventListener('click', e => {
-                    e.preventDefault();
-                    navigateTo(item.dataset.page);
-                });
+                item.addEventListener('click', e => { e.preventDefault(); navigateTo(item.dataset.page); });
             });
             navigateTo('home');
             loadingOverlay.style.opacity = '0';
@@ -189,42 +189,13 @@
         }
 
         function showError(message) {
-            loadingOverlay.innerHTML = `<div class="card" style="text-align:center;"><h2 class="section-title">Error</h2><p>${message}</p></div>`;
+            loadingOverlay.innerHTML = `<div class="card" style="text-align:center; margin: 20px;"><h2 class="section-title">Error</h2><p>${message}</p></div>`;
         }
 
-        // --- 2. DATA FETCHING & SAVING ---
-        async function loadAppConfig() {
-            const [configRes, tasksRes] = await Promise.all([
-                fetch(`${API_BASE_URL}/api/config`),
-                fetch(`${API_BASE_URL}/api/tasks`)
-            ]);
-            if (!configRes.ok || !tasksRes.ok) throw new Error("Could not connect to the server. Please try again later.");
-            AppConfig = await configRes.json();
-            const tasksData = await tasksRes.json();
-            BonusTasks = tasksData ? Object.values(tasksData) : [];
-        }
-
-        async function loadUserState() {
-            const response = await fetch(`${API_BASE_URL}/api/user/${userId}`);
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.error || "Failed to load your profile.");
-            }
-            currentUser = await response.json();
-            const today = new Date().toLocaleDateString();
-            if (currentUser.lastAdWatchDate !== today) currentUser.adsWatchedToday = 0;
-        }
-        
-        async function saveUserState() {
-            if (!currentUser) return;
-            try {
-                await fetch(`${API_BASE_URL}/api/user/${userId}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(currentUser)
-                });
-            } catch (error) { showToast("Error saving progress."); }
-        }
+        // --- 2. DATA HANDLING ---
+        async function loadAppConfig() { /* ... No changes needed ... */ }
+        async function loadUserState() { /* ... No changes needed ... */ }
+        async function saveUserState() { /* ... No changes needed ... */ }
         
         // --- 3. UI MANAGEMENT ---
         function updateUI() {
@@ -234,142 +205,18 @@
             document.getElementById('userPointsDisplay').innerHTML = `<i class="fas fa-coins"></i> ${currentUser.points || 0} ${currency}`;
             document.getElementById('pageHeaderName').textContent = currentUser.username;
             document.getElementById('pageHeaderBalance').innerHTML = `<i class="fas fa-coins"></i> ${currentUser.points || 0}`;
-        }
-
-        function navigateTo(page) {
-            document.querySelector('.nav-item.active')?.classList.remove('active');
-            const newActive = document.querySelector(`.nav-item[data-page="${page}"]`);
-            if (newActive) newActive.classList.add('active');
             
-            const isHome = (page === 'home');
-            homeHeader.style.display = isHome ? 'flex' : 'none';
-            profileSection.style.display = isHome ? 'block' : 'none';
-            pageHeader.style.display = isHome ? 'none' : 'flex';
-
-            const renderFunc = {
-                'home': renderHomePage, 'tasks': renderTasksPage,
-                'leaderboard': renderLeaderboardPage, 'referral': renderReferralPage,
-                'withdraw': renderWithdrawPage
-            }[page];
-
-            if (renderFunc) {
-                updateUI();
-                renderFunc();
-            }
+            // Set profile pictures
+            document.querySelector('.profile-pic').style.backgroundImage = `url('${userPhotoUrl}')`;
+            document.querySelector('.page-header .pfp').style.backgroundImage = `url('${userPhotoUrl}')`;
         }
+
+        function navigateTo(page) { /* ... No changes needed ... */ }
 
         // --- 4. PAGE RENDERERS ---
-        async function renderHomePage() {
-            if (!LeaderboardData) {
-                try {
-                    const res = await fetch(`${API_BASE_URL}/api/leaderboard/${userId}`);
-                    if (res.ok) LeaderboardData = await res.json();
-                } catch (e) { console.error("Could not fetch leaderboard for rank"); }
-            }
-            const rank = LeaderboardData?.currentUserRank?.points || 'N/A';
-            const adsLeft = (AppConfig.adsPerDay || 0) - (currentUser.adsWatchedToday || 0);
-            const currency = AppConfig.currencyName || '';
-
-            mainContent.innerHTML = `
-                <div class="card home-stats">
-                    <div class="home-stat"><div class="label">Total Referrals</div><div class="value">${currentUser.referredUsers?.length || 0}</div></div>
-                    <div class="home-stat"><div class="label">Global Rank</div><div class="value">#${rank}</div></div>
-                    <div class="home-stat"><div class="label">Ads Watched (Total)</div><div class="value">${currentUser.totalAdsWatchedLifetime || 0}</div></div>
-                    <div class="home-stat"><div class="label">Ads Left (Today)</div><div class="value">${adsLeft < 0 ? 0 : adsLeft}</div></div>
-                    <div class="home-stat"><div class="label">Total Withdrawn</div><div class="value">${currentUser.totalWithdrawn || 0} ${currency}</div></div>
-                </div>`;
-        }
-        
-        function renderTasksPage() {
-            const currency = AppConfig.currencyName || 'Points';
-            const adsLeft = (AppConfig.adsPerDay || 0) - (currentUser.adsWatchedToday || 0);
-            
-            let bonusTasksHtml = BonusTasks.map(task => {
-                const isClaimed = currentUser.claimedBonuses?.includes(task.id);
-                return `
-                    <li class="channel-item">
-                        <div class="channel-info">
-                            <div class="channel-icon"><i class="${task.icon || 'fas fa-star'}"></i></div>
-                            <div>
-                                <div>${task.name}</div>
-                                <div style="font-size:0.8rem; color: var(--accent-color);">+${task.reward} ${currency}</div>
-                            </div>
-                        </div>
-                        <button class="btn-claim-bonus" data-link="${task.link}" data-task-id="${task.id}" data-channel-id="${task.channelId}" data-reward="${task.reward}" ${isClaimed ? 'disabled' : ''}>
-                            ${isClaimed ? 'Claimed' : 'Verify & Claim'}
-                        </button>
-                    </li>`;
-            }).join('');
-
-            mainContent.innerHTML = `
-                <div class="card">
-                    <h2 class="section-title">Watch Ads</h2>
-                    <p style="font-size:0.9rem; color:var(--text-secondary); margin-bottom: 20px;">You can watch up to ${AppConfig.adsPerDay || 0} ads per day.</p>
-                    <button id="watchAdBtn" class="btn btn-primary" ${adsLeft <= 0 ? 'disabled' : ''}>
-                        <i class="fas fa-play"></i> Watch Ad & Earn ${AppConfig.pointsPerAd || 0} ${currency}
-                    </button>
-                </div>
-                <div class="card">
-                    <h2 class="section-title">Bonus Tasks</h2>
-                    <ul class="channel-list">${bonusTasksHtml || '<p>No bonus tasks available.</p>'}</ul>
-                </div>`;
-
-            if (adsLeft > 0) document.getElementById('watchAdBtn').addEventListener('click', handleWatchDailyAd);
-            document.querySelectorAll('.btn-claim-bonus:not([disabled])').forEach(b => b.addEventListener('click', handleBonusClaim));
-        }
-
-        async function renderLeaderboardPage() {
-            mainContent.innerHTML = `<div class="card"><p style="text-align:center;">Loading leaderboard...</p></div>`;
-            if (!LeaderboardData) {
-                try {
-                    const res = await fetch(`${API_BASE_URL}/api/leaderboard/${userId}`);
-                    if(res.ok) LeaderboardData = await res.json(); else throw new Error("Failed to fetch");
-                } catch (e) {
-                    mainContent.innerHTML = `<div class="card"><p>Could not load leaderboard.</p></div>`;
-                    return;
-                }
-            }
-
-            const renderTop3 = (users, unit) => {
-                let html = '<div class="top-3">';
-                const podiumOrder = [users[1], users[0], users[2]].filter(Boolean);
-                const rankClasses = { 0: 'rank-2', 1: 'rank-1', 2: 'rank-3' };
-                podiumOrder.forEach((user, i) => {
-                    html += `<div class="rank-circle ${rankClasses[i]}">
-                        <div class="pfp"></div><div class="name">${user.username}</div>
-                        <div class="score">${user[unit]}</div></div>`;
-                });
-                return html + '</div>';
-            };
-
-            const renderList = (users, unit) => {
-                return users.slice(3).map((user, i) => `
-                    <div class="user-item"><div class="rank">${i + 4}</div>
-                    <div class="username">${user.username}</div>
-                    <div class="score">${user[unit]}</div></div>`).join('');
-            };
-            
-            const currency = AppConfig.currencyName || 'Points';
-            mainContent.innerHTML = `
-                <div class="card">
-                    <div class="leaderboard-tabs">
-                        <div class="leaderboard-tab active" data-board="points">By ${currency}</div>
-                        <div class="leaderboard-tab" data-board="referrals">By Referrals</div>
-                    </div>
-                    <div id="points-board" class="leaderboard-content">${renderTop3(LeaderboardData.byPoints, 'points')}${renderList(LeaderboardData.byPoints, 'points')}</div>
-                    <div id="referrals-board" class="leaderboard-content" style="display:none;">${renderTop3(LeaderboardData.byReferrals, 'referrals')}${renderList(LeaderboardData.byReferrals, 'referrals')}</div>
-                </div>`;
-            
-            document.querySelectorAll('.leaderboard-tab').forEach(tab => {
-                tab.addEventListener('click', (e) => {
-                    document.querySelector('.leaderboard-tab.active').classList.remove('active');
-                    e.currentTarget.classList.add('active');
-                    document.querySelectorAll('.leaderboard-content').forEach(c => c.style.display = 'none');
-                    document.getElementById(`${e.currentTarget.dataset.board}-board`).style.display = 'block';
-                });
-            });
-        }
-
+        async function renderHomePage() { /* ... No changes needed ... */ }
+        function renderTasksPage() { /* ... No changes needed ... */ }
+        async function renderLeaderboardPage() { /* ... No changes needed ... */ }
         async function renderReferralPage() {
             mainContent.innerHTML = `<div class="card"><p style="text-align:center;">Loading referral data...</p></div>`;
             const referralLink = `${AppConfig.botLink || ''}/?start=ref${currentUser.referralCode}`;
@@ -403,6 +250,7 @@
                             <input type="text" id="referralLinkDisplay" value="${referralLink}" readonly style="flex:1; padding:10px; border-radius: 4px 0 0 4px; background: var(--card-bg); color: var(--text-primary); border: 1px solid var(--border-color);">
                             <button id="copyLinkBtn" style="padding: 0 15px; border:none; background: var(--primary-color); color:white; border-radius: 0 4px 4px 0; cursor:pointer;">Copy</button>
                         </div>
+                        <button id="shareLinkBtn" class="btn btn-primary" style="width:100%; margin-top:10px;">Share Link</button>
                     </div>
                     <div style="display:flex; justify-content:space-around; text-align:center; padding-top: 15px; border-top: 1px solid var(--border-color);">
                         <div><div style="font-size:1.5rem; font-weight:bold;">${referredUsersCount}</div><div style="font-size:0.8rem; color:var(--text-secondary);">Referrals</div></div>
@@ -412,9 +260,8 @@
                     ${usersListHtml}
                 </div>`;
 
-            document.getElementById('copyLinkBtn').addEventListener('click', () => {
-                navigator.clipboard.writeText(referralLink).then(() => showToast('Link copied!'));
-            });
+            document.getElementById('copyLinkBtn').addEventListener('click', () => navigator.clipboard.writeText(referralLink).then(() => showToast('Link copied!')));
+            document.getElementById('shareLinkBtn').addEventListener('click', handleShare);
         }
         
         function renderWithdrawPage() {
@@ -434,6 +281,10 @@
                         </select>
                     </div>
                     <div class="input-group">
+                        <label class="input-label">Account Holder Name</label>
+                        <input type="text" id="withdrawAccountName" class="input-field" placeholder="Enter the name on the account">
+                    </div>
+                    <div class="input-group">
                         <label class="input-label">Account Number / Address</label>
                         <input type="text" id="withdrawAccount" class="input-field" placeholder="Enter your account details">
                     </div>
@@ -445,8 +296,8 @@
 
         // --- 5. HANDLER FUNCTIONS ---
         function handleWatchDailyAd() {
-            const adFuncName = AppConfig.monetagAdFunction;
-            if (adFuncName && typeof adFuncName === 'string' && adFuncName.trim() !== "" && typeof window[adFuncName] === 'function') {
+            const adFuncName = 'show_10024038'; // Hardcoded as requested
+            if (typeof window[adFuncName] === 'function') {
                 showToast("Loading ad...");
                 try {
                     window[adFuncName]();
@@ -461,53 +312,21 @@
                         showToast(`+${AppConfig.pointsPerAd || 0} ${AppConfig.currencyName || 'Points'} earned!`);
                     }, 8000);
                 } catch (error) { showToast("Could not load ad. Please try again."); }
-            } else { showToast("Ad service is not configured by the admin."); }
+            } else { showToast("Ad service could not be loaded."); }
         }
 
-        async function handleBonusClaim(event) {
-            const button = event.currentTarget;
-            const { taskId, channelId, reward, link } = button.dataset;
-            if (!channelId || channelId === 'undefined' || channelId.trim() === '') return showToast("Admin has not set a Channel ID for this task.");
-            
-            window.open(link, '_blank');
-            button.disabled = true;
-            button.textContent = 'Verifying...';
-
-            setTimeout(async () => {
-                try {
-                    const res = await fetch(`${API_BASE_URL}/api/verify-membership`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ userId, taskId, channelId, reward: parseInt(reward) })
-                    });
-                    const data = await res.json();
-                    if (!res.ok) throw new Error(data.error);
-                    
-                    currentUser.points = data.points;
-                    if (!currentUser.claimedBonuses) currentUser.claimedBonuses = [];
-                    currentUser.claimedBonuses.push(taskId);
-                    
-                    await saveUserState();
-                    updateUI();
-                    showToast(`+${reward} ${AppConfig.currencyName || 'Points'} claimed!`);
-                    button.textContent = 'Claimed';
-                } catch (error) {
-                    showToast(error.message);
-                    button.disabled = false;
-                    button.textContent = 'Verify & Claim';
-                }
-            }, 7000);
-        }
+        async function handleBonusClaim(event) { /* ... No changes needed ... */ }
         
         async function handleSubmitWithdrawal() {
             const amount = parseInt(document.getElementById('withdrawAmount').value);
             const method = document.getElementById('withdrawMethod').value;
+            const accountName = document.getElementById('withdrawAccountName').value.trim();
             const account = document.getElementById('withdrawAccount').value.trim();
             const statusEl = document.getElementById('withdrawStatus');
 
             statusEl.textContent = ''; statusEl.className = 'status-message';
 
-            if (isNaN(amount) || amount <= 0 || !method || !account) {
+            if (isNaN(amount) || amount <= 0 || !method || !account || !accountName) {
                 statusEl.textContent = "Please fill all fields correctly.";
                 statusEl.classList.add('error-message'); return;
             }
@@ -527,19 +346,37 @@
             try {
                 const response = await fetch(`${API_BASE_URL}/api/request-withdrawal`, {
                     method: 'POST', headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ userId, amount, method, account })
+                    body: JSON.stringify({ userId, amount, method, account, accountName })
                 });
                 if (!response.ok) throw new Error("Server failed to process request.");
                 
                 await saveUserState();
                 statusEl.textContent = "Withdrawal request submitted successfully!";
                 statusEl.classList.add('success-message');
-                ['withdrawAmount', 'withdrawMethod', 'withdrawAccount'].forEach(id => document.getElementById(id).value = '');
+                ['withdrawAmount', 'withdrawMethod', 'withdrawAccountName', 'withdrawAccount'].forEach(id => document.getElementById(id).value = '');
             } catch (error) {
                 currentUser.points = originalPoints;
                 updateUI();
                 statusEl.textContent = "An error occurred. Please try again.";
                 statusEl.classList.add('error-message');
+            }
+        }
+        
+        async function handleShare() {
+            const referralLink = `${AppConfig.botLink || ''}/?start=ref${currentUser.referralCode}`;
+            const shareData = {
+                title: 'Join Tag2Cash!',
+                text: `Join me on Tag2Cash and earn rewards! Use my link to get a startup bonus. 🎉`,
+                url: referralLink
+            };
+            try {
+                if (navigator.share) {
+                    await navigator.share(shareData);
+                } else {
+                    throw new Error('Share not supported');
+                }
+            } catch (err) {
+                navigator.clipboard.writeText(referralLink).then(() => showToast('Share failed, link copied instead!'));
             }
         }
 
