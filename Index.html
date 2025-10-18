@@ -80,12 +80,18 @@
         .status-message { text-align: center; margin-top: 15px; font-size: 0.85rem; padding: 8px; border-radius: 8px; display: none; }
         .success-message { background: rgba(80, 227, 194, 0.1); color: #50E3C2; display: block; } .error-message { background: rgba(230, 74, 74, 0.1); color: #E64A4A; display: block; }
 
-        .leaderboard-tabs, .top-3, .leaderboard-list { margin-bottom: 20px; }
+        .leaderboard-tabs { display: flex; margin-bottom: 20px; border-radius: 8px; background: var(--input-bg); padding: 5px; }
         .leaderboard-tab { flex: 1; padding: 10px; text-align: center; cursor: pointer; border-radius: 6px; font-weight: 500; }
         .leaderboard-tab.active { background: var(--primary-color); color: white; }
-        .top-3 { display: flex; justify-content: center; align-items: flex-end; gap: 15px; }
-        .rank-circle .pfp { display: flex; align-items: center; justify-content: center; font-weight: bold; }
-        .leaderboard-list .user-item, .referral-list .user-item { display: flex; align-items: center; padding: 12px 5px; border-bottom: 1px solid var(--border-color); }
+        .top-3 { display: flex; justify-content: center; align-items: flex-end; gap: 15px; margin-bottom: 30px; }
+        .rank-circle { text-align: center; }
+        .rank-circle .pfp { width: 60px; height: 60px; border-radius: 50%; background: var(--input-bg); border: 3px solid #cd7f32; margin: 0 auto 5px; background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.5rem; color: var(--text-primary); }
+        .rank-circle .name { font-weight: 600; font-size: 0.9rem; }
+        .rank-circle .score { font-size: 0.8rem; color: var(--text-secondary); }
+        .rank-1 .pfp { width: 80px; height: 80px; border-color: #ffd700; font-size: 2rem; }
+        .rank-2 .pfp { width: 70px; height: 70px; border-color: #c0c0c0; }
+        .leaderboard-list .user-item { display: flex; align-items: center; padding: 12px 5px; border-bottom: 1px solid var(--border-color); }
+        .user-item:last-child { border-bottom: none; }
         .user-item .rank { font-weight: bold; width: 40px; color: var(--text-secondary); text-align: center; }
         .user-item .username { flex: 1; font-weight: 500; color: var(--text-primary); }
         .user-item .score { font-weight: bold; color: var(--primary-color); }
@@ -382,16 +388,10 @@
             };
 
             const renderList = (users, unit) => {
-                 let html = '';
-                 users.slice(3).forEach((user, i) => {
-                    html += `
-                        <div class="leaderboard-list-item">
-                            <div class="rank">${i + 4}</div>
-                            <div class="username">${user.username}</div>
-                            <div class="score">${formatScore(user[unit])}</div>
-                        </div>`;
-                 });
-                 return html;
+                return users.slice(3).map((user, i) => `
+                    <div class="user-item"><div class="rank">${i + 4}</div>
+                    <div class="username">${user.username}</div>
+                    <div class="score">${formatScore(user[unit])}</div></div>`).join('');
             };
             
             const currency = AppConfig.currencyName || 'Points';
@@ -401,8 +401,8 @@
                         <div class="leaderboard-tab active" data-board="points">By ${currency}</div>
                         <div class="leaderboard-tab" data-board="referrals">By Referrals</div>
                     </div>
-                    <div id="points-board" class="leaderboard-content">${renderTop3(LeaderboardData.byPoints, 'points')}${renderList(LeaderboardData.byPoints, 'points')}</div>
-                    <div id="referrals-board" class="leaderboard-content" style="display:none;">${renderTop3(LeaderboardData.byReferrals, 'referrals')}${renderList(LeaderboardData.byReferrals, 'referrals')}</div>
+                    <div id="points-board" class="leaderboard-content">${renderTop3(LeaderboardData.byPoints, 'points')}<div class="leaderboard-list">${renderList(LeaderboardData.byPoints, 'points')}</div></div>
+                    <div id="referrals-board" class="leaderboard-content" style="display:none;">${renderTop3(LeaderboardData.byReferrals, 'referrals')}<div class="leaderboard-list">${renderList(LeaderboardData.byReferrals, 'referrals')}</div></div>
                 </div>`;
             
             document.querySelectorAll('.leaderboard-tab').forEach(tab => {
@@ -470,16 +470,19 @@
                 story: 1
             };
             
+            const lastWithdrawalStats = currentUser.lastWithdrawalStats || { referrals: 0, ads: 0, bonuses: 0, story: 0 };
+            
             const progress = {
-                referrals: (currentUser.referredUsers?.length || 0) - (currentUser.lastWithdrawalReferralCount || 0),
-                ads: (currentUser.totalAdsWatchedLifetime || 0) - (currentUser.lastWithdrawalAdCount || 0),
-                bonuses: (currentUser.claimedBonuses?.length || 0) - (currentUser.lastWithdrawalBonusCount || 0),
+                referrals: (currentUser.referredUsers?.length || 0) - lastWithdrawalStats.referrals,
+                ads: (currentUser.totalAdsWatchedLifetime || 0) - lastWithdrawalStats.ads,
+                bonuses: (currentUser.claimedBonuses?.length || 0) - lastWithdrawalStats.bonuses,
                 story: currentUser.storyPostedSinceLastWithdrawal ? 1 : 0
             };
 
+            const bonusTasksMet = currentUser.bonusTasksRequirementMet || (reqs.bonuses > 0 && progress.bonuses >= reqs.bonuses);
             const canWithdraw = progress.referrals >= reqs.referrals &&
                                 progress.ads >= reqs.ads &&
-                                progress.bonuses >= reqs.bonuses &&
+                                bonusTasksMet &&
                                 progress.story >= reqs.story;
 
             let contentHtml = '';
@@ -515,16 +518,16 @@
                     <p>Complete the following tasks to enable your next withdrawal.</p>
                     <ul class="requirements-list">
                         <li>
-                            <div>Invite ${reqs.referrals} More Friends <small>(${progress.referrals}/${reqs.referrals})</small></div>
+                            <div>Invite ${reqs.referrals} More Friends <small>(${progress.referrals < 0 ? 0 : progress.referrals}/${reqs.referrals})</small></div>
                             <div class="status ${progress.referrals >= reqs.referrals ? 'met' : 'not-met'}">${progress.referrals >= reqs.referrals ? '✔️' : '❌'}</div>
                         </li>
                         <li>
-                            <div>Watch ${reqs.ads} More Ads <small>(${progress.ads}/${reqs.ads})</small></div>
+                            <div>Watch ${reqs.ads} More Ads <small>(${progress.ads < 0 ? 0 : progress.ads}/${reqs.ads})</small></div>
                             <div class="status ${progress.ads >= reqs.ads ? 'met' : 'not-met'}">${progress.ads >= reqs.ads ? '✔️' : '❌'}</div>
                         </li>
                         <li>
-                            <div>Complete ${reqs.bonuses} New Bonus Tasks <small>(${progress.bonuses}/${reqs.bonuses})</small></div>
-                            <div class="status ${progress.bonuses >= reqs.bonuses ? 'met' : 'not-met'}">${progress.bonuses >= reqs.bonuses ? '✔️' : '❌'}</div>
+                            <div>Complete ${reqs.bonuses} New Bonus Tasks <small>(${progress.bonuses < 0 ? 0 : progress.bonuses}/${reqs.bonuses})</small></div>
+                            <div class="status ${bonusTasksMet ? 'met' : 'not-met'}">${bonusTasksMet ? '✔️' : '❌'}</div>
                         </li>
                         <li>
                             <div>Post 1 New Story <small>(${progress.story}/1)</small></div>
@@ -615,18 +618,19 @@
                 });
                 if (!response.ok) throw new Error("Server failed to process request.");
                 
-                // Reset progress for next withdrawal cycle
-                currentUser.lastWithdrawalReferralCount = currentUser.referredUsers?.length || 0;
-                currentUser.lastWithdrawalAdCount = currentUser.totalAdsWatchedLifetime || 0;
-                currentUser.lastWithdrawalBonusCount = currentUser.claimedBonuses?.length || 0;
-                currentUser.storyPostedSinceLastWithdrawal = false;
                 currentUser.totalWithdrawn = (currentUser.totalWithdrawn || 0) + amount;
+                currentUser.lastWithdrawalStats = {
+                    referrals: currentUser.referredUsers?.length || 0,
+                    ads: currentUser.totalAdsWatchedLifetime || 0,
+                    bonuses: currentUser.claimedBonuses?.length || 0
+                };
+                currentUser.storyPostedSinceLastWithdrawal = false;
                 
                 await saveUserState();
-                statusEl.textContent = "Withdrawal request submitted! Your requirements have been reset for the next cycle.";
+                statusEl.textContent = "Request submitted! Requirements have been reset for the next cycle.";
                 statusEl.classList.add('success-message');
                 ['withdrawAmount', 'withdrawMethod', 'withdrawAccountName', 'withdrawAccount'].forEach(id => document.getElementById(id).value = '');
-                setTimeout(() => navigateTo('withdraw'), 3000); // Refresh the page to show the locked state
+                setTimeout(() => navigateTo('withdraw'), 3000);
             } catch (error) {
                 currentUser.points = originalPoints; updateUI();
                 statusEl.textContent = "An error occurred. Please try again.";
@@ -648,15 +652,13 @@
                 const referralLink = `${AppConfig.botLink || ''}/?start=ref${currentUser.referralCode}`;
                 const storyParams = { text: `I'm earning on Besh Besh! 💸 Join me and earn too!\n\n${referralLink}` };
                 const media_url = 'https://i.postimg.cc/4y5QtkSx/cropped-image.png';
+                
                 tg.shareToStory(media_url, storyParams, async (isPosted) => {
                     if (isPosted && !currentUser.storyPostedSinceLastWithdrawal) {
-                        try {
-                            currentUser.storyPostedSinceLastWithdrawal = true;
-                            await saveUserState();
-                            showToast("Thanks for sharing!");
-                        } catch (error) {
-                            showToast("Could not confirm story post with server.");
-                        }
+                        currentUser.storyPostedSinceLastWithdrawal = true;
+                        await saveUserState();
+                        showToast("Thanks for sharing!");
+                        if(document.querySelector('.requirements-list')) navigateTo('withdraw'); // Refresh if on withdraw page
                     }
                 });
             } else {
