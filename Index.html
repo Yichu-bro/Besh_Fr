@@ -253,11 +253,11 @@
                 'home': renderHomePage, 'tasks': renderTasksPage,
                 'leaderboard': renderLeaderboardPage, 'referral': renderReferralPage,
                 'withdraw': renderWithdrawPage
-            };
+            }[page];
 
-            if (renderFunc[page]) {
+            if (renderFunc) {
                 updateUI();
-                renderFunc[page]();
+                renderFunc();
             }
         }
 
@@ -578,7 +578,7 @@
             const tg = window.Telegram.WebApp;
             const referralLink = `${AppConfig.botLink || ''}/?start=ref${currentUser.referralCode}`;
             const currency = AppConfig.currencyName || 'currency';
-            const lastWithdrawal = currentUser.totalWithdrawn || 10; // Use a default if no withdrawal
+            const lastWithdrawal = currentUser.totalWithdrawn > 0 ? currentUser.totalWithdrawn : 10; // Use a default if no withdrawal
             
             const storyParams = {
                 text: `Below friend I withdrawed ${lastWithdrawal} ${currency} you join me and earn ${referralLink}`,
