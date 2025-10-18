@@ -51,6 +51,7 @@
         .profile-card { background: var(--card-bg); border-radius: var(--border-radius); padding: 70px 20px 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.1); border: 1px solid var(--border-color); text-align: center; }
         .profile-pic { position: absolute; top: -45px; left: 50%; transform: translateX(-50%); width: 90px; height: 90px; border-radius: 50%; border: 3px solid var(--card-bg); background-size: cover; background-position: center; background-color: var(--input-bg); }
         .points-display { display: inline-flex; align-items: center; background: rgba(74, 144, 226, 0.1); padding: 8px 18px; border-radius: 50px; margin-top: 8px; font-weight: 600; font-size: 1.1rem; color: var(--primary-color); }
+        .home-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
         .home-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; text-align: left; }
         .home-stat { background: var(--input-bg); padding: 12px; border-radius: 8px; }
         .home-stat .label { font-size: 0.8rem; color: var(--text-secondary); }
@@ -61,6 +62,7 @@
         .section-title { font-size: 1.2rem; font-weight: 600; margin-bottom: 15px; color: var(--text-primary); }
         .btn { display: block; width: 100%; padding: 12px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; text-align: center; text-decoration: none; }
         .btn-primary { background: var(--primary-color); color: white; }
+        .btn-secondary { background: var(--button-bg-secondary); color: var(--button-text-secondary); border: 1px solid var(--border-color); }
         .btn[disabled] { background-color: var(--border-color); color: var(--text-secondary); cursor: not-allowed; }
         .channel-list { list-style: none; padding: 0; }
         .channel-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border-color); }
@@ -79,7 +81,7 @@
         .leaderboard-tab.active { background: var(--primary-color); color: white; }
         .top-3 { display: flex; justify-content: center; align-items: flex-end; gap: 15px; margin-bottom: 30px; }
         .rank-circle { text-align: center; }
-        .rank-circle .pfp { width: 60px; height: 60px; border-radius: 50%; background: var(--input-bg); border: 3px solid #cd7f32; margin: 0 auto 5px; background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.5rem; }
+        .rank-circle .pfp { width: 60px; height: 60px; border-radius: 50%; background: var(--input-bg); border: 3px solid #cd7f32; margin: 0 auto 5px; background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.5rem; color: var(--text-primary); }
         .rank-circle .name { font-weight: 600; font-size: 0.9rem; }
         .rank-circle .score { font-size: 0.8rem; color: var(--text-secondary); }
         .rank-1 .pfp { width: 80px; height: 80px; border-color: #ffd700; font-size: 2rem; }
@@ -274,20 +276,24 @@
             const currency = AppConfig.currencyName || '';
 
             mainContent.innerHTML = `
+                <div class="card">
+                    <h2 class="section-title">Welcome, ${currentUser.username}!</h2>
+                    <p style="font-size:0.9rem; color:var(--text-secondary); margin-bottom: 20px;">Earn ${currency} by completing tasks and inviting friends.</p>
+                    <div class="home-actions">
+                         <button id="postStoryBtn" class="btn btn-primary"><i class="fas fa-camera"></i> Post Story</button>
+                         <button id="withdrawNavBtn" class="btn btn-secondary"><i class="fas fa-wallet"></i> Withdraw</button>
+                    </div>
+                </div>
                 <div class="card home-stats">
                     <div class="home-stat"><div class="label">Total Referrals</div><div class="value">${currentUser.referredUsers?.length || 0}</div></div>
                     <div class="home-stat"><div class="label">Global Rank</div><div class="value">#${rank}</div></div>
                     <div class="home-stat"><div class="label">Ads Watched (Total)</div><div class="value">${currentUser.totalAdsWatchedLifetime || 0}</div></div>
                     <div class="home-stat"><div class="label">Ads Left (Today)</div><div class="value">${adsLeft < 0 ? 0 : adsLeft}</div></div>
                     <div class="home-stat"><div class="label">Total Withdrawn</div><div class="value">${currentUser.totalWithdrawn || 0} ${currency}</div></div>
-                </div>
-                <div class="card">
-                    <h2 class="section-title">Promote Us</h2>
-                    <p style="font-size:0.9rem; color:var(--text-secondary); margin-bottom: 20px;">Share a story about our app to your profile to help us grow!</p>
-                    <button id="postStoryBtn" class="btn btn-primary"><i class="fas fa-camera"></i> Post Story</button>
                 </div>`;
             
             document.getElementById('postStoryBtn').addEventListener('click', handlePostStory);
+            document.getElementById('withdrawNavBtn').addEventListener('click', () => navigateTo('withdraw'));
         }
         
         function renderTasksPage() {
@@ -340,13 +346,19 @@
                 }
             }
 
+            const getInitials = (name = 'NA') => {
+                const names = name.split(' ');
+                if (names.length > 1 && names[1]) return `${names[0][0]}${names[1][0]}`.toUpperCase();
+                return name.substring(0, 2).toUpperCase();
+            };
+
             const renderTop3 = (users, unit) => {
                 let html = '<div class="top-3">';
                 const podiumOrder = [users[1], users[0], users[2]].filter(Boolean);
                 const rankClasses = { 0: 'rank-2', 1: 'rank-1', 2: 'rank-3' };
                 podiumOrder.forEach((user, i) => {
                     html += `<div class="rank-circle ${rankClasses[i]}">
-                        <div class="pfp"></div><div class="name">${user.username}</div>
+                        <div class="pfp">${getInitials(user.username)}</div><div class="name">${user.username}</div>
                         <div class="score">${user[unit]}</div></div>`;
                 });
                 return html + '</div>';
@@ -432,7 +444,7 @@
                 <div class="card">
                     <h2 class="section-title">Withdraw</h2>
                     <p>Minimum withdrawal is ${AppConfig.minWithdraw || 0} ${AppConfig.currencyName || 'Points'}.</p>
-                    <div class="input-group">
+                    <div class="input-group" style="margin-top: 20px;">
                         <label class="input-label">Amount</label>
                         <input type="number" id="withdrawAmount" class="input-field" placeholder="Enter amount">
                     </div>
@@ -557,39 +569,29 @@
         }
         
         function handleShare() {
+            const tg = window.Telegram.WebApp;
             const referralLink = `${AppConfig.botLink || ''}/?start=ref${currentUser.referralCode}`;
-            const shareData = {
-                title: 'Join Tag2Cash!',
-                text: `Join me on Tag2Cash and earn real rewards! 💸 Use my link to get a startup bonus.`,
-                url: referralLink
-            };
-            try {
-                if (navigator.share) {
-                    navigator.share(shareData);
-                } else {
-                    throw new Error('Share not supported on this device.');
-                }
-            } catch (err) {
-                navigator.clipboard.writeText(referralLink).then(() => showToast('Share failed, link copied instead!'));
-            }
+            const text = `Join me on Tag2Cash and earn real rewards! 💸 Use my link to get a startup bonus.`;
+            const shareUrl = `https://t.me/share/url?url=${encodeURIComponent(referralLink)}&text=${encodeURIComponent(text)}`;
+            tg.openTelegramLink(shareUrl);
         }
 
         function handlePostStory() {
             const tg = window.Telegram.WebApp;
-            const referralLink = `${AppConfig.botLink || ''}/?start=ref${currentUser.referralCode}`;
-            const currency = AppConfig.currencyName || 'currency';
-            const lastWithdrawal = currentUser.totalWithdrawn > 0 ? currentUser.totalWithdrawn : 10; // Use a default if no withdrawal
-            
-            const storyParams = {
-                text: `Below friend I withdrawed ${lastWithdrawal} ${currency} you join me and earn ${referralLink}`,
-            };
-            
-            const media_url = 'https://i.postimg.cc/4y5QtkSx/cropped-image.png';
-
             if (tg.isVersionAtLeast && tg.isVersionAtLeast("9.0") && tg.shareToStory) {
+                const referralLink = `${AppConfig.botLink || ''}/?start=ref${currentUser.referralCode}`;
+                const currency = AppConfig.currencyName || 'currency';
+                
+                const storyParams = {
+                    text: `I'm earning ${currency} on Tag2Cash! 💸 Join me and earn too!\n\n${referralLink}`,
+                };
+                
+                // Using a generic promo image for the story
+                const media_url = 'https://i.postimg.cc/4y5QtkSx/cropped-image.png';
+
                 tg.shareToStory(media_url, storyParams);
             } else {
-                tg.showAlert('Story sharing is not available on your version of Telegram.');
+                tg.showAlert('Story sharing is not available on your version of Telegram. Please update your app.');
             }
         }
 
