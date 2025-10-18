@@ -31,7 +31,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; min-height: 100vh; overflow-x: hidden; transition: background-color 0.3s, color 0.3s; }
         .app-container { max-width: 480px; margin: 0 auto; position: relative; }
-
+        
         #loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-light); z-index: 1002; display: flex; align-items: center; justify-content: center; flex-direction: column; transition: opacity 0.3s; }
         body.dark-mode #loading-overlay { background: var(--bg-dark); }
         .spinner { width: 40px; height: 40px; border: 4px solid var(--border-color); border-top-color: var(--primary-color); border-radius: 50%; animation: spin 1s linear infinite; }
@@ -46,7 +46,7 @@
         .page-header .welcome { font-size: 0.8rem; color: var(--text-secondary); }
         .page-header .balance { flex: 1; text-align: center; font-weight: 600; font-size: 1.1rem; color: var(--primary-color); }
         .theme-toggle { width: 40px; height: 40px; border-radius: 50%; background: var(--input-bg); display: flex; align-items: center; justify-content: center; cursor: pointer; border: 1px solid var(--border-color); color: var(--text-primary); flex-shrink: 0; }
-
+        
         .profile-section { padding: 0 20px; position: relative; z-index: 2; margin-top: -50px; }
         .profile-card { background: var(--card-bg); border-radius: var(--border-radius); padding: 70px 20px 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.1); border: 1px solid var(--border-color); text-align: center; }
         .profile-pic { position: absolute; top: -45px; left: 50%; transform: translateX(-50%); width: 90px; height: 90px; border-radius: 50%; border: 3px solid var(--card-bg); background-size: cover; background-position: center; background-color: var(--input-bg); }
@@ -64,7 +64,7 @@
         .btn-primary { background: var(--primary-color); color: white; }
         .btn-secondary { background: var(--button-bg-secondary); color: var(--button-text-secondary); border: 1px solid var(--border-color); }
         .btn[disabled] { background-color: var(--border-color); color: var(--text-secondary); cursor: not-allowed; }
-
+        
         .channel-list { list-style: none; padding: 0; }
         .channel-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border-color); }
         .channel-item:last-child { border-bottom: none; }
@@ -72,7 +72,7 @@
         .channel-icon { width: 38px; height: 38px; border-radius: 50%; background: rgba(74,144,226,0.1); display:flex; align-items:center; justify-content:center; color: var(--primary-color); }
         .btn-claim-bonus { padding: 7px 14px; border-radius: 8px; background: var(--primary-color); color: white; font-size: 0.8rem; font-weight: 600; border: none; cursor: pointer; }
         .btn-claim-bonus[disabled] { background: var(--secondary-color); cursor: default; }
-
+        
         .input-group { margin-bottom: 15px; } .input-label { display: block; margin-bottom: 6px; }
         .input-field, .select-field { width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--input-bg); color: var(--text-primary); }
         .status-message { text-align: center; margin-top: 15px; font-size: 0.85rem; padding: 8px; border-radius: 8px; display: none; }
@@ -92,7 +92,7 @@
         .user-item .rank { font-weight: bold; width: 40px; color: var(--text-secondary); text-align: center; }
         .user-item .username { flex: 1; font-weight: 500; color: var(--text-primary); }
         .user-item .score { font-weight: bold; color: var(--primary-color); }
-
+        
         .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--card-bg); display: flex; justify-content: space-around; padding: 5px 0; box-shadow: 0 -3px 15px rgba(0,0,0,0.08); z-index: 100; max-width: 480px; margin: 0 auto; border-top: 1px solid var(--border-color); border-radius: 12px 12px 0 0; }
         .nav-item { display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-secondary); text-decoration: none; font-size: 0.7rem; flex: 1; padding: 5px 0; }
         .nav-item i { font-size: 1.3rem; margin-bottom: 3px; } .nav-item.active { color: var(--primary-color); }
@@ -118,7 +118,7 @@
         <div id="homeHeader" class="home-header" style="display: none;">
             <h1 style="font-size: 1.6rem; font-weight: 700;">Besh Besh</h1>
         </div>
-
+        
         <div id="pageHeader" class="page-header">
             <div class="user-info">
                 <div class="pfp"></div>
@@ -148,7 +148,7 @@
             <a href="#" class="nav-item" data-page="referral"><i class="fas fa-share-alt"></i><span>Referral</span></a>
             <a href="#" class="nav-item" data-page="withdraw"><i class="fas fa-wallet"></i><span>Withdraw</span></a>
         </div>
-
+        
         <div id="toast" class="toast"></div>
     </div>
 
@@ -156,7 +156,7 @@
         const API_BASE_URL = 'https://besh-b.onrender.com';
         let AppConfig = {}, BonusTasks = [], currentUser = null, userId = null, LeaderboardData = null;
         let userPhotoUrl = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png';
-
+        
         const mainContent = document.getElementById('mainContent');
         const homeHeader = document.getElementById('homeHeader');
         const pageHeader = document.getElementById('pageHeader');
@@ -168,7 +168,7 @@
         document.addEventListener('DOMContentLoaded', async () => {
             const tg = window.Telegram.WebApp;
             tg.expand();
-
+            
             const urlParams = new URLSearchParams(window.location.search);
             userId = tg.initDataUnsafe?.user?.id?.toString() || urlParams.get('userId');
             if (tg.initDataUnsafe?.user?.photo_url) {
@@ -187,7 +187,7 @@
                 showError(error.message);
             }
         });
-
+        
         function setupApp() {
             applyTheme(localStorage.getItem('theme') || 'light');
             document.getElementById('themeToggle').addEventListener('click', toggleTheme);
@@ -225,7 +225,7 @@
             const today = new Date().toLocaleDateString();
             if (currentUser.lastAdWatchDate !== today) currentUser.adsWatchedToday = 0;
         }
-
+        
         async function saveUserState() {
             if (!currentUser) return;
             try {
@@ -236,7 +236,7 @@
                 });
             } catch (error) { showToast("Error saving progress."); }
         }
-
+        
         // --- 3. UI MANAGEMENT ---
         function updateUI() {
             if (!currentUser) return;
@@ -245,7 +245,7 @@
             document.getElementById('userPointsDisplay').innerHTML = `<i class="fas fa-coins"></i> ${currentUser.points || 0} ${currency}`;
             document.getElementById('pageHeaderName').textContent = currentUser.username;
             document.getElementById('pageHeaderBalance').innerHTML = `<i class="fas fa-coins"></i> ${currentUser.points || 0}`;
-
+            
             document.querySelector('.profile-pic').style.backgroundImage = `url('${userPhotoUrl}')`;
             document.querySelector('.page-header .pfp').style.backgroundImage = `url('${userPhotoUrl}')`;
         }
@@ -254,7 +254,7 @@
             document.querySelector('.nav-item.active')?.classList.remove('active');
             const newActive = document.querySelector(`.nav-item[data-page="${page}"]`);
             if (newActive) newActive.classList.add('active');
-
+            
             const isHome = (page === 'home');
             homeHeader.style.display = isHome ? 'flex' : 'none';
             profileSection.style.display = isHome ? 'block' : 'none';
@@ -301,15 +301,15 @@
                     <div class="home-stat"><div class="label">Completed Tasks</div><div class="value">${currentUser.claimedBonuses?.length || 0}</div></div>
                     <div class="home-stat"><div class="label">Withdrawn</div><div class="value">${currentUser.totalWithdrawn || 0} ${currency}</div></div>
                 </div>`;
-
+            
             document.getElementById('postStoryBtn').addEventListener('click', handlePostStory);
             document.getElementById('withdrawNavBtn').addEventListener('click', () => navigateTo('withdraw'));
         }
-
+        
         function renderTasksPage() {
             const currency = AppConfig.currencyName || 'Points';
             const adsLeft = (AppConfig.adsPerDay || 0) - (currentUser.adsWatchedToday || 0);
-
+            
             let bonusTasksHtml = BonusTasks.map(task => {
                 const isClaimed = currentUser.claimedBonuses?.includes(task.id);
                 return `
@@ -380,7 +380,7 @@
                     <div class="username">${user.username}</div>
                     <div class="score">${user[unit]}</div></div>`).join('');
             };
-
+            
             const currency = AppConfig.currencyName || 'Points';
             mainContent.innerHTML = `
                 <div class="card">
@@ -391,7 +391,7 @@
                     <div id="points-board" class="leaderboard-content">${renderTop3(LeaderboardData.byPoints, 'points')}${renderList(LeaderboardData.byPoints, 'points')}</div>
                     <div id="referrals-board" class="leaderboard-content" style="display:none;">${renderTop3(LeaderboardData.byReferrals, 'referrals')}${renderList(LeaderboardData.byReferrals, 'referrals')}</div>
                 </div>`;
-
+            
             document.querySelectorAll('.leaderboard-tab').forEach(tab => {
                 tab.addEventListener('click', (e) => {
                     document.querySelector('.leaderboard-tab.active').classList.remove('active');
@@ -415,7 +415,7 @@
                     if (res.ok) referredByHtml = `<p>Invited by: <b>${(await res.json()).username}</b></p>`;
                 } catch (e) {}
             }
-
+            
             let usersListHtml = `<p style="text-align:center; color: var(--text-secondary); padding: 20px 0;">You haven't referred anyone yet.</p>`;
             if (referredUsersCount > 0) {
                 usersListHtml = `<div class="leaderboard-list">`;
@@ -448,7 +448,7 @@
             document.getElementById('copyLinkBtn').addEventListener('click', () => navigator.clipboard.writeText(referralLink).then(() => showToast('Link copied!')));
             document.getElementById('shareLinkBtn').addEventListener('click', handleShare);
         }
-
+        
         function renderWithdrawPage() {
             const reqs = {
                 referrals: AppConfig.requiredReferrals || 0,
@@ -462,9 +462,11 @@
                 bonuses: currentUser.claimedBonuses?.length || 0,
                 story: currentUser.storyPosted ? 1 : 0
             };
+
+            const bonusTasksMet = currentUser.bonusTasksRequirementMet || (reqs.bonuses > 0 && progress.bonuses >= reqs.bonuses);
             const canWithdraw = progress.referrals >= reqs.referrals &&
                                 progress.ads >= reqs.ads &&
-                                progress.bonuses >= reqs.bonuses &&
+                                bonusTasksMet &&
                                 progress.story >= reqs.story;
 
             let contentHtml = '';
@@ -499,10 +501,22 @@
                     <h2 class="section-title">Unlock Withdrawals</h2>
                     <p>Complete the following tasks to enable the withdrawal option.</p>
                     <ul class="requirements-list">
-                        <li><div>Invite ${reqs.referrals} Friends <small>(${progress.referrals}/${reqs.referrals})</small></div><div class="status ${progress.referrals >= reqs.referrals ? 'met' : 'not-met'}"><i class="fas fa-check-circle"></i></div></li>
-                        <li><div>Watch ${reqs.ads} Ads <small>(${progress.ads}/${reqs.ads})</small></div><div class="status ${progress.ads >= reqs.ads ? 'met' : 'not-met'}"><i class="fas fa-check-circle"></i></div></li>
-                        <li><div>Complete All Bonus Tasks <small>(${progress.bonuses}/${reqs.bonuses})</small></div><div class="status ${progress.bonuses >= reqs.bonuses ? 'met' : 'not-met'}"><i class="fas fa-check-circle"></i></div></li>
-                        <li><div>Post 1 Story <small>(${progress.story}/1)</small></div><div class="status ${progress.story >= 1 ? 'met' : 'not-met'}"><i class="fas fa-check-circle"></i></div></li>
+                        <li>
+                            <div>Invite ${reqs.referrals} Friends <small>(${progress.referrals}/${reqs.referrals})</small></div>
+                            <div class="status ${progress.referrals >= reqs.referrals ? 'met' : 'not-met'}">${progress.referrals >= reqs.referrals ? '✔️' : '❌'}</div>
+                        </li>
+                        <li>
+                            <div>Watch ${reqs.ads} Ads <small>(${progress.ads}/${reqs.ads})</small></div>
+                            <div class="status ${progress.ads >= reqs.ads ? 'met' : 'not-met'}">${progress.ads >= reqs.ads ? '✔️' : '❌'}</div>
+                        </li>
+                        <li>
+                            <div>Complete All Bonus Tasks <small>(${progress.bonuses}/${reqs.bonuses})</small></div>
+                            <div class="status ${bonusTasksMet ? 'met' : 'not-met'}">${bonusTasksMet ? '✔️' : '❌'}</div>
+                        </li>
+                        <li>
+                            <div>Post 1 Story <small>(${progress.story}/1)</small></div>
+                            <div class="status ${progress.story >= 1 ? 'met' : 'not-met'}">${progress.story >= 1 ? '✔️' : '❌'}</div>
+                        </li>
                     </ul>`;
             }
             mainContent.innerHTML = `<div class="card">${contentHtml}</div>`;
@@ -536,7 +550,7 @@
             const button = event.currentTarget;
             const { taskId, channelId, reward, link } = button.dataset;
             if (!channelId || channelId === 'undefined' || channelId.trim() === '') return showToast("Admin has not set a Channel ID for this task.");
-
+            
             window.open(link, '_blank');
             button.disabled = true; button.textContent = 'Verifying...';
             setTimeout(async () => {
@@ -559,7 +573,7 @@
                 }
             }, 7000);
         }
-
+        
         async function handleSubmitWithdrawal() {
             const amount = parseInt(document.getElementById('withdrawAmount').value);
             const method = document.getElementById('withdrawMethod').value;
@@ -598,11 +612,11 @@
                 statusEl.classList.add('error-message');
             }
         }
-
+        
         function handleShare() {
             const tg = window.Telegram.WebApp;
             const referralLink = `${AppConfig.botLink || ''}/?start=ref${currentUser.referralCode}`;
-            const text = `ቤሽ ቤሽ ላይ ተቀላቀለኝ እና ሽልማቶች አገኝ! 💸 የኔን ሊንክ ተጠጠቅመክ ስትጀምር የመጀመርያ ቦነስ ታገኛለክ። ፍጠን እንጅ ምንድ ነዉ ምትጠብቀው ❤.`;
+            const text = `Join me on Besh Besh and earn real rewards! 💸 Use my link to get a startup bonus.`;
             const shareUrl = `https://t.me/share/url?url=${encodeURIComponent(referralLink)}&text=${encodeURIComponent(text)}`;
             tg.openTelegramLink(shareUrl);
         }
@@ -611,10 +625,10 @@
             const tg = window.Telegram.WebApp;
             if (tg.isVersionAtLeast && tg.isVersionAtLeast("9.0") && tg.shareToStory) {
                 const referralLink = `${AppConfig.botLink || ''}/?start=ref${currentUser.referralCode}`;
-                const storyParams = { text: `I'm earning on Besh Besh! 💸 ተቀላቀለኝ እና አንተም ገንዘብ አግኝ！ \n\n${referralLink}` };
-                const media_url = 'https://i.postimg.cc/B6Mhm3wz/wmremove-transformed.jpg';
+                const storyParams = { text: `I'm earning on Besh Besh! 💸 Join me and earn too!\n\n${referralLink}` };
+                const media_url = 'https://i.postimg.cc/4y5QtkSx/cropped-image.png';
                 tg.shareToStory(media_url, storyParams);
-
+                
                 if (!currentUser.storyPosted) {
                     try {
                         await fetch(`${API_BASE_URL}/api/user/${userId}/story-posted`, { method: 'POST' });
