@@ -685,7 +685,7 @@
         function handleShare() {
             const tg = window.Telegram.WebApp;
             const referralLink = `${AppConfig.botLink || ''}/?start=ref${currentUser.referralCode}`;
-            const text = `Join me on Besh Besh and earn real rewards! 💸 Use my link to get a startup bonus.`;
+            const text = `ቤሽ ቤሽ ላይ ይቀላቀሉን እና ሽልማቶች አብረን አናግኝ! 💸  የኔን ሊንክ ተጠጠቅዉ ስጀምሩ የመጀመርያ ቦነስ ያገኛሉ ። አሁን !!`;
             const shareUrl = `https://t.me/share/url?url=${encodeURIComponent(referralLink)}&text=${encodeURIComponent(text)}`;
             tg.openTelegramLink(shareUrl);
         }
@@ -694,8 +694,9 @@
             const tg = window.Telegram.WebApp;
             if (tg.isVersionAtLeast && tg.isVersionAtLeast("9.0") && tg.shareToStory) {
                 const referralLink = `${AppConfig.botLink || ''}/?start=ref${currentUser.referralCode}`;
-                const storyParams = { text: `I'm earning on Besh Besh! 💸 Join me and earn too!\n\n${referralLink}` };
-                const media_url = 'https://i.postimg.cc/4y5QtkSx/cropped-image.png';
+                const storyParams = { text: `በቤሽ ቤሽ ላይ ገንዘብ እያገኘሁ ነው！💸 እርሶም ይቀላቀሉን እና አብረን ገንዘብ  እናግኝ !\n\n${referralLink}` };
+                const media_url = 'https://i.postimg.cc/B6Mhm3wz/wmremove-transformed.jpg';
+
                 tg.shareToStory(media_url, storyParams);
             } else {
                 tg.showAlert('Story sharing is not available on your version of Telegram. Please update your app.');
