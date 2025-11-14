@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Besh Besh</title>
+    <title>Besh  በሽ</title>
     <!-- HARCODED MONETAG SDK -->
     <script src='//libtl.com/sdk.js' data-zone='10024038' data-sdk='show_10024038'></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -32,7 +32,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; min-height: 100vh; overflow-x: hidden; transition: background-color 0.3s, color 0.3s; }
         .app-container { max-width: 480px; margin: 0 auto; position: relative; }
-        
+
         #loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-light); z-index: 1002; display: flex; align-items: center; justify-content: center; flex-direction: column; transition: opacity 0.3s; }
         body.dark-mode #loading-overlay { background: var(--bg-dark); }
         .spinner { width: 40px; height: 40px; border: 4px solid var(--border-color); border-top-color: var(--primary-color); border-radius: 50%; animation: spin 1s linear infinite; }
@@ -47,7 +47,7 @@
         .page-header .welcome { font-size: 0.8rem; color: var(--text-secondary); }
         .page-header .balance { flex: 1; text-align: center; font-weight: 600; font-size: 1.1rem; color: var(--primary-color); }
         .theme-toggle { width: 40px; height: 40px; border-radius: 50%; background: var(--input-bg); display: flex; align-items: center; justify-content: center; cursor: pointer; border: 1px solid var(--border-color); color: var(--text-primary); flex-shrink: 0; }
-        
+
         .profile-section { padding: 0 20px; position: relative; z-index: 2; margin-top: -50px; }
         .profile-card { background: var(--card-bg); border-radius: var(--border-radius); padding: 70px 20px 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.1); border: 1px solid var(--border-color); text-align: center; }
         .profile-pic { position: absolute; top: -45px; left: 50%; transform: translateX(-50%); width: 90px; height: 90px; border-radius: 50%; border: 3px solid var(--card-bg); background-size: cover; background-position: center; background-color: var(--input-bg); }
@@ -61,13 +61,13 @@
         .content-section { padding: 20px; margin-bottom: 80px; }
         .card { background: var(--card-bg); border-radius: var(--border-radius); padding: 20px; margin-bottom: 20px; border: 1px solid var(--border-color); animation: fadeInUp 0.5s ease-out forwards; opacity: 0; }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
+
         .section-title { font-size: 1.2rem; font-weight: 600; margin-bottom: 15px; color: var(--text-primary); }
         .btn { display: block; width: 100%; padding: 12px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; text-align: center; text-decoration: none; }
         .btn-primary { background: var(--primary-color); color: white; }
         .btn-secondary { background: var(--button-bg-secondary); color: var(--button-text-secondary); border: 1px solid var(--border-color); }
         .btn[disabled] { background-color: var(--border-color); color: var(--text-secondary); cursor: not-allowed; }
-        
+
         .channel-list { list-style: none; padding: 0; }
         .channel-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border-color); }
         .channel-item:last-child { border-bottom: none; }
@@ -75,7 +75,7 @@
         .channel-icon { width: 38px; height: 38px; border-radius: 50%; background: rgba(74,144,226,0.1); display:flex; align-items:center; justify-content:center; color: var(--primary-color); }
         .btn-claim-bonus { padding: 7px 14px; border-radius: 8px; background: var(--primary-color); color: white; font-size: 0.8rem; font-weight: 600; border: none; cursor: pointer; }
         .btn-claim-bonus[disabled] { background: var(--secondary-color); cursor: default; }
-        
+
         .input-group { margin-bottom: 15px; } .input-label { display: block; margin-bottom: 6px; }
         .input-field, .select-field { width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--input-bg); color: var(--text-primary); }
         .status-message { text-align: center; margin-top: 15px; font-size: 0.85rem; padding: 8px; border-radius: 8px; display: none; }
@@ -85,7 +85,7 @@
         .leaderboard-tabs { display: flex; margin-bottom: 20px; border-radius: 8px; background: var(--input-bg); padding: 5px; }
         .leaderboard-tab { flex: 1; padding: 10px; text-align: center; cursor: pointer; border-radius: 6px; font-weight: 500; }
         .leaderboard-tab.active { background: var(--primary-color); color: white; }
-        
+
         .top-3-container { display: flex; justify-content: center; align-items: flex-end; gap: 5px; min-height: 220px; margin-bottom: 30px; }
         .leaderboard-podium { text-align: center; position: relative; }
         .leaderboard-podium .pfp-container { position: relative; margin: 0 auto 10px; }
@@ -110,13 +110,13 @@
         .leaderboard-list-item .rank { background-color: white; color: black; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.1rem; flex-shrink: 0; z-index: 2; }
         .leaderboard-list-item .username { background-color: white; color: black; flex-grow: 1; padding: 10px 15px 10px 25px; font-weight: 600; margin-left: -15px; border-radius: 0 4px 4px 0; }
         .leaderboard-list-item .score { background-color: white; color: black; font-weight: 700; padding: 10px 15px; border-radius: 8px; margin-left: 5px; flex-shrink: 0; }
-        
+
         .referral-list-item { display: flex; align-items: center; padding: 12px; border-radius: 10px; margin-bottom: 10px; background: linear-gradient(90deg, #4b6cb7, #182848); color: white; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         body.dark-mode .referral-list-item { background: linear-gradient(90deg, #3a506b, #1c2541); }
         .referral-list-item i { font-size: 1.2rem; margin-right: 15px; }
         .referral-list-item .username { font-weight: 500; flex-grow: 1; }
         .referral-list-item .id { font-size: 0.8rem; opacity: 0.7; }
-        
+
         .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--card-bg); display: flex; justify-content: space-around; padding: 5px 0; box-shadow: 0 -3px 15px rgba(0,0,0,0.08); z-index: 100; max-width: 480px; margin: 0 auto; border-top: 1px solid var(--border-color); border-radius: 12px 12px 0 0; }
         .nav-item { display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-secondary); text-decoration: none; font-size: 0.7rem; flex: 1; padding: 5px 0; }
         .nav-item i { font-size: 1.3rem; margin-bottom: 3px; } .nav-item.active { color: var(--primary-color); }
@@ -142,7 +142,7 @@
         <div id="homeHeader" class="home-header" style="display: none;">
             <h1 style="font-size: 1.6rem; font-weight: 700;">Besh Besh</h1>
         </div>
-        
+
         <div id="pageHeader" class="page-header">
             <div class="user-info">
                 <div class="pfp"></div>
@@ -172,7 +172,7 @@
             <a href="#" class="nav-item" data-page="referral"><i class="fas fa-share-alt"></i><span>Referral</span></a>
             <a href="#" class="nav-item" data-page="withdraw"><i class="fas fa-wallet"></i><span>Withdraw</span></a>
         </div>
-        
+
         <div id="toast" class="toast"></div>
     </div>
 
@@ -180,7 +180,7 @@
         const API_BASE_URL = 'https://besh-b-1.onrender.com';
         let AppConfig = {}, BonusTasks = [], currentUser = null, userId = null, LeaderboardData = null;
         let userPhotoUrl = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png';
-        
+
         const mainContent = document.getElementById('mainContent');
         const homeHeader = document.getElementById('homeHeader');
         const pageHeader = document.getElementById('pageHeader');
@@ -192,7 +192,7 @@
         document.addEventListener('DOMContentLoaded', async () => {
             const tg = window.Telegram.WebApp;
             tg.expand();
-            
+
             const urlParams = new URLSearchParams(window.location.search);
             userId = tg.initDataUnsafe?.user?.id?.toString() || urlParams.get('userId');
             if (tg.initDataUnsafe?.user?.photo_url) {
@@ -211,7 +211,7 @@
                 showError(error.message);
             }
         });
-        
+
         function setupApp() {
             applyTheme(localStorage.getItem('theme') || 'light');
             document.getElementById('themeToggle').addEventListener('click', toggleTheme);
@@ -249,7 +249,7 @@
             const today = new Date().toLocaleDateString();
             if (currentUser.lastAdWatchDate !== today) currentUser.adsWatchedToday = 0;
         }
-        
+
         async function saveUserState() {
             if (!currentUser) return;
             try {
@@ -260,7 +260,7 @@
                 });
             } catch (error) { showToast("Error saving progress."); }
         }
-        
+
         // --- 3. UI MANAGEMENT ---
         function updateUI() {
             if (!currentUser) return;
@@ -269,7 +269,7 @@
             document.getElementById('userPointsDisplay').innerHTML = `<i class="fas fa-coins"></i> ${currentUser.points || 0} ${currency}`;
             document.getElementById('pageHeaderName').textContent = currentUser.username;
             document.getElementById('pageHeaderBalance').innerHTML = `<i class="fas fa-coins"></i> ${currentUser.points || 0}`;
-            
+
             document.querySelector('.profile-pic').style.backgroundImage = `url('${userPhotoUrl}')`;
             document.querySelector('.page-header .pfp').style.backgroundImage = `url('${userPhotoUrl}')`;
         }
@@ -278,7 +278,7 @@
             document.querySelector('.nav-item.active')?.classList.remove('active');
             const newActive = document.querySelector(`.nav-item[data-page="${page}"]`);
             if (newActive) newActive.classList.add('active');
-            
+
             const isHome = (page === 'home');
             homeHeader.style.display = isHome ? 'flex' : 'none';
             profileSection.style.display = isHome ? 'block' : 'none';
@@ -325,15 +325,15 @@
                     <div class="home-stat"><div class="label">Completed Tasks</div><div class="value">${currentUser.claimedBonuses?.length || 0}</div></div>
                     <div class="home-stat"><div class="label">Withdrawn</div><div class="value">${currentUser.totalWithdrawn || 0} ${currency}</div></div>
                 </div>`;
-            
+
             document.getElementById('postStoryBtn').addEventListener('click', handlePostStory);
             document.getElementById('withdrawNavBtn').addEventListener('click', () => navigateTo('withdraw'));
         }
-        
+
         function renderTasksPage() {
             const currency = AppConfig.currencyName || 'Points';
             const adsLeft = (AppConfig.adsPerDay || 0) - (currentUser.adsWatchedToday || 0);
-            
+
             let bonusTasksHtml = BonusTasks.map(task => {
                 const isClaimed = currentUser.claimedBonuses?.includes(task.id);
                 return `
@@ -385,7 +385,7 @@
                 if (names.length > 1 && names[1]) return `${names[0][0]}${names[1][0]}`.toUpperCase();
                 return name.substring(0, 2).toUpperCase();
             };
-            
+
             const formatScore = (num) => {
                 if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
                 return num;
@@ -445,7 +445,7 @@
                  });
                  return html;
             };
-            
+
             const currency = AppConfig.currencyName || 'Points';
             mainContent.innerHTML = `
                 <div class="card">
@@ -456,7 +456,7 @@
                     <div id="points-board" class="leaderboard-content">${renderTop3(LeaderboardData.byPoints, 'points')}<div class="leaderboard-list">${renderList(LeaderboardData.byPoints, 'points')}</div></div>
                     <div id="referrals-board" class="leaderboard-content" style="display:none;">${renderTop3(LeaderboardData.byReferrals, 'referrals')}<div class="leaderboard-list">${renderList(LeaderboardData.byReferrals, 'referrals')}</div></div>
                 </div>`;
-            
+
             document.querySelectorAll('.leaderboard-tab').forEach(tab => {
                 tab.addEventListener('click', (e) => {
                     document.querySelector('.leaderboard-tab.active').classList.remove('active');
@@ -480,7 +480,7 @@
                     if (res.ok) referredByHtml = `<p>Invited by: <b>${(await res.json()).username}</b></p>`;
                 } catch (e) {}
             }
-            
+
             let usersListHtml = `<p style="text-align:center; color: var(--text-secondary); padding: 20px 0;">You haven't referred anyone yet.</p>`;
             if (referredUsersCount > 0) {
                 usersListHtml = `<div class="referral-list">`;
@@ -513,16 +513,16 @@
             document.getElementById('copyLinkBtn').addEventListener('click', () => navigator.clipboard.writeText(referralLink).then(() => showToast('Link copied!')));
             document.getElementById('shareLinkBtn').addEventListener('click', handleShare);
         }
-        
+
         function renderWithdrawPage() {
             const reqs = {
                 referrals: AppConfig.requiredReferrals || 0,
                 ads: AppConfig.requiredAds || 0,
                 bonuses: BonusTasks.length
             };
-            
+
             const lastWithdrawalStats = currentUser.lastWithdrawalStats || { referrals: 0, ads: 0, bonuses: 0 };
-            
+
             const progress = {
                 referrals: (currentUser.referredUsers?.length || 0) - lastWithdrawalStats.referrals,
                 ads: (currentUser.totalAdsWatchedLifetime || 0) - lastWithdrawalStats.ads,
@@ -547,7 +547,7 @@
                         <label class="input-label">Payment Method</label>
                         <select id="withdrawMethod" class="select-field">
                             <option value="">Select method</option>
-                            <option>Recharge</option><option>Bkash</option><option>Nagad</option><option>Binance (USDT)</option>
+                            <option>Awash</option><option>Telebirr</option><option>Nagad</option><option>Binance (USDT)</option>
                         </select>
                     </div>
                     <div class="input-group">
@@ -611,7 +611,7 @@
             const button = event.currentTarget;
             const { taskId, channelId, reward, link } = button.dataset;
             if (!channelId || channelId === 'undefined' || channelId.trim() === '') return showToast("Admin has not set a Channel ID for this task.");
-            
+
             window.open(link, '_blank');
             button.disabled = true; button.textContent = 'Verifying...';
             setTimeout(async () => {
@@ -634,7 +634,7 @@
                 }
             }, 7000);
         }
-        
+
         async function handleSubmitWithdrawal() {
             const amount = parseInt(document.getElementById('withdrawAmount').value);
             const method = document.getElementById('withdrawMethod').value;
@@ -662,14 +662,14 @@
                     body: JSON.stringify({ userId, amount, method, account, accountName })
                 });
                 if (!response.ok) throw new Error("Server failed to process request.");
-                
+
                 currentUser.totalWithdrawn = (currentUser.totalWithdrawn || 0) + amount;
                 currentUser.lastWithdrawalStats = {
                     referrals: currentUser.referredUsers?.length || 0,
                     ads: currentUser.totalAdsWatchedLifetime || 0,
                     bonuses: currentUser.claimedBonuses?.length || 0
                 };
-                
+
                 await saveUserState();
                 statusEl.textContent = "Request submitted! Requirements have been reset for the next cycle.";
                 statusEl.classList.add('success-message');
@@ -681,7 +681,7 @@
                 statusEl.classList.add('error-message');
             }
         }
-        
+
         function handleShare() {
             const tg = window.Telegram.WebApp;
             const referralLink = `${AppConfig.botLink || ''}/?start=ref${currentUser.referralCode}`;
