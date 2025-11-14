@@ -144,7 +144,7 @@
                         document.getElementById(key).value = config[key];
                     }
                 }
-                
+
                 tasksData = await tasksRes.json();
                 const tasksList = document.getElementById('tasks-list');
                 tasksList.innerHTML = '';
@@ -171,7 +171,7 @@
         async function saveSettings() {
             const secret = document.getElementById('adminSecret').value;
             if (!secret) return alert('Secret Key is required to save settings.');
-            
+
             const newConfig = {};
             document.querySelectorAll('#settings input').forEach(input => {
                 if (input.id !== 'adminSecret') {
@@ -211,7 +211,7 @@
                 reward: parseInt(document.getElementById('taskReward').value),
                 icon: document.getElementById('taskIcon').value
             };
-            
+
             if (!task.name || !task.reward) return alert('Task Name and Reward are required.');
             if (task.channelId && !task.channelId.startsWith('-100')) {
                 return alert('Channel ID must be valid and typically starts with -100.');
@@ -231,7 +231,7 @@
                 alert('Error saving task.');
             }
         }
-        
+
         async function deleteTask(taskId) {
             const secret = document.getElementById('adminSecret').value;
             if (!secret) return alert('Secret Key is required to delete a task.');
@@ -242,7 +242,7 @@
                  headers: { 'Content-Type': 'application/json' },
                  body: JSON.stringify({ secret, taskId })
             });
-            
+
             if(response.ok) {
                 alert('Task deleted successfully!');
                 loadData();
@@ -250,13 +250,13 @@
                 alert('Error deleting task.');
             }
         }
-        
+
         async function findUser() {
             const secret = document.getElementById('adminSecret').value;
             const userId = document.getElementById('findUserId').value;
             const userDetailsDiv = document.getElementById('userDetails');
             if (!secret || !userId) return alert('Secret Key and User ID are required.');
-            
+
             userDetailsDiv.innerHTML = '<p>Searching...</p>';
             const response = await fetch(`${API_BASE_URL}/api/admin/find-user`, {
                 method: 'POST',
@@ -278,17 +278,17 @@
                 userDetailsDiv.innerHTML = '<p style="color:red;">User not found.</p>';
             }
         }
-        
+
         async function updateBalance(userId) {
             const secret = document.getElementById('adminSecret').value;
             const newBalance = document.getElementById('newBalance').value;
-            
+
             const response = await fetch(`${API_BASE_URL}/api/admin/update-balance`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ secret, userId, newBalance: Number(newBalance) })
             });
-            
+
             if(response.ok) {
                 alert('Balance updated successfully!');
                 findUser();
